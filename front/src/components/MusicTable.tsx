@@ -455,10 +455,10 @@ export default function OrderTable() {
                   </Box>
                 </td>
                 <td>
+                  
+                </td>
+                <td>
                   <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                    <Link level="body-xs" component="button">
-                      Download
-                    </Link>
                     <RowMenu />
                   </Box>
                 </td>

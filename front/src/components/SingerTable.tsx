@@ -252,9 +252,9 @@ function RowMenu() {
         <MoreHorizRoundedIcon />
       </MenuButton>
       <Menu size="sm" sx={{ minWidth: 140 }}>
-        <MenuItem>음악 편집</MenuItem>
+        <MenuItem>가수 정보 편집</MenuItem>
         <Divider />
-        <MenuItem color="danger">음악 삭제</MenuItem>
+        <MenuItem color="danger">가수 삭제</MenuItem>
       </Menu>
     </Dropdown>
   );
@@ -322,7 +322,7 @@ export default function OrderTable() {
         }}
       >
         <FormControl sx={{ flex: 1 }} size="sm">
-          <Input size="sm" placeholder="음악 검색" startDecorator={<SearchIcon />} />
+          <Input size="sm" placeholder="가수 검색" startDecorator={<SearchIcon />} />
         </FormControl>
         {renderFilters()}
       </Box>
@@ -391,10 +391,9 @@ export default function OrderTable() {
                   ID
                 </Link>
               </th>
-              <th style={{ width: 140, padding: '12px 6px' }}>제목</th>
-              <th style={{ width: 140, padding: '12px 6px' }}>가수</th>
-              <th style={{ width: 240, padding: '12px 6px' }}>장르</th>
-              <th style={{ width: 140, padding: '12px 6px' }}>분석 상태</th>
+              <th style={{ width: 140, padding: '12px 6px' }}>가수 이름</th>
+              <th style={{ width: 140, padding: '12px 6px' }}>성별</th>
+              <th style={{ width: 240, padding: '12px 6px' }}>유형</th>
               <th style={{ width: 140, padding: '12px 6px' }}>편집</th>
             </tr>
           </thead>
@@ -456,9 +455,6 @@ export default function OrderTable() {
                 </td>
                 <td>
                   <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                    <Link level="body-xs" component="button">
-                      Download
-                    </Link>
                     <RowMenu />
                   </Box>
                 </td>
