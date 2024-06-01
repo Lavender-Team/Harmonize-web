@@ -177,11 +177,11 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
             </Divider>
             <Stack gap={4} sx={{ mt: 2 }}>
               <form onSubmit={handleSubmit}>
-                <FormControl required>
+                <FormControl>
                   <FormLabel>Email</FormLabel>
                   <Input type="email" name="email" />
                 </FormControl>
-                <FormControl required>
+                <FormControl>
                   <FormLabel>Password</FormLabel>
                   <Input type="password" name="password" />
                 </FormControl>

@@ -1,0 +1,92 @@
+.music {
+    margin: 8px 0 24px;
+}
+
+.horizontal {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.music input[type="text"],
+.music input[type="date"],
+.music button[role="combobox"],
+ul[role="listbox"] {
+    font-size: 14px;
+}
+
+.music .inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.music .plus-button {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    padding-bottom: 10px;
+    background-color: #F6F6F6;
+    color: #8E8F91;
+    font-size: 32px;
+    border: 1px solid #D5D5D5;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.music .name {
+    position: absolute;
+    top: 80px;
+    font-size: 12px;
+}
+
+.music .none { 
+    display: none;
+}
+
+.music .preview {
+    width: 120px;
+    height: 120px;
+    border: 1px solid #D5D5D5;
+    border-radius: 8px;
+    object-fit: 'cover';
+    cursor: pointer;
+}
+
+.music .section {
+    margin-top: 36px;
+    margin-bottom: 36px;
+}
+
+.music .sectionTitle {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.music .item {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 12px 0;
+}
+.music .item>span {
+    width: 120px;
+    font-size: 14px;
+    color: #8E8F91;
+}
+
+.music .action {
+    width: 900px;
+    text-align: right;
+}
+.music .action button {
+    font-family: inherit;
+}

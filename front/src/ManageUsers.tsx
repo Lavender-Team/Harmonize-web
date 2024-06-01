@@ -12,7 +12,7 @@ export default function ManageUsers() {
   return (
     <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />
-      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', marginLeft: '240px' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '240px' }}>
         <Box
           component="main"
           sx={{

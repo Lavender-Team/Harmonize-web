@@ -8,11 +8,13 @@ import Link from '@mui/joy/Link';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 
+import './singer.css';
+
 export default function AddSinger() {
   return (
     <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />
-      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', marginLeft: '240px' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '240px' }}>
         <Box
           component="main"
           sx={{
@@ -39,6 +41,9 @@ export default function AddSinger() {
               >
                 <HomeRoundedIcon />
               </Link>
+              <Typography color="neutral" fontWeight={500} fontSize={12}>
+                가수 관리
+              </Typography>
               <Typography color="primary" fontWeight={500} fontSize={12}>
                 가수 추가
               </Typography>
@@ -48,6 +53,13 @@ export default function AddSinger() {
             <Typography level="h2" component="h1">
               가수 추가
             </Typography>
+
+            <div className="singer">
+
+
+
+            </div>  
+
           </Box>
         </Box>
       </Box>

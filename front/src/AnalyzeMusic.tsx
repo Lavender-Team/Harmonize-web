@@ -12,7 +12,7 @@ export default function AnalyzeMusic() {
   return (
     <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />
-      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', marginLeft: '240px' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '240px' }}>
         <Box
           component="main"
           sx={{
@@ -39,6 +39,9 @@ export default function AnalyzeMusic() {
               >
                 <HomeRoundedIcon />
               </Link>
+              <Typography color="neutral" fontWeight={500} fontSize={12}>
+                음악 관리
+              </Typography>
               <Typography color="primary" fontWeight={500} fontSize={12}>
                 음악 분석
               </Typography>
