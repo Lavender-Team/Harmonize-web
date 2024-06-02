@@ -35,11 +35,15 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 
+
 const rows = [
   {
-    id: 'INV-1234',
+    id: 10001,
+    title: '헤어지자 말해요',
+    artist: '박재정',
     date: 'Feb 3, 2023',
-    status: 'Refunded',
+    status: 'INCOMPLETE',
+    genre: '발라드',
     customer: {
       initial: 'O',
       name: 'Olivia Ryhe',
@@ -47,9 +51,12 @@ const rows = [
     },
   },
   {
-    id: 'INV-1233',
+    id: 10002,
+    title: '후라이의 꿈',
+    artist: 'AKMU(악뮤)',
     date: 'Feb 3, 2023',
-    status: 'Paid',
+    status: 'COMPLETE',
+    genre: '가요',
     customer: {
       initial: 'S',
       name: 'Steve Hampton',
@@ -57,9 +64,12 @@ const rows = [
     },
   },
   {
-    id: 'INV-1232',
+    id: 10003,
+    title: '사랑은 늘 도망가',
+    artist: '임영웅',
     date: 'Feb 3, 2023',
-    status: 'Refunded',
+    status: 'RUNNING',
+    genre: '댄스',
     customer: {
       initial: 'C',
       name: 'Ciaran Murray',
@@ -67,9 +77,12 @@ const rows = [
     },
   },
   {
-    id: 'INV-1231',
+    id: 10004,
+    title: '너를 위해',
+    artist: '임재범',
     date: 'Feb 3, 2023',
-    status: 'Refunded',
+    status: 'COMPLETE',
+    genre: 'R&B',
     customer: {
       initial: 'M',
       name: 'Maria Macdonald',
@@ -77,9 +90,12 @@ const rows = [
     },
   },
   {
-    id: 'INV-1230',
+    id: 10005,
+    title: '밤양갱',
+    artist: '비비(BIBI)',
     date: 'Feb 3, 2023',
-    status: 'Cancelled',
+    status: 'INCOMPLETE',
+    genre: '발라드',
     customer: {
       initial: 'C',
       name: 'Charles Fulton',
@@ -87,9 +103,12 @@ const rows = [
     },
   },
   {
-    id: 'INV-1229',
+    id: 10006,
+    title: 'I AM',
+    artist: 'IVE(아이브)',
     date: 'Feb 3, 2023',
-    status: 'Cancelled',
+    status: 'COMPLETE',
+    genre: '랩/힙합',
     customer: {
       initial: 'J',
       name: 'Jay Hooper',
@@ -97,9 +116,12 @@ const rows = [
     },
   },
   {
-    id: 'INV-1228',
+    id: 10007,
+    title: '너의 모든 순간',
+    artist: '성시경',
     date: 'Feb 3, 2023',
-    status: 'Refunded',
+    status: 'RUNNING',
+    genre: '가요',
     customer: {
       initial: 'K',
       name: 'Krystal Stevens',
@@ -107,9 +129,12 @@ const rows = [
     },
   },
   {
-    id: 'INV-1227',
+    id: 10008,
+    title: '좋은 사람',
+    artist: '박효신',
     date: 'Feb 3, 2023',
-    status: 'Paid',
+    status: 'COMPLETE',
+    genre: '발라드',
     customer: {
       initial: 'S',
       name: 'Sachin Flynn',
@@ -117,9 +142,12 @@ const rows = [
     },
   },
   {
-    id: 'INV-1226',
+    id: 10009,
+    title: '안동역에서',
+    artist: '진성',
     date: 'Feb 3, 2023',
-    status: 'Cancelled',
+    status: 'INCOMPLETE',
+    genre: '트로트',
     customer: {
       initial: 'B',
       name: 'Bradley Rosales',
@@ -127,9 +155,12 @@ const rows = [
     },
   },
   {
-    id: 'INV-1225',
+    id: 10010,
+    title: '응급실(쾌걸춘향OST)',
+    artist: 'izi',
     date: 'Feb 3, 2023',
-    status: 'Paid',
+    status: 'COMPLETE',
+    genre: '발라드',
     customer: {
       initial: 'O',
       name: 'Olivia Ryhe',
@@ -137,9 +168,12 @@ const rows = [
     },
   },
   {
-    id: 'INV-1224',
+    id: 10011,
+    title: '심(心)',
+    artist: 'DK(디셈버)',
     date: 'Feb 3, 2023',
-    status: 'Cancelled',
+    status: 'INCOMPLETE',
+    genre: '발라드',
     customer: {
       initial: 'S',
       name: 'Steve Hampton',
@@ -147,75 +181,18 @@ const rows = [
     },
   },
   {
-    id: 'INV-1223',
+    id: 10012,
+    title: '눈, 코, 입',
+    artist: '태양',
     date: 'Feb 3, 2023',
-    status: 'Paid',
-    customer: {
-      initial: 'C',
-      name: 'Ciaran Murray',
-      email: 'ciaran.murray@email.com',
-    },
-  },
-  {
-    id: 'INV-1221',
-    date: 'Feb 3, 2023',
-    status: 'Refunded',
-    customer: {
-      initial: 'M',
-      name: 'Maria Macdonald',
-      email: 'maria.mc@email.com',
-    },
-  },
-  {
-    id: 'INV-1220',
-    date: 'Feb 3, 2023',
-    status: 'Paid',
-    customer: {
-      initial: 'C',
-      name: 'Charles Fulton',
-      email: 'fulton@email.com',
-    },
-  },
-  {
-    id: 'INV-1219',
-    date: 'Feb 3, 2023',
-    status: 'Cancelled',
-    customer: {
-      initial: 'J',
-      name: 'Jay Hooper',
-      email: 'hooper@email.com',
-    },
-  },
-  {
-    id: 'INV-1218',
-    date: 'Feb 3, 2023',
-    status: 'Cancelled',
-    customer: {
-      initial: 'K',
-      name: 'Krystal Stevens',
-      email: 'k.stevens@email.com',
-    },
-  },
-  {
-    id: 'INV-1217',
-    date: 'Feb 3, 2023',
-    status: 'Paid',
+    status: 'INCOMPLETE',
+    genre: '발라드',
     customer: {
       initial: 'S',
-      name: 'Sachin Flynn',
-      email: 's.flyn@email.com',
+      name: 'Steve Hampton',
+      email: 'steve.hamp@email.com',
     },
-  },
-  {
-    id: 'INV-1216',
-    date: 'Feb 3, 2023',
-    status: 'Cancelled',
-    customer: {
-      initial: 'B',
-      name: 'Bradley Rosales',
-      email: 'brad123@email.com',
-    },
-  },
+  }
 ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -260,7 +237,7 @@ function RowMenu() {
   );
 }
 
-export default function OrderTable() {
+export default function MusicTable() {
   const [order, setOrder] = React.useState<Order>('desc');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [open, setOpen] = React.useState(false);
@@ -312,16 +289,17 @@ export default function OrderTable() {
         className="SearchAndFilters-tabletUp"
         sx={{
           borderRadius: 'sm',
-          py: 2,
+          py: '-4px',
           display: { xs: 'none', sm: 'flex' },
           flexWrap: 'wrap',
           gap: 1.5,
+          justifyContent: 'flex-end',
           '& > *': {
             minWidth: { xs: '120px', md: '160px' },
           },
         }}
       >
-        <FormControl sx={{ flex: 1 }} size="sm">
+        <FormControl sx={{ width: 380 }} size="sm">
           <Input size="sm" placeholder="음악 검색" startDecorator={<SearchIcon />} />
         </FormControl>
         {renderFilters()}
@@ -361,7 +339,7 @@ export default function OrderTable() {
                   checked={selected.length === rows.length}
                   onChange={(event) => {
                     setSelected(
-                      event.target.checked ? rows.map((row) => row.id) : [],
+                      event.target.checked ? rows.map((row) => row.id.toString()) : [],
                     );
                   }}
                   color={
@@ -372,7 +350,7 @@ export default function OrderTable() {
                   sx={{ verticalAlign: 'text-bottom' }}
                 />
               </th>
-              <th style={{ width: 120, padding: '12px 6px' }}>
+              <th style={{ width: 80, padding: '12px 6px' }}>
                 <Link
                   underline="none"
                   color="primary"
@@ -391,11 +369,13 @@ export default function OrderTable() {
                   ID
                 </Link>
               </th>
-              <th style={{ width: 140, padding: '12px 6px' }}>제목</th>
-              <th style={{ width: 140, padding: '12px 6px' }}>가수</th>
-              <th style={{ width: 240, padding: '12px 6px' }}>장르</th>
-              <th style={{ width: 140, padding: '12px 6px' }}>분석 상태</th>
-              <th style={{ width: 140, padding: '12px 6px' }}>편집</th>
+              <th style={{ width: 200, padding: '12px 6px' }}>제목</th>
+              <th style={{ width: 100, padding: '12px 6px' }}>가수</th>
+              <th style={{ width: 100, padding: '12px 6px' }}>장르</th>
+              <th style={{ width: 100, padding: '12px 6px' }}>분석 상태</th>
+              <th style={{ width: 80, padding: '12px 6px' }}>조회수</th>
+              <th style={{ width: 80, padding: '12px 6px' }}>좋아요</th>
+              <th style={{ width: 100, padding: '12px 6px' }}>편집</th>
             </tr>
           </thead>
           <tbody>
@@ -404,13 +384,13 @@ export default function OrderTable() {
                 <td style={{ textAlign: 'center', width: 120 }}>
                   <Checkbox
                     size="sm"
-                    checked={selected.includes(row.id)}
-                    color={selected.includes(row.id) ? 'primary' : undefined}
+                    checked={selected.includes(row.id.toString())}
+                    color={selected.includes(row.id.toString()) ? 'primary' : undefined}
                     onChange={(event) => {
                       setSelected((ids) =>
                         event.target.checked
-                          ? ids.concat(row.id)
-                          : ids.filter((itemId) => itemId !== row.id),
+                          ? ids.concat(row.id.toString())
+                          : ids.filter((itemId) => itemId !== row.id.toString()),
                       );
                     }}
                     slotProps={{ checkbox: { sx: { textAlign: 'left' } } }}
@@ -418,10 +398,16 @@ export default function OrderTable() {
                   />
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.id}</Typography>
+                  <Typography level="body-sm">{row.id}</Typography>
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.date}</Typography>
+                  <Typography level="title-sm">{row.title}</Typography>
+                </td>
+                <td>
+                  <Typography level="body-sm">{row.artist}</Typography>
+                </td>
+                <td>
+                  <Typography level="body-sm">{row.genre}</Typography>
                 </td>
                 <td>
                   <Chip
@@ -429,16 +415,16 @@ export default function OrderTable() {
                     size="sm"
                     startDecorator={
                       {
-                        Paid: <CheckRoundedIcon />,
-                        Refunded: <AutorenewRoundedIcon />,
-                        Cancelled: <BlockIcon />,
+                        COMPLETE: <CheckRoundedIcon />,
+                        RUNNING: <AutorenewRoundedIcon />,
+                        INCOMPLETE: <BlockIcon />,
                       }[row.status]
                     }
                     color={
                       {
-                        Paid: 'success',
-                        Refunded: 'neutral',
-                        Cancelled: 'danger',
+                        COMPLETE: 'success',
+                        RUNNING: 'neutral',
+                        INCOMPLETE: 'danger',
                       }[row.status] as ColorPaletteProp
                     }
                   >
@@ -446,16 +432,10 @@ export default function OrderTable() {
                   </Chip>
                 </td>
                 <td>
-                  <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                    <Avatar size="sm">{row.customer.initial}</Avatar>
-                    <div>
-                      <Typography level="body-xs">{row.customer.name}</Typography>
-                      <Typography level="body-xs">{row.customer.email}</Typography>
-                    </div>
-                  </Box>
+                  <Typography level="body-sm">{0}</Typography>
                 </td>
                 <td>
-                  
+                  <Typography level="body-sm">{0}</Typography>
                 </td>
                 <td>
                   <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
@@ -485,7 +465,7 @@ export default function OrderTable() {
           color="neutral"
           startDecorator={<KeyboardArrowLeftIcon />}
         >
-          Previous
+          이전
         </Button>
 
         <Box sx={{ flex: 1 }} />
@@ -507,7 +487,7 @@ export default function OrderTable() {
           color="neutral"
           endDecorator={<KeyboardArrowRightIcon />}
         >
-          Next
+          다음
         </Button>
       </Box>
     </React.Fragment>

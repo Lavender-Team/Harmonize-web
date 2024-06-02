@@ -6,7 +6,7 @@ import Box from '@mui/joy/Box';
 
 import SignIn from './Login';
 import AdminHome from './AdminHome';
-import MusicManage from './MusicManage';
+import MusicManage from './pages/music/MusicManage';
 import SingerManage from './SingerManage';
 import AddMusic from './pages/music/AddMusic';
 import AnalyzeMusic from './AnalyzeMusic';

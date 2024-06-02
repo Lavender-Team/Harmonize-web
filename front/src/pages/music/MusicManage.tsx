@@ -3,8 +3,8 @@ import { CssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
-import MusicTable from './components/MusicTable';
-import MusicList from './components/MusicList';
+import MusicTable from '../../components/MusicTable';
+import MusicList from '../../components/MusicList';
 import Breadcrumbs from '@mui/joy/Breadcrumbs';
 import Link from '@mui/joy/Link';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
@@ -53,8 +53,8 @@ export default function MusicManage() {
             <Typography level="h2" component="h1">
               음악 관리
             </Typography>
+
             <MusicTable />
-            <MusicList />
           </Box>
         </Box>
       </Box>
