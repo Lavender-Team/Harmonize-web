@@ -34,7 +34,7 @@ ul[role="listbox"] {
     color: #8E8F91;
     font-size: 32px;
     border: 1px solid #D5D5D5;
-    border-radius: 8px;
+    border-radius: 50%;
     cursor: pointer;
     display: flex;
     justify-content: center;
