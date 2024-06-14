@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
@@ -15,25 +16,86 @@ import Option from '@mui/joy/Option';
 
 import './music.css';
 
-const GENRELIST = ['가요', '팝송', '발라드', '랩/힙합', '댄스', '일본곡', 'R&B',
-                   'OST', '인디뮤직', '트로트', '어린이곡']
+const GENRELIST = { '가요': 'KPOP', '팝송': 'POP', '발라드': 'BALLADE', '랩/힙합': 'RAP', '댄스':
+                    'DANCE', '일본곡': 'JPOP', 'R&B': 'RNB', 'OST': 'OST', '인디뮤직': 'INDIE',
+                    '트로트': 'TROT', '어린이곡': 'KID' }
 
 export default function AddMusic() {
+  const navigate = useNavigate();
 
-  // 이미지 표시용으로 임시로 넣어둠
-  const [albumCover, setAlbumCover] = useState(null);
+  const [music, setMusic] = useState({
+    title: '',
+    genre: '',
+    releaseDate: '',
+    karaokeNum: '',
+    albumCover: null,
+    albumCoverFile: null
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setMusic({
+      ...music,
+      [name]: value
+    });
+  };
+
+  const handleGenreChange = (value) => {
+    setMusic({
+      ...music,
+      genre: value
+    });
+  };
 
   const handleAlbumCoverChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setAlbumCover(reader.result);
+        setMusic({
+          ...music,
+          albumCover: reader.result,
+          albumCoverFile: file
+        });
       };
       reader.readAsDataURL(file);
     }
   };
 
+  const isMusicValid = (music) => {
+    if (!music.title || !music.genre || !music.releaseDate || !music.karaokeNum || !music.albumCover) {
+      return false;
+    }
+    return true;
+  }
+
+  // 음악 등록 요청
+  const handleMusicSubmit = async () => {
+    if (!isMusicValid(music)) {
+      alert('음악 정보를 모두 입력해주세요.');
+      return;
+    }
+    
+    let data = new FormData();
+    data.append('title', music.title);
+    data.append('genre', music.genre);
+    data.append('releaseDate', music.releaseDate + 'T00:00:00');
+    data.append('karaokeNum', music.karaokeNum);
+    data.append('albumCover', music.albumCoverFile);
+
+    const res = await fetch(`/api/music`, {
+        method: 'POST',
+        credentials: 'include',
+        body: data
+    })
+
+    if (res.ok) {
+      navigate('/music-manage')
+    }
+    else {
+      alert('음악 등록 중 오류가 발생하였습니다.');
+    }
+  };
 
   return (
     <CssVarsProvider disableTransitionOnChange>
@@ -81,16 +143,16 @@ export default function AddMusic() {
             <div className="music">
               <div className='horizontal'>
                 <div>
-                  <div className={(albumCover) ? "none" : ""}>
+                  <div className={(music.albumCover) ? "none" : ""}>
                   <input type="file" id="albumCover" accept="image/*" onChange={handleAlbumCoverChange} className="inputfile" />
                   <label htmlFor="albumCover" className="plus-button">+<span className='name'>앨범 표지</span></label>
-                  </div>              
-                  {albumCover && (
-                    <label htmlFor="albumCover"><img src={albumCover} alt="앨범 표지" className='preview' /></label>
+                  </div>
+                  {music.albumCover && (
+                    <label htmlFor="albumCover"><img src={music.albumCover} alt="앨범 표지" className='preview' /></label>
                   )}
                 </div>
                 <div style={{ margin: "0 0 0 12px" }}>
-                  <Input type="text" placeholder="음악 제목 입력" sx={{ width: 400 }}/>
+                  <Input type="text" placeholder="음악 제목 입력" name="title" value={music.title} onChange={handleInputChange} sx={{ width: 400 }}/>
                   <Input type="text" placeholder="가수 선택" sx={{ width: 400, mt: "12px" }}/>
                 </div>
               </div>
@@ -100,19 +162,19 @@ export default function AddMusic() {
                   <span>장르</span>
                   <Select placeholder="장르 선택" sx={{ width: 180 }}>
                   {
-                    GENRELIST.map((genre, index) => (
-                      <Option key={index} value={genre}>{genre}</Option>
+                    Object.keys(GENRELIST).map((genre, index) => (
+                      <Option key={index} value={genre} onClick={() => { handleGenreChange(GENRELIST[genre]) }}>{genre}</Option>
                     ))
                   }
                   </Select>
                 </div>
                 <div className='item'>
                   <span>발매일</span>
-                  <Input type="date" placeholder="날짜 선택" sx={{ width: 180 }}/>
+                  <Input type="date" placeholder="날짜 선택" name="releaseDate" value={music.releaseDate} onChange={handleInputChange} sx={{ width: 180 }}/>
                 </div>
                 <div className='item'>
                   <span>노래방 번호</span>
-                  <Input type="text" placeholder="노래방 번호 입력" sx={{ width: 180 }}/>
+                  <Input type="text" placeholder="노래방 번호 입력" name="karaokeNum" value={music.karaokeNum} onChange={handleInputChange} sx={{ width: 180 }}/>
                 </div>
                 <div className='item'>
                   <span>음악 특징</span>
@@ -121,7 +183,7 @@ export default function AddMusic() {
               </div>
               <div className='action'>
                 <Button variant="outlined" sx={{ width: 80, height: 40, mr: '12px' }}>초기화</Button>
-                <Button variant="solid" sx={{ width: 120, height: 40 }}>음악 등록</Button>
+                <Button variant="solid" onClick={handleMusicSubmit} sx={{ width: 120, height: 40 }}>음악 등록</Button>
               </div>
             </div>
 
