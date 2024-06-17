@@ -36,164 +36,17 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 
 
-const rows = [
+const rows_def = [
   {
-    id: 10001,
-    title: '헤어지자 말해요',
-    artist: '박재정',
-    date: 'Feb 3, 2023',
-    status: 'INCOMPLETE',
-    genre: '발라드',
-    customer: {
-      initial: 'O',
-      name: 'Olivia Ryhe',
-      email: 'olivia@email.com',
-    },
-  },
-  {
-    id: 10002,
-    title: '후라이의 꿈',
-    artist: 'AKMU(악뮤)',
-    date: 'Feb 3, 2023',
-    status: 'COMPLETE',
-    genre: '가요',
-    customer: {
-      initial: 'S',
-      name: 'Steve Hampton',
-      email: 'steve.hamp@email.com',
-    },
-  },
-  {
-    id: 10003,
-    title: '사랑은 늘 도망가',
-    artist: '임영웅',
-    date: 'Feb 3, 2023',
-    status: 'RUNNING',
-    genre: '댄스',
-    customer: {
-      initial: 'C',
-      name: 'Ciaran Murray',
-      email: 'ciaran.murray@email.com',
-    },
-  },
-  {
-    id: 10004,
-    title: '너를 위해',
-    artist: '임재범',
-    date: 'Feb 3, 2023',
-    status: 'COMPLETE',
-    genre: 'R&B',
-    customer: {
-      initial: 'M',
-      name: 'Maria Macdonald',
-      email: 'maria.mc@email.com',
-    },
-  },
-  {
-    id: 10005,
-    title: '밤양갱',
-    artist: '비비(BIBI)',
-    date: 'Feb 3, 2023',
-    status: 'INCOMPLETE',
-    genre: '발라드',
-    customer: {
-      initial: 'C',
-      name: 'Charles Fulton',
-      email: 'fulton@email.com',
-    },
-  },
-  {
-    id: 10006,
-    title: 'I AM',
-    artist: 'IVE(아이브)',
-    date: 'Feb 3, 2023',
-    status: 'COMPLETE',
-    genre: '랩/힙합',
-    customer: {
-      initial: 'J',
-      name: 'Jay Hooper',
-      email: 'hooper@email.com',
-    },
-  },
-  {
-    id: 10007,
-    title: '너의 모든 순간',
-    artist: '성시경',
-    date: 'Feb 3, 2023',
-    status: 'RUNNING',
-    genre: '가요',
-    customer: {
-      initial: 'K',
-      name: 'Krystal Stevens',
-      email: 'k.stevens@email.com',
-    },
-  },
-  {
-    id: 10008,
-    title: '좋은 사람',
-    artist: '박효신',
-    date: 'Feb 3, 2023',
-    status: 'COMPLETE',
-    genre: '발라드',
-    customer: {
-      initial: 'S',
-      name: 'Sachin Flynn',
-      email: 's.flyn@email.com',
-    },
-  },
-  {
-    id: 10009,
-    title: '안동역에서',
-    artist: '진성',
-    date: 'Feb 3, 2023',
-    status: 'INCOMPLETE',
-    genre: '트로트',
-    customer: {
-      initial: 'B',
-      name: 'Bradley Rosales',
-      email: 'brad123@email.com',
-    },
-  },
-  {
-    id: 10010,
-    title: '응급실(쾌걸춘향OST)',
-    artist: 'izi',
-    date: 'Feb 3, 2023',
-    status: 'COMPLETE',
-    genre: '발라드',
-    customer: {
-      initial: 'O',
-      name: 'Olivia Ryhe',
-      email: 'olivia@email.com',
-    },
-  },
-  {
-    id: 10011,
-    title: '심(心)',
-    artist: 'DK(디셈버)',
-    date: 'Feb 3, 2023',
-    status: 'INCOMPLETE',
-    genre: '발라드',
-    customer: {
-      initial: 'S',
-      name: 'Steve Hampton',
-      email: 'steve.hamp@email.com',
-    },
-  },
-  {
-    id: 10012,
-    title: '눈, 코, 입',
-    artist: '태양',
-    date: 'Feb 3, 2023',
-    status: 'INCOMPLETE',
-    genre: '발라드',
-    customer: {
-      initial: 'S',
-      name: 'Steve Hampton',
-      email: 'steve.hamp@email.com',
-    },
+    id: 1,
+    title: '로드 중',
+    artist: '-',
+    date: '-',
+    status: '-',
+    genre: '-'
   }
 ];
+
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -237,7 +90,32 @@ function RowMenu() {
   );
 }
 
+function getPageStringList(currentPage: number, totalPages: number) {
+  const pageList = [currentPage];
+  let left = currentPage - 1;
+  let right = currentPage + 1;
+
+  while (pageList.length < 5 && (left > 0 || right <= totalPages)) {
+    if (left > 0) {
+      pageList.unshift(left);
+      left -= 1;
+    }
+    if (pageList.length < 5 && right <= totalPages) {
+      pageList.push(right);
+      right += 1;
+    }
+  }
+
+  return pageList;
+
+}
+
 export default function MusicTable() {
+
+  const [rows, setRows] = React.useState(rows_def);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [totalPages, setTotalPages] = React.useState(10);
+
   const [order, setOrder] = React.useState<Order>('desc');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [open, setOpen] = React.useState(false);
@@ -245,6 +123,24 @@ export default function MusicTable() {
     <React.Fragment>
     </React.Fragment>
   );
+
+  React.useEffect(() => {
+    setRows(rows_def);
+    fetchMusicList(currentPage, 12);
+  }, [currentPage]);
+
+  async function fetchMusicList(page: number, size: number) {
+    const response = await fetch(`/api/music?page=${page-1}&size=${size}`);
+  
+    if (response.ok) {
+      const data = await response.json();
+      setRows(data.content);
+      setTotalPages(data.totalPages);
+    } else {
+      console.error('Failed to fetch music list');
+    }
+  }
+
   return (
     <React.Fragment>
       <Sheet
@@ -459,36 +355,40 @@ export default function MusicTable() {
           },
         }}
       >
+        <Box sx={{ flex: 1 }} />
+
         <Button
           size="sm"
           variant="outlined"
           color="neutral"
           startDecorator={<KeyboardArrowLeftIcon />}
+          onClick={() => { if (1 <= currentPage - 1) setCurrentPage(currentPage - 1); }}
         >
           이전
         </Button>
-
-        <Box sx={{ flex: 1 }} />
-        {['1', '2', '3', '…', '8', '9', '10'].map((page) => (
+        <Box sx={{ width: 4 }} />
+        {getPageStringList(currentPage, totalPages).map((page) => (
           <IconButton
             key={page}
             size="sm"
-            variant={Number(page) ? 'outlined' : 'plain'}
+            variant={page === currentPage ? 'solid' : 'outlined'}
             color="neutral"
+            onClick={() => { setCurrentPage(page); }}
           >
             {page}
           </IconButton>
         ))}
-        <Box sx={{ flex: 1 }} />
-
+        <Box sx={{ width: 4 }} />
         <Button
           size="sm"
           variant="outlined"
           color="neutral"
           endDecorator={<KeyboardArrowRightIcon />}
+          onClick={() => { if (currentPage + 1 <= totalPages) setCurrentPage(currentPage + 1); }}
         >
           다음
         </Button>
+        <Box sx={{ flex: 1 }} />
       </Box>
     </React.Fragment>
   );
