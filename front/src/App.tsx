@@ -11,6 +11,7 @@ import SingerManage from './SingerManage';
 import AddMusic from './pages/music/AddMusic';
 import AnalyzeMusic from './pages/music/AnalyzeMusic';
 import AddSinger from './pages/singer/AddSinger';
+import ThemeManage from './pages/theme/ThemeManage';
 import ManageUsers from './ManageUsers';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
@@ -44,6 +45,7 @@ export default function App() {
                     <Route path="/add-music" element={<AddMusic />} />
                     <Route path="/analyze-music" element={<AnalyzeMusic />} />
                     <Route path="/add-singer" element={<AddSinger />} />
+                    <Route path="/theme-manage" element={<ThemeManage />} />
                     <Route path="/user-manage" element={<ManageUsers />} />
                     <Route path="*" element={<Navigate to="/admin-home" />} />
                   </>

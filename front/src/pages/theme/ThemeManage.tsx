@@ -3,29 +3,22 @@ import { CssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
-import MusicTable from '../../components/MusicTable';
 import Breadcrumbs from '@mui/joy/Breadcrumbs';
 import Link from '@mui/joy/Link';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
-import { Music } from 'TYPES';
+import ThemeTable from '../../components/ThemeTable';
 
-const rows_def: Music[] = [
+const rows_def = [
   {
     id: 1,
-    title: '로드 중',
-    artist: '-',
-    status: '-',
-    genre: '-',
-    view: 0,
-    likes: 0,
-    themes: []
+    theme: '로드 중',
   }
 ];
 
-export default function MusicManage() {
+export default function ThemeManage() {
 
-  const [rows, setRows] = React.useState<Music[]>(rows_def);
+  const [rows, setRows] = React.useState(rows_def);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [totalElements, setTotalElements] = React.useState(0);
   const [totalPages, setTotalPages] = React.useState(10);
@@ -36,13 +29,19 @@ export default function MusicManage() {
   }, [currentPage]);
 
   async function fetchMusicList(page: number, size: number) {
-    const response = await fetch(`/api/music?page=${page-1}&size=${size}`);
+    const response = await fetch(`/api/music/themes?page=${page-1}&size=${size}`);
   
+    
     if (response.ok) {
-      const data = await response.json();
-      setRows(data.content);
-      setTotalElements(data.totalElements);
-      setTotalPages(data.totalPages);
+      const res = await response.json();
+
+      const themeObjs = [];
+      for (const [index, themeLabel] of res.content.entries()) {
+        themeObjs.push({id: index+1, theme: themeLabel});
+      }
+      setRows(themeObjs);
+      setTotalElements(res.totalElements);
+      setTotalPages(res.totalPages);
     } else {
       console.error('Failed to fetch music list');
     }
@@ -79,24 +78,24 @@ export default function MusicManage() {
                 <HomeRoundedIcon />
               </Link>
               <Typography color="neutral" fontWeight={500} fontSize={12}>
-                음악 관리
+                테마 관리
               </Typography>
               <Typography color="primary" fontWeight={500} fontSize={12}>
-                음악 관리
+                테마 관리
               </Typography>
             </Breadcrumbs>
           </Box>
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Typography level="h2" component="h1">
-              음악 관리
+              테마 관리
             </Typography>
 
-            <MusicTable
+            <ThemeTable
               rows={rows}
               currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
               totalElements={totalElements}
               totalPages={totalPages}
-              setCurrentPage={setCurrentPage}
             />
           </Box>
         </Box>

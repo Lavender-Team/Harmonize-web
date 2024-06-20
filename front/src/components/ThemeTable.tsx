@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from 'react';
+import { FC } from 'react';
 import { ColorPaletteProp } from '@mui/joy/styles';
 import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
@@ -34,7 +35,8 @@ import AutorenewRoundedIcon from '@mui/icons-material/AutorenewRounded';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
-import { Music } from 'TYPES';
+import { resolve } from 'url';
+
 
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -71,9 +73,7 @@ function RowMenu() {
         <MoreHorizRoundedIcon />
       </MenuButton>
       <Menu size="sm" sx={{ minWidth: 140 }}>
-        <MenuItem>음악 편집</MenuItem>
-        <Divider />
-        <MenuItem color="danger">음악 삭제</MenuItem>
+        <MenuItem color="danger">모든 곡에서 테마 삭제</MenuItem>
       </Menu>
     </Dropdown>
   );
@@ -99,12 +99,13 @@ function getPageStringList(currentPage: number, totalPages: number) {
 
 }
 
-export default function MusicTable({ rows, currentPage, totalElements, totalPages, setCurrentPage }: {
-  rows: Music[];
+
+export default function ThemeTable({ rows, currentPage, setCurrentPage, totalElements, totalPages }: {
+  rows: any[];
   currentPage: number;
+  setCurrentPage: (page: number) => void;
   totalElements: number;
   totalPages: number;
-  setCurrentPage: (page: number) => void;
 }) {
 
   const [order, setOrder] = React.useState<Order>('desc');
@@ -170,7 +171,7 @@ export default function MusicTable({ rows, currentPage, totalElements, totalPage
         }}
       >
         <FormControl sx={{ width: 380 }} size="sm">
-          <Input size="sm" placeholder="음악 검색" startDecorator={<SearchIcon />} />
+          <Input size="sm" placeholder="테마 검색" startDecorator={<SearchIcon />} />
         </FormControl>
         {renderFilters()}
       </Box>
@@ -209,7 +210,7 @@ export default function MusicTable({ rows, currentPage, totalElements, totalPage
                   checked={selected.length === rows.length}
                   onChange={(event) => {
                     setSelected(
-                      event.target.checked ? rows.map((row) => row.id.toString()) : [],
+                      event.target.checked ? rows.map((row: any) => row.id.toString()) : [],
                     );
                   }}
                   color={
@@ -239,12 +240,7 @@ export default function MusicTable({ rows, currentPage, totalElements, totalPage
                   ID
                 </Link>
               </th>
-              <th style={{ width: 200, padding: '12px 6px' }}>제목</th>
-              <th style={{ width: 100, padding: '12px 6px' }}>가수</th>
-              <th style={{ width: 100, padding: '12px 6px' }}>장르</th>
-              <th style={{ width: 100, padding: '12px 6px' }}>분석 상태</th>
-              <th style={{ width: 80, padding: '12px 6px' }}>조회수</th>
-              <th style={{ width: 80, padding: '12px 6px' }}>좋아요</th>
+              <th style={{ width: 600, padding: '12px 6px' }}>테마 이름</th>
               <th style={{ width: 100, padding: '12px 6px' }}>편집</th>
             </tr>
           </thead>
@@ -271,41 +267,7 @@ export default function MusicTable({ rows, currentPage, totalElements, totalPage
                   <Typography level="body-sm">{row.id}</Typography>
                 </td>
                 <td>
-                  <Typography level="title-sm">{row.title}</Typography>
-                </td>
-                <td>
-                  <Typography level="body-sm">{row.artist}</Typography>
-                </td>
-                <td>
-                  <Typography level="body-sm">{row.genre}</Typography>
-                </td>
-                <td>
-                  <Chip
-                    variant="soft"
-                    size="sm"
-                    startDecorator={
-                      {
-                        COMPLETE: <CheckRoundedIcon />,
-                        RUNNING: <AutorenewRoundedIcon />,
-                        INCOMPLETE: <BlockIcon />,
-                      }[row.status]
-                    }
-                    color={
-                      {
-                        COMPLETE: 'success',
-                        RUNNING: 'neutral',
-                        INCOMPLETE: 'danger',
-                      }[row.status] as ColorPaletteProp
-                    }
-                  >
-                    {row.status}
-                  </Chip>
-                </td>
-                <td>
-                  <Typography level="body-sm">{0}</Typography>
-                </td>
-                <td>
-                  <Typography level="body-sm">{0}</Typography>
+                  <Typography level="title-sm">{row.theme}</Typography>
                 </td>
                 <td>
                   <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>

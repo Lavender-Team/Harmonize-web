@@ -11,10 +11,12 @@ import ListItemContent from '@mui/joy/ListItemContent';
 import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
+import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LabelIcon from '@mui/icons-material/Label';
 import BrightnessAutoRoundedIcon from '@mui/icons-material/BrightnessAutoRounded';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -123,7 +125,7 @@ export default function Sidebar({ onLogout }: { onLogout: () => void }) {
             <Toggler
               renderToggle={({ open, setOpen }) => (
                 <ListItemButton onClick={() => setOpen(!open)}>
-                  <AssignmentRoundedIcon />
+                  <LibraryMusicIcon />
                   <ListItemContent>
                     <Typography level="title-sm">음악 관리</Typography>
                   </ListItemContent>
@@ -157,7 +159,7 @@ export default function Sidebar({ onLogout }: { onLogout: () => void }) {
             <Toggler
               renderToggle={({ open, setOpen }) => (
                 <ListItemButton onClick={() => setOpen(!open)}>
-                  <AssignmentRoundedIcon />
+                  <RecordVoiceOverIcon />
                   <ListItemContent>
                     <Typography level="title-sm">가수 관리</Typography>
                   </ListItemContent>
@@ -183,8 +185,17 @@ export default function Sidebar({ onLogout }: { onLogout: () => void }) {
           </ListItem>
 
           <ListItem>
+            <ListItemButton component={Link} to="/theme-manage">
+              <LabelIcon />
+              <ListItemContent>
+                <Typography level="title-sm">테마 관리</Typography>
+              </ListItemContent>
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem>
             <ListItemButton component={Link} to="/user-manage">
-              <DashboardRoundedIcon />
+              <AccountCircleIcon />
               <ListItemContent>
                 <Typography level="title-sm">회원 관리</Typography>
               </ListItemContent>
