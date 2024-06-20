@@ -1,24 +1,35 @@
 import * as React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { CssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
+import MusicTable from '../../components/MusicTable';
 import Breadcrumbs from '@mui/joy/Breadcrumbs';
 import Link from '@mui/joy/Link';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
-import ThemeTable from '../../components/ThemeTable';
+import { Music } from 'TYPES';
+import { useParams } from 'react-router-dom';
 
-const rows_def = [
+const rows_def: Music[] = [
   {
     id: 1,
-    theme: '로드 중',
+    title: '로드 중',
+    artist: '-',
+    status: '-',
+    genre: '-',
+    view: 0,
+    likes: 0,
+    themes: []
   }
 ];
 
-export default function ThemeManage() {
+export default function ThemeMusicManage() {
 
-  const [rows, setRows] = React.useState(rows_def);
+  const { themeName } = useParams();
+
+  const [rows, setRows] = React.useState<Music[]>(rows_def);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [totalElements, setTotalElements] = React.useState(0);
   const [totalPages, setTotalPages] = React.useState(10);
@@ -29,19 +40,13 @@ export default function ThemeManage() {
   }, [currentPage]);
 
   async function fetchMusicList(page: number, size: number) {
-    const response = await fetch(`/api/music/theme?page=${page-1}&size=${size}`);
+    const response = await fetch(`/api/music/theme/music?themeName=${themeName}&page=${page-1}&size=${size}`);
   
-    
     if (response.ok) {
-      const res = await response.json();
-
-      const themeObjs = [];
-      for (const [index, themeLabel] of res.content.entries()) {
-        themeObjs.push({id: index+1, theme: themeLabel});
-      }
-      setRows(themeObjs);
-      setTotalElements(res.totalElements);
-      setTotalPages(res.totalPages);
+      const data = await response.json();
+      setRows(data.content);
+      setTotalElements(data.totalElements);
+      setTotalPages(data.totalPages);
     } else {
       console.error('Failed to fetch music list');
     }
@@ -77,22 +82,27 @@ export default function ThemeManage() {
               >
                 <HomeRoundedIcon />
               </Link>
+              <Link component={RouterLink} to="/theme-manage">
+                <Typography color="neutral" fontWeight={500} fontSize={12}>
+                  테마 관리
+                </Typography>
+              </Link>
               <Typography color="primary" fontWeight={500} fontSize={12}>
-                테마 관리
+                테마 '{themeName}'에 해당하는 음악
               </Typography>
             </Breadcrumbs>
           </Box>
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Typography level="h2" component="h1">
-              테마 관리
+              테마 '{themeName}'에 해당하는 음악
             </Typography>
 
-            <ThemeTable
+            <MusicTable
               rows={rows}
               currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
               totalElements={totalElements}
               totalPages={totalPages}
+              setCurrentPage={setCurrentPage}
             />
           </Box>
         </Box>

@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from 'react';
 import { FC } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { ColorPaletteProp } from '@mui/joy/styles';
 import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
@@ -267,7 +268,9 @@ export default function ThemeTable({ rows, currentPage, setCurrentPage, totalEle
                   <Typography level="body-sm">{row.id}</Typography>
                 </td>
                 <td>
-                  <Typography level="title-sm">{row.theme}</Typography>
+                  <Link component={RouterLink} to={"/theme-manage/"+row.theme}>
+                    <Typography level="title-sm">{row.theme}</Typography>
+                  </Link>
                 </td>
                 <td>
                   <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
