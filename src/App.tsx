@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import CssBaseline from '@mui/joy/CssBaseline';
 import { CssVarsProvider } from '@mui/joy/styles';
 import Box from '@mui/joy/Box';
+import { theme } from './Theme';
 
 import SignIn from './Login';
 import AdminHome from './AdminHome';
@@ -26,7 +27,7 @@ export default function App() {
   };
 
   return (
-    <CssVarsProvider disableTransitionOnChange>
+    <CssVarsProvider disableTransitionOnChange theme={theme}>
       <CssBaseline />
       <Router>
         <Box sx={{ display: 'flex', height: '100vh' }}>

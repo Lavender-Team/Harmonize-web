@@ -122,6 +122,18 @@ export default function AddMusic() {
     }
   };
 
+  const clearMusic = () => {
+    setMusic({
+      ...music,
+      title: '',
+      releaseDate: '',
+      karaokeNum: '',
+      themes: [],
+      albumCover: null,
+      albumCoverFile: null
+    });
+  }
+
   return (
     <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />
@@ -221,7 +233,7 @@ export default function AddMusic() {
                 </div>
               </div>
               <div className='action'>
-                <Button variant="outlined" sx={{ width: 80, height: 40, mr: '12px' }}>초기화</Button>
+                <Button variant="outlined" onClick={clearMusic} sx={{ width: 80, height: 40, mr: '12px' }}>초기화</Button>
                 <Button variant="solid" onClick={handleMusicSubmit} sx={{ width: 120, height: 40 }}>음악 등록</Button>
               </div>
             </div>

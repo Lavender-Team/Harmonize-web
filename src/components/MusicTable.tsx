@@ -59,7 +59,7 @@ function getComparator<Key extends keyof any>(
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-function RowMenu({ musicId }: { musicId: number }) {
+function RowMenu({ musicId, deleteMusic }: { musicId: number, deleteMusic: (musicId: number) => void }) {
   return (
     <Dropdown>
       <MenuButton
@@ -71,7 +71,7 @@ function RowMenu({ musicId }: { musicId: number }) {
       <Menu size="sm" sx={{ minWidth: 140 }}>
         <MenuItem component={RouterLink} to={"/music-manage/edit/"+musicId}>음악 편집</MenuItem>
         <Divider />
-        <MenuItem color="danger">음악 삭제</MenuItem>
+        <MenuItem color="danger" onClick={() => { deleteMusic(musicId) }}>음악 삭제</MenuItem>
       </Menu>
     </Dropdown>
   );
@@ -97,12 +97,13 @@ function getPageStringList(currentPage: number, totalPages: number) {
 
 }
 
-export default function MusicTable({ rows, currentPage, totalElements, totalPages, setCurrentPage }: {
+export default function MusicTable({ rows, currentPage, totalElements, totalPages, setCurrentPage, deleteMusic }: {
   rows: Music[];
   currentPage: number;
   totalElements: number;
   totalPages: number;
   setCurrentPage: (page: number) => void;
+  deleteMusic: (musicId: number) => void;
 }) {
 
   const [order, setOrder] = React.useState<Order>('desc');
@@ -309,7 +310,7 @@ export default function MusicTable({ rows, currentPage, totalElements, totalPage
                 </td>
                 <td>
                   <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                    <RowMenu musicId={row.id}/>
+                    <RowMenu musicId={row.id} deleteMusic={deleteMusic} />
                   </Box>
                 </td>
               </tr>

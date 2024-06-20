@@ -48,6 +48,21 @@ export default function MusicManage() {
     }
   }
 
+  function deleteMusic(musicId: number) {
+    if (window.confirm('정말 삭제하시겠습니까?')) {
+      fetch(`/api/music/${musicId}`, {
+        method: 'DELETE'
+      })
+      .then(response => {
+        if (response.ok) {
+          fetchMusicList(currentPage, 12);
+        } else {
+          console.error('Failed to delete music');
+        }
+      });
+    }
+  }
+
   return (
     <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />
@@ -97,6 +112,7 @@ export default function MusicManage() {
               totalElements={totalElements}
               totalPages={totalPages}
               setCurrentPage={setCurrentPage}
+              deleteMusic={deleteMusic}
             />
           </Box>
         </Box>
