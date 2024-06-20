@@ -7,9 +7,10 @@ import Box from '@mui/joy/Box';
 import SignIn from './Login';
 import AdminHome from './AdminHome';
 import MusicManage from './pages/music/MusicManage';
-import SingerManage from './SingerManage';
+import EditMusic from './pages/music/EditMusic';
 import AddMusic from './pages/music/AddMusic';
 import AnalyzeMusic from './pages/music/AnalyzeMusic';
+import SingerManage from './SingerManage';
 import AddSinger from './pages/singer/AddSinger';
 import ThemeManage from './pages/theme/ThemeManage';
 import ThemeMusicManage from './pages/theme/ThemeMusicManage';
@@ -42,6 +43,7 @@ export default function App() {
                   <>
                     <Route path="/admin-home" element={<AdminHome />} />
                     <Route path="/music-manage" element={<MusicManage />} />
+                    <Route path="/music-manage/edit/:id" element={<EditMusic />} />
                     <Route path="/singer-manage" element={<SingerManage />} />
                     <Route path="/add-music" element={<AddMusic />} />
                     <Route path="/analyze-music" element={<AnalyzeMusic />} />

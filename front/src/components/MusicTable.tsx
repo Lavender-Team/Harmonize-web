@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { ColorPaletteProp } from '@mui/joy/styles';
 import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
@@ -7,14 +8,11 @@ import Button from '@mui/joy/Button';
 import Chip from '@mui/joy/Chip';
 import Divider from '@mui/joy/Divider';
 import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
 import Link from '@mui/joy/Link';
 import Input from '@mui/joy/Input';
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import ModalClose from '@mui/joy/ModalClose';
-import Select from '@mui/joy/Select';
-import Option from '@mui/joy/Option';
 import Table from '@mui/joy/Table';
 import Sheet from '@mui/joy/Sheet';
 import Checkbox from '@mui/joy/Checkbox';
@@ -61,7 +59,7 @@ function getComparator<Key extends keyof any>(
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-function RowMenu() {
+function RowMenu({ musicId }: { musicId: number }) {
   return (
     <Dropdown>
       <MenuButton
@@ -71,7 +69,7 @@ function RowMenu() {
         <MoreHorizRoundedIcon />
       </MenuButton>
       <Menu size="sm" sx={{ minWidth: 140 }}>
-        <MenuItem>음악 편집</MenuItem>
+        <MenuItem component={RouterLink} to={"/music-manage/edit/"+musicId}>음악 편집</MenuItem>
         <Divider />
         <MenuItem color="danger">음악 삭제</MenuItem>
       </Menu>
@@ -271,7 +269,9 @@ export default function MusicTable({ rows, currentPage, totalElements, totalPage
                   <Typography level="body-sm">{row.id}</Typography>
                 </td>
                 <td>
-                  <Typography level="title-sm">{row.title}</Typography>
+                  <Link component={RouterLink} to={"/music-manage/edit/"+row.id}>
+                    <Typography level="title-sm">{row.title}</Typography>
+                  </Link>
                 </td>
                 <td>
                   <Typography level="body-sm">{row.artist}</Typography>
@@ -309,7 +309,7 @@ export default function MusicTable({ rows, currentPage, totalElements, totalPage
                 </td>
                 <td>
                   <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                    <RowMenu />
+                    <RowMenu musicId={row.id}/>
                   </Box>
                 </td>
               </tr>
