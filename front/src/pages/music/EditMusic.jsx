@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CssVarsProvider } from '@mui/joy/styles';
@@ -25,6 +25,8 @@ const GENRELIST = { '가요': 'KPOP', '팝송': 'POP', '발라드': 'BALLADE', '
 export default function EditMusic() {
   const navigate = useNavigate();
 
+  const { id } = useParams();
+
   const [music, setMusic] = useState({
     title: '',
     genre: '',
@@ -39,7 +41,25 @@ export default function EditMusic() {
 
   useEffect(() => {
     fetchThemeList();
+    fetchMusic(id);
   }, []);
+
+  async function fetchMusic(musicId) {
+    const response = await fetch(`/api/music/${musicId}`);
+
+    if (response.ok) {
+      const res = await response.json();
+      setMusic({
+        ...music,
+        title: res.title,
+        genre: res.genre,
+        releaseDate: res.releaseDate.substring(0, res.releaseDate.indexOf('T')),
+        karaokeNum: res.karaokeNum,
+        themes: res.themes.map(theme => ({ id: -1, label: theme })),
+        albumCover: res.albumCover
+      });
+    }
+  }
 
   async function fetchThemeList() {
     const response = await fetch(`/api/music/theme?page=0&size=1000`);
@@ -190,7 +210,7 @@ export default function EditMusic() {
                 <p className='sectionTitle'>노래 정보</p>
                 <div className='item'>
                   <span>장르</span>
-                  <Select placeholder="장르 선택" sx={{ width: 180 }}>
+                  <Select placeholder={music.genre} sx={{ width: 180 }}>
                   {
                     Object.keys(GENRELIST).map((genre, index) => (
                       <Option key={index} value={genre} onClick={() => { handleGenreChange(GENRELIST[genre]) }}>{genre}</Option>
@@ -226,8 +246,7 @@ export default function EditMusic() {
                 </div>
               </div>
               <div className='action'>
-                <Button variant="outlined" sx={{ width: 80, height: 40, mr: '12px' }}>초기화</Button>
-                <Button variant="solid" onClick={handleMusicSubmit} sx={{ width: 120, height: 40 }}>음악 등록</Button>
+                <Button variant="solid" onClick={handleMusicSubmit} sx={{ width: 120, height: 40 }}>음악 편집</Button>
               </div>
             </div>
 
