@@ -56,7 +56,9 @@ export default function EditMusic() {
         releaseDate: res.releaseDate.substring(0, res.releaseDate.indexOf('T')),
         karaokeNum: res.karaokeNum,
         themes: res.themes.map(theme => ({ id: -1, label: theme })),
-        albumCover: res.albumCover
+        albumCover: res.albumCover,
+        view: res.view,
+        likes: res.likes
       });
     }
   }
@@ -128,8 +130,8 @@ export default function EditMusic() {
     data.append('albumCover', music.albumCoverFile);
     data.append('themes', music.themes.map(theme => theme.label).join(','));
 
-    const res = await fetch(`/api/music`, {
-        method: 'POST',
+    const res = await fetch(`/api/music/${id}`, {
+        method: 'PUT',
         credentials: 'include',
         body: data
     })
@@ -138,7 +140,7 @@ export default function EditMusic() {
       navigate('/music-manage')
     }
     else {
-      alert('음악 등록 중 오류가 발생하였습니다.');
+      alert('음악 편집 중 오류가 발생하였습니다.');
     }
   };
 
@@ -245,6 +247,19 @@ export default function EditMusic() {
                   />
                 </div>
               </div>
+              
+              <div className='section'>
+                <p className='sectionTitle'>통계 정보</p>
+                <div className='item'>
+                  <span>조회수</span>
+                  <Typography level="body-sm">{music.view}</Typography>
+                </div>
+                <div className='item'>
+                  <span>좋아요</span>
+                  <Typography level="body-sm">{music.likes}</Typography>
+                </div>
+              </div>
+              
               <div className='action'>
                 <Button variant="solid" onClick={handleMusicSubmit} sx={{ width: 120, height: 40 }}>음악 편집</Button>
               </div>
