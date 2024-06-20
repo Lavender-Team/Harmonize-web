@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
@@ -13,6 +13,7 @@ import Button from '@mui/joy/Button';
 import Input from '@mui/joy/Input';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
+import Autocomplete from '@mui/joy/Autocomplete';
 
 import './music.css';
 
@@ -28,9 +29,32 @@ export default function AddMusic() {
     genre: '',
     releaseDate: '',
     karaokeNum: '',
+    themes: [],
     albumCover: null,
     albumCoverFile: null
   });
+
+  const [themeList, setThemeList] = useState([]);
+
+  useEffect(() => {
+    fetchThemeList();
+  }, []);
+
+  async function fetchThemeList() {
+    const response = await fetch(`/api/music/themes?page=0&size=1000`);
+  
+    if (response.ok) {
+      const res = await response.json();
+      const themeObjs = [];
+      for (const [index, themeLabel] of res.content.entries()) {
+        themeObjs.push({id: index, label: themeLabel});
+      }
+
+      setThemeList(themeObjs);
+    } else {
+      console.error('Failed to fetch theme list');
+    }
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -82,6 +106,7 @@ export default function AddMusic() {
     data.append('releaseDate', music.releaseDate + 'T00:00:00');
     data.append('karaokeNum', music.karaokeNum);
     data.append('albumCover', music.albumCoverFile);
+    data.append('themes', music.themes.map(theme => theme.label).join(','));
 
     const res = await fetch(`/api/music`, {
         method: 'POST',
@@ -178,7 +203,21 @@ export default function AddMusic() {
                 </div>
                 <div className='item'>
                   <span>음악 특징</span>
-                  <Input type="text" placeholder="음악/목소리 특징 입력" sx={{ width: 450 }}/>
+                  <Autocomplete
+                    value={music.themes}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' && e.target.value !== '') {
+                        e.preventDefault();
+                        setMusic({ ...music, themes: music.themes.concat({ id: -1, label: e.target.value })});
+                      }
+                    }}
+                    onChange={(e, value) => { setMusic({ ...music, themes: value })}}
+                    multiple
+                    options={themeList}
+                    getOptionKey={(option) => option.id}
+                    getOptionLabel={(option) => option.label}
+                    sx={{ width: 500 }}
+                  />
                 </div>
               </div>
               <div className='action'>

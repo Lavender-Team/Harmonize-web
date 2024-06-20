@@ -12,6 +12,7 @@
 .music input[type="text"],
 .music input[type="date"],
 .music button[role="combobox"],
+.music input[role="combobox"],
 ul[role="listbox"] {
     font-size: 14px;
 }
@@ -84,7 +85,8 @@ ul[role="listbox"] {
 }
 
 .music .action {
-    width: 900px;
+    width: 100%;
+    max-width: 900px;
     text-align: right;
 }
 .music .action button {

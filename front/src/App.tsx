@@ -9,7 +9,7 @@ import AdminHome from './AdminHome';
 import MusicManage from './pages/music/MusicManage';
 import SingerManage from './SingerManage';
 import AddMusic from './pages/music/AddMusic';
-import AnalyzeMusic from './AnalyzeMusic';
+import AnalyzeMusic from './pages/music/AnalyzeMusic';
 import AddSinger from './pages/singer/AddSinger';
 import ManageUsers from './ManageUsers';
 import Header from './components/Header';
