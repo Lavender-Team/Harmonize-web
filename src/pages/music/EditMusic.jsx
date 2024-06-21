@@ -22,6 +22,15 @@ const GENRELIST = { '가요': 'KPOP', '팝송': 'POP', '발라드': 'BALLADE', '
                     'DANCE', '일본곡': 'JPOP', 'R&B': 'RNB', 'OST': 'OST', '인디뮤직': 'INDIE',
                     '트로트': 'TROT', '어린이곡': 'KID' }
 
+function convertGenreToLabel(genre) {
+  for (const [label, value] of Object.entries(GENRELIST)) {
+    if (value === genre) {
+      return label;
+    }
+  }
+  return '';
+}
+
 export default function EditMusic() {
   const navigate = useNavigate();
 
@@ -212,7 +221,7 @@ export default function EditMusic() {
                 <p className='sectionTitle'>노래 정보</p>
                 <div className='item'>
                   <span>장르</span>
-                  <Select placeholder={music.genre} sx={{ width: 180 }}>
+                  <Select placeholder={convertGenreToLabel(music.genre)} sx={{ width: 180 }}>
                   {
                     Object.keys(GENRELIST).map((genre, index) => (
                       <Option key={index} value={genre} onClick={() => { handleGenreChange(GENRELIST[genre]) }}>{genre}</Option>
