@@ -9,6 +9,7 @@
     align-items: flex-start;
 }
 
+.music input,
 .music input[type="text"],
 .music input[type="date"],
 .music button[role="combobox"],

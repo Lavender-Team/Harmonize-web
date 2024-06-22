@@ -1,9 +1,11 @@
 import * as React from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { CssVarsProvider } from '@mui/joy/styles';
 import { ColorPaletteProp } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
+import IconButton from '@mui/joy/IconButton';
 import Chip from '@mui/joy/Chip';
 import Typography from '@mui/joy/Typography';
 import Breadcrumbs from '@mui/joy/Breadcrumbs';
@@ -17,31 +19,121 @@ import AutorenewRoundedIcon from '@mui/icons-material/AutorenewRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import BlockIcon from '@mui/icons-material/Block';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
+import OpenInNew from '@mui/icons-material/OpenInNew';
 
+import { Music } from 'TYPES';
 import './music.css';
 
 export default function AnalyzeMusic() {
 
+  const [searchParams] = useSearchParams();
+  const musicId = searchParams.get('id');
+
   const [music, setMusic] = React.useState({
-    title: '음악 제목',
-    artist: '구현 안됨',
-    genre: '',
-    releaseDate: '',
-    karaokeNum: '',
-    themes: [],
-    status: 'INCOMPLETE',
-    albumCover: '/api/music/albumcover/17.jpg', // 테스트
+    id: -1,
+    title: '로딩 중',
+    artist: '',
+    status: '',
+    albumCover: '',
     playLink: '',
-    musicFilename: '',
-    musicFile: null,
+    audioFilename: '',
+    audioFile: null,
     lyricFilename: '',
-    lyricFile: null
+    lyricFile: null,
+    lyrics: ''
   });
 
+  const [selectedMusic, setSelectedMusic] = React.useState<Music | null>(null); // 선택된 음악
+  const [recentMusics, setRecentMusics] = React.useState<Music[]>([]); // 최근 100개 음악 목록
+
   // input file trigger를 위한 ref
-  const musicRef = React.useRef<HTMLInputElement>(null);
+  const audioRef = React.useRef<HTMLInputElement>(null);
   const lyricRef = React.useRef<HTMLInputElement>(null);
   const inputRef = React.useRef<HTMLInputElement>(null);
+
+  // 처음 로딩 시 음악 선택 후보로 최근 음악 목록을 가져옴
+  React.useEffect(() => {
+    fetchRecentMusicList();
+    if (musicId) {
+      fetchMusic(parseInt(musicId));
+    }
+  }, []);
+
+  // 최근 음악 목록이 업데이트되면 첫 번째 음악을 선택함 (음악 선택 없이 음악 분석 페이지 접속시)
+  React.useEffect(() => {
+    if (!musicId && selectedMusic == null)
+      setSelectedMusic(recentMusics[0]);
+  }, [recentMusics]);
+
+  // 음악 상세정보 로드
+  React.useEffect(() => {
+    if (selectedMusic != null)
+      fetchMusic(selectedMusic.id)
+  }, [selectedMusic]);
+
+  async function fetchRecentMusicList() {
+    const response = await fetch(`/api/music?page=${0}&size=${100}`);
+  
+    if (response.ok) {
+      const data = await response.json();
+      setRecentMusics(data.content);
+    } else {
+      console.error('Failed to fetch recent music list');
+    }
+  }
+
+  async function fetchMusic(musicId: number) {
+    const response = await fetch(`/api/music/${musicId}`);
+
+    if (response.ok) {
+      const res = await response.json();
+      setMusic({
+        ...music,
+        id: res.id,
+        title: res.title,
+        artist: res.artist,
+        status: res.status,
+        albumCover: res.albumCover,
+        playLink: res.playLink ? res.playLink : '',
+        audioFile: null,
+        audioFilename: res.audioFile ? res.audioFile : '',
+        lyricFile: null,
+        lyrics: res.lyrics ? res.lyrics : '',
+      });
+    }
+  }
+
+  // 유튜브 링크 저장
+  const savePlayLink = async () => {
+    let data = new FormData();
+    data.append('playLink', music.playLink);
+
+    const res = await fetch(`/api/music/${music.id}`, { method: 'PUT', credentials: 'include', body: data })
+
+    if (res.ok)
+      alert('유튜브 링크가 저장되었습니다.');
+    else {
+      alert('음악 편집 중 오류가 발생하였습니다.');
+    }
+  };
+
+  const saveAudioFile = async () => {
+    if (!music.audioFile)
+      return alert('음악 파일을 선택해주세요.');
+
+    let data = new FormData();
+    data.append('audioFile', music.audioFile);
+
+    const res = await fetch(`/api/music/${music.id}/files`, { method: 'POST', credentials: 'include', body: data })
+
+    if (res.ok) {
+      fetchMusic(music.id);
+      alert('음악 파일이 저장되었습니다.');
+    }
+    else {
+      alert('음악 편집 중 오류가 발생하였습니다.');
+    }
+  }
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -49,6 +141,30 @@ export default function AnalyzeMusic() {
       ...music,
       [name]: value
     });
+  };
+
+  const handleAudioFileChange = (e: any) => {
+    const file = e.target.files[0];
+    if (file) {
+      setMusic({
+        ...music,
+        audioFilename: e.target.value.substring(e.target.value.lastIndexOf('/') + 1)
+        .substring(e.target.value.lastIndexOf('\\') + 1),
+        audioFile: file
+      });
+    }
+  };
+
+  const handleLyricFileChange = (e: any) => {
+    const file = e.target.files[0];
+    if (file) {
+      setMusic({
+        ...music,
+        lyricFilename: e.target.value.substring(e.target.value.lastIndexOf('/') + 1)
+        .substring(e.target.value.lastIndexOf('\\') + 1),
+        lyricFile: file
+      });
+    }
   };
 
 
@@ -99,8 +215,12 @@ export default function AnalyzeMusic() {
           <div className="music">
             <Box sx={{ mt: '16px', mb: '36px' }}>
               <Autocomplete
-                placeholder="음악 선택"
-                options={[]}
+                placeholder="음악 선택 (최근 100개만 표시됨)"
+                options={recentMusics}
+                value={selectedMusic}
+                getOptionKey={(option) => option.id}
+                getOptionLabel={(option) => option.title + ' - ' + option.artist}
+                onChange={(e, value) => { setSelectedMusic(value) }}
                 sx={{ width: 400 }}
               />
               <Box className='horizontal' sx={{ mt: '24px' }}>
@@ -141,40 +261,46 @@ export default function AnalyzeMusic() {
               <p className='sectionTitle'>정보 입력 및 파일 업로드</p>
               <div className='item'>
                 <span>음악 파일</span>
-                <input className='hidden' type="file" ref={musicRef} onChange={(e) => {
-                  setMusic({
-                    ...music,
-                    musicFilename: e.target.value.substring(e.target.value.lastIndexOf('/') + 1)
-                      .substring(e.target.value.lastIndexOf('\\') + 1)
-                  })
-                }}/>
+                <input className='hidden' type="file" accept="audio/*" ref={audioRef} onChange={handleAudioFileChange}/>
                 <Input
-                  value={music.musicFilename}
+                  value={music.audioFilename}
                   startDecorator={
-                    <Button variant="soft" color="neutral" startDecorator={<AttachFileIcon />} onClick={() => { if (musicRef.current) musicRef.current.click() }}>
+                    <Button variant="soft" color="neutral" startDecorator={<AttachFileIcon />} onClick={() => { if (audioRef.current) audioRef.current.click() }}>
                       파일
                     </Button>
                   }
                   sx={{ width: 300 }}
                 />
-                <Button variant="outlined" color="primary" sx={{ width: '90px', ml: 1 }}>
-                  업로드
-                </Button>
+                {
+                  (music.audioFile === null) &&
+                  <a href={music.audioFilename} target='_blank'>
+                    <Button variant="outlined" color="primary" sx={{ width: '90px', ml: 1 }}>
+                      다운로드
+                    </Button>
+                  </a>
+                }
+                {
+                  (music.audioFile !== null) &&
+                  <Button variant="outlined" color="primary" sx={{ width: '90px', ml: 1 }} onClick={saveAudioFile}>
+                    업로드
+                  </Button>
+                }
+                
                 <span style={{ marginLeft: '48px' }}>유튜브 링크</span>
-                <Input type="text" placeholder="링크 입력" name="playLink" value={music.playLink} onChange={handleInputChange} sx={{ width: 240 }}/>
-                <Button variant="outlined" color="primary" sx={{ ml: 1 }}>
+                <Input
+                  type="text" placeholder="링크 입력" name="playLink"
+                  value={music.playLink}
+                  onChange={handleInputChange}
+                  endDecorator={<IconButton component="a" href={music.playLink} target="_blank"><OpenInNew /></IconButton>}
+                  sx={{ width: 240 }}
+                />
+                <Button variant="outlined" color="primary" onClick={savePlayLink} sx={{ ml: 1 }}>
                   저장
                 </Button>
               </div>
               <div className='item'>
                 <span>가사 파일</span>
-                <input className='hidden' type="file" ref={lyricRef} onChange={(e) => {
-                  setMusic({
-                    ...music,
-                    lyricFilename: e.target.value.substring(e.target.value.lastIndexOf('/') + 1)
-                      .substring(e.target.value.lastIndexOf('\\') + 1)
-                  })
-                }}/>
+                <input className='hidden' type="file" ref={lyricRef} onChange={handleLyricFileChange}/>
                 <Input
                   value={music.lyricFilename}
                   startDecorator={
@@ -185,7 +311,10 @@ export default function AnalyzeMusic() {
                   sx={{ width: 300 }}
                 />
                 <Button variant="outlined" color="primary" sx={{ width: '90px', ml: 1 }}>
-                  다운로드
+                  업로드
+                </Button>
+                <Button variant="outlined" color="primary" sx={{ width: '100px', ml: 1 }}>
+                  가사 표시
                 </Button>
               </div>
             </Box>

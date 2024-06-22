@@ -69,6 +69,7 @@ function RowMenu({ musicId, deleteMusic }: { musicId: number, deleteMusic: (musi
       </MenuButton>
       <Menu size="sm" sx={{ minWidth: 140 }}>
         <MenuItem component={RouterLink} to={"/music-manage/edit/"+musicId}>음악 편집</MenuItem>
+        <MenuItem component={RouterLink} to={"/analyze-music?id="+musicId}>음악 분석</MenuItem>
         <Divider />
         <MenuItem color="danger" onClick={() => { deleteMusic(musicId) }}>음악 삭제</MenuItem>
       </Menu>

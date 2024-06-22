@@ -8,13 +8,15 @@ import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
 import Breadcrumbs from '@mui/joy/Breadcrumbs';
 import Link from '@mui/joy/Link';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import Button from '@mui/joy/Button';
 import Input from '@mui/joy/Input';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import Autocomplete from '@mui/joy/Autocomplete';
+
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
+import QueryStatsIcon from '@mui/icons-material/QueryStats';
 
 import './music.css';
 
@@ -270,7 +272,12 @@ export default function EditMusic() {
               </div>
               
               <div className='action'>
-                <Button variant="solid" onClick={handleMusicSubmit} sx={{ width: 120, height: 40 }}>음악 편집</Button>
+                <Link component={RouterLink} to={"/analyze-music?id="+id}>
+                  <Button variant="outlined" startDecorator={<QueryStatsIcon />} sx={{ height: 40, mr: '12px' }}>
+                    음악 분석
+                  </Button>
+                </Link>
+                <Button variant="solid" onClick={handleMusicSubmit} sx={{ width: 120, height: 40, verticalAlign: 'bottom' }}>음악 편집</Button>
               </div>
             </div>
 
