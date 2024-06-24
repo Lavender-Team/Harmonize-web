@@ -151,6 +151,11 @@ export default function Sidebar({ onLogout }: { onLogout: () => void }) {
                     음악 관리
                   </ListItemButton>
                 </ListItem>
+                <ListItem>
+                  <ListItemButton component={Link} to="/add-music-bulk">
+                    음악 일괄 업로드
+                  </ListItemButton>
+                </ListItem>
               </List>
             </Toggler>
           </ListItem>

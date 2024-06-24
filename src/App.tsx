@@ -10,6 +10,7 @@ import AdminHome from './AdminHome';
 import MusicManage from './pages/music/MusicManage';
 import EditMusic from './pages/music/EditMusic';
 import AddMusic from './pages/music/AddMusic';
+import AddMusicBulk from './pages/music/AddMusicBulk';
 import AnalyzeMusic from './pages/music/AnalyzeMusic';
 import SingerManage from './SingerManage';
 import AddSinger from './pages/singer/AddSinger';
@@ -47,6 +48,7 @@ export default function App() {
                     <Route path="/music-manage/edit/:id" element={<EditMusic />} />
                     <Route path="/singer-manage" element={<SingerManage />} />
                     <Route path="/add-music" element={<AddMusic />} />
+                    <Route path="/add-music-bulk" element={<AddMusicBulk />} />
                     <Route path="/analyze-music" element={<AnalyzeMusic />} />
                     <Route path="/add-singer" element={<AddSinger />} />
                     <Route path="/theme-manage" element={<ThemeManage />} />
