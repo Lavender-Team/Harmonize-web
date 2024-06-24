@@ -18,8 +18,8 @@ import Autocomplete from '@mui/joy/Autocomplete';
 import './music.css';
 
 const GENRELIST = { '가요': 'KPOP', '팝송': 'POP', '발라드': 'BALLADE', '랩/힙합': 'RAP', '댄스':
-                    'DANCE', '일본곡': 'JPOP', 'R&B': 'RNB', 'OST': 'OST', '인디뮤직': 'INDIE',
-                    '트로트': 'TROT', '어린이곡': 'KID' }
+                    'DANCE', '일본곡': 'JPOP', 'R&B': 'RNB', '포크/블루스': 'FOLK', '록/메탈': 'ROCK',
+                    'OST': 'OST', '인디뮤직': 'INDIE', '트로트': 'TROT', '어린이곡': 'KID' }
 
 export default function AddMusic() {
   const navigate = useNavigate();

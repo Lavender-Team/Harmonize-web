@@ -31,14 +31,14 @@ export default function AnalyzeMusic() {
 
   const [music, setMusic] = React.useState({
     id: -1,
-    title: '로딩 중',
+    title: '로드 중',
     artist: '',
     status: '',
     albumCover: '',
     playLink: '',
     audioFilename: '',
     audioFile: null,
-    lyricFilename: '',
+    lyricFilename: '구현 안됨',
     lyricFile: null,
     lyrics: ''
   });
@@ -272,7 +272,7 @@ export default function AnalyzeMusic() {
                   sx={{ width: 300 }}
                 />
                 {
-                  (music.audioFile === null) &&
+                  (music.audioFile === null && music.audioFilename !== '') &&
                   <a href={music.audioFilename} target='_blank'>
                     <Button variant="outlined" color="primary" sx={{ width: '90px', ml: 1 }}>
                       다운로드
@@ -280,7 +280,7 @@ export default function AnalyzeMusic() {
                   </a>
                 }
                 {
-                  (music.audioFile !== null) &&
+                  (music.audioFile !== null || music.audioFilename === '') &&
                   <Button variant="outlined" color="primary" sx={{ width: '90px', ml: 1 }} onClick={saveAudioFile}>
                     업로드
                   </Button>
