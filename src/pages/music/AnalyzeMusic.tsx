@@ -225,6 +225,9 @@ export default function AnalyzeMusic() {
               />
               <Box className='horizontal' sx={{ mt: '24px' }}>
                 <div>
+                  { !(music.albumCover) && (
+                    <div className='preview-sm' style={{ background: "#F6F6F6" }} />
+                  )}
                   {music.albumCover && (
                     <img src={music.albumCover} alt="앨범 표지" className='preview-sm' />
                   )}
@@ -329,7 +332,7 @@ export default function AnalyzeMusic() {
                     분석 요청
                   </Button>
                 </div>
-                <Box sx={{ background: 'lightgray', width: '1000px', height: '160px', mt: '24px', mb: '24px' }}></Box>
+                <Box sx={{ background: '#F6F6F6', width: '1000px', height: '160px', mt: '24px', mb: '24px' }}></Box>
                 <div>
                   <div className='item analysis'>
                     <div><span>최고음</span><Typography level="title-sm">A4</Typography></div>

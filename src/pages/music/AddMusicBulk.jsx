@@ -11,6 +11,9 @@ import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import Button from '@mui/joy/Button';
 import Input from '@mui/joy/Input';
 import Textarea from '@mui/joy/Textarea';
+import FileDrop from '../../components/FileDrop';
+import Radio from '@mui/joy/Radio';
+import RadioGroup from '@mui/joy/RadioGroup';
 
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 
@@ -23,12 +26,15 @@ export default function AddMusicBulk() {
     csvFilename: '',
     csvFile: null
   });
-  const [bulkLog, setBulkLog] = useState('');
+  const [bulkLog, setBulkLog] = useState(''); // 음악 업로드 로그
+
+  const [fileType, setFileType] = React.useState('앨범 커버'); // 파일 업로드 옵션 (앨범 커버, 음악, 가사)
+  const [bulkFileLog, setBulkFileLog] = useState(''); // 파일 업로드 로그
 
   const csvRef = React.useRef();
 
 
-  const handleCsvFileChange = (e: any) => {
+  const handleCsvFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setFile({
@@ -59,26 +65,55 @@ export default function AddMusicBulk() {
     }
   }
 
-  const fetchBulkLog = () => {
-    fetch('/api/log/bulk')
+  const submitFileUpload = async (file) => {
+    if (!file)
+      return;
+
+    let data = new FormData();
+
+    if (fileType === '앨범 커버')
+      data.append('albumCover', file);
+    else if (fileType === '음악 파일')
+      data.append('audioFile', file);
+    else if (fileType === '가사 파일')
+      data.append('lyricFile', file);
+
+    const res = await fetch(`/api/music/bulk/files`, { method: 'POST', credentials: 'include', body: data })
+
+    if (res.ok) {
+      alert(`[${fileType}]`+ file.name + ' 업로드 성공');
+    }
+    else {
+      alert('파일 업로드 중 오류가 발생하였습니다.');
+    }
+  }
+
+  const fetchBulkLog = (isFile) => {
+    fetch('/api/log/bulk' + (isFile ? '/files' : ''))
       .then(async response => {
         if (response.ok) {
           const logs = await JSON.parse(await response.text());
-          setBulkLog(logs.join('\r\n'));
+          if (isFile)
+            setBulkFileLog(logs.join('\r\n'));
+          else
+            setBulkLog(logs.join('\r\n'));
         } else {
           alert('일괄 업로드 로그 조회 중 오류가 발생하였습니다.');
         }
       });
   }
 
-  const clearBulkLog = () => {
+  const clearBulkLog = (isFile) => {
     if (window.confirm('일괄 업로드 로그를 삭제하시겠습니까?\n삭제하면 더 이상 확인할 수 없습니다.')) {
-      fetch('/api/log/bulk', {
+      fetch('/api/log/bulk' + (isFile ? '/files' : ''), {
         method: 'DELETE'
       })
         .then(response => {
           if (response.ok) {
-            setBulkLog('');
+            if (isFile)
+              setBulkFileLog('')
+            else
+              setBulkLog('');
             alert('일괄 업로드 로그를 삭제하였습니다.');
           } else {
             alert('일괄 업로드 로그 삭제 중 오류가 발생하였습니다.');
@@ -150,14 +185,14 @@ export default function AddMusicBulk() {
                   </Button>
                   <a href={"/music-sample.csv"} target='_blank'>
                     <Button variant="outlined" color="primary" sx={{ ml: 2 }}>
-                      양식 다운로드
+                      양식
                     </Button>
                   </a>
                   <Box  sx={{ position: 'absolute', right: 0, ml: 4 }}>
-                    <Button variant="outlined" color="primary" onClick={clearBulkLog}>
+                    <Button variant="outlined" color="primary" onClick={() => clearBulkLog(false)}>
                       로그 삭제
                     </Button>
-                    <Button variant="solid" color="primary" sx={{ ml: 1 }} onClick={fetchBulkLog}>
+                    <Button variant="solid" color="primary" sx={{ ml: 1 }} onClick={() => fetchBulkLog(false)}>
                       로그 조회
                     </Button>
                   </Box>
@@ -170,8 +205,75 @@ export default function AddMusicBulk() {
                   sx={{ width: '100%', maxWidth: '1000px', mt: '24px'}}
                 />
               </Box>
+              <Box sx={{ mt: '6px', maxWidth: '1000px' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                  <p className='sectionTitle'>파일 업로드</p>
+                  <div>
+                    <Typography level='body-xs'>파일의 이름을 노래의 제목으로 설정하세요.</Typography>
+                    <Typography level='body-xs'>(두 곡 이상 제목이 같을 경우 '야생화[박효신]'과 같이 가수를 추가하세요.)</Typography>
+                  </div>
+                </Box>
+                <RadioGroup
+                  orientation="horizontal" name="fileType" value={fileType}
+                  onChange={ (event) => setFileType(event.target.value) }
+                  sx={{
+                    display: 'inline-flex',
+                    minHeight: 48,
+                    padding: '4px',
+                    borderRadius: '12px',
+                    bgcolor: 'neutral.softBg',
+                    '--RadioGroup-gap': '4px',
+                    '--Radio-actionRadius': '8px',
+                  }}
+                >
+                  {['앨범 커버', '음악 파일', '가사 파일'].map((item) => (
+                    <Radio key={item} color="neutral" value={item} disableIcon label={item} variant="plain"
+                      sx={{
+                        px: 2,
+                        alignItems: 'center',
+                        fontSize: '14px',
+                      }}
+                      slotProps={{
+                        action: ({ checked }) => ({
+                          sx: {
+                            ...(checked && {
+                              bgcolor: 'background.surface',
+                              boxShadow: 'sm',
+                              '&:hover': {
+                                bgcolor: 'background.surface',
+                              },
+                            }),
+                          },
+                        }),
+                      }}
+                    />
+                  ))}
+                </RadioGroup>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: '24px', mt: '12px' }}>
+                  <FileDrop
+                    onFileDrop={submitFileUpload}
+                    sx={{ width: '100%', height: '200px' }}
+                  />
+                  <div style={{ width: '100%', height: '200px', marginTop: '-8px' }}>
+                    <Box sx={{ textAlign: 'right' }}>
+                      <Button variant="outlined" color="primary" onClick={() => clearBulkLog(true)}>
+                        로그 삭제
+                      </Button>
+                      <Button variant="solid" color="primary" sx={{ ml: 1 }} onClick={() => fetchBulkLog(true)}>
+                        로그 조회
+                      </Button>
+                    </Box>
+                    <Textarea
+                      value={bulkFileLog}
+                      placeholder="파일 업로드 결과를 보려면 로그 조회 누르기…"
+                      minRows={7}
+                      maxRows={7}
+                      sx={{ width: '100%', mt: '12px'}}
+                    />
+                  </div>
+                </Box>
+              </Box>
             </div>
-
           </Box>
         </Box>
       </Box>
