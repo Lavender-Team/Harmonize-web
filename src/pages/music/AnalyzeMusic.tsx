@@ -38,7 +38,7 @@ export default function AnalyzeMusic() {
     playLink: '',
     audioFilename: '',
     audioFile: null,
-    lyricFilename: '구현 안됨',
+    lyricFilename: '',
     lyricFile: null,
     lyrics: ''
   });
@@ -133,6 +133,28 @@ export default function AnalyzeMusic() {
     else {
       alert('음악 편집 중 오류가 발생하였습니다.');
     }
+  }
+
+  const saveLyricFile = async () => {
+    if (!music.lyricFile)
+      return alert('가사 텍스트 파일을 선택해주세요.');
+
+    let data = new FormData();
+    data.append('lyricFile', music.lyricFile);
+
+    const res = await fetch(`/api/music/${music.id}/files`, { method: 'POST', credentials: 'include', body: data })
+
+    if (res.ok) {
+      fetchMusic(music.id);
+      alert('가사가 저장되었습니다.');
+    }
+    else {
+      alert('가사 저장 중 오류가 발생하였습니다.');
+    }
+  }
+
+  const showLyrics = () => {
+    alert(music.lyrics);
   }
 
   const handleInputChange = (e: any) => {
@@ -303,7 +325,7 @@ export default function AnalyzeMusic() {
               </div>
               <div className='item'>
                 <span>가사 파일</span>
-                <input className='hidden' type="file" ref={lyricRef} onChange={handleLyricFileChange}/>
+                <input className='hidden' type="file" accept=".txt" ref={lyricRef} onChange={handleLyricFileChange}/>
                 <Input
                   value={music.lyricFilename}
                   startDecorator={
@@ -313,10 +335,10 @@ export default function AnalyzeMusic() {
                   }
                   sx={{ width: 300 }}
                 />
-                <Button variant="outlined" color="primary" sx={{ width: '90px', ml: 1 }}>
+                <Button variant="outlined" color="primary" sx={{ width: '90px', ml: 1 }} onClick={saveLyricFile}>
                   업로드
                 </Button>
-                <Button variant="outlined" color="primary" sx={{ width: '100px', ml: 1 }}>
+                <Button variant="outlined" color="primary" sx={{ width: '100px', ml: 1 }} onClick={showLyrics}>
                   가사 표시
                 </Button>
               </div>
