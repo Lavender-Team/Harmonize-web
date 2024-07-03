@@ -14,6 +14,7 @@ import Input from '@mui/joy/Input';
 import Autocomplete from '@mui/joy/Autocomplete';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
+import PitchGraph from '../../components/PitchGraph';
 
 import AutorenewRoundedIcon from '@mui/icons-material/AutorenewRounded';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
@@ -189,6 +190,15 @@ export default function AnalyzeMusic() {
     }
   };
 
+  /* 오디오 재생 관련 */
+  const audioPlayRef = React.useRef(null);
+
+  // 오디오 재생 위치 변경
+  const handleSeekChange = (time: number, audioPlayRef: React.RefObject<HTMLAudioElement>) => {
+    if (!audioPlayRef.current) return;
+    audioPlayRef.current.currentTime = time;
+  };
+
 
   return (
     <CssVarsProvider disableTransitionOnChange>
@@ -346,7 +356,7 @@ export default function AnalyzeMusic() {
 
             <Box sx={{ mt: '36px' }}>
               <p className='sectionTitle'>분석</p>
-                <div className='action'>
+                <div className='action' style={{ marginBottom: '12px' }}>
                   <Typography level='body-xs' sx={{ display: 'inline', mr: 1 }}>음계 예측 신뢰도</Typography>
                   <Input type="number" defaultValue={0.9} slotProps={{ input: { ref: inputRef, min: 0.1, max: 1.0, step: 0.01, }, }}
                     sx={{ display: 'inline-block', verticalAlign: 'bottom', mr: 3 }}/>
@@ -354,7 +364,13 @@ export default function AnalyzeMusic() {
                     분석 요청
                   </Button>
                 </div>
-                <Box sx={{ background: '#F6F6F6', width: '1000px', height: '160px', mt: '24px', mb: '24px' }}></Box>
+                <PitchGraph src={'/api/sample.xlsx'} enabled={false} seek={(time: number) => { handleSeekChange(time, audioPlayRef) }} />
+                <audio
+                  ref={audioPlayRef}
+                  src="/api/sample.wav"
+                  controls={true}
+                  style={{ width: '100%', maxWidth: '1000px', height: '40px', marginTop: '12px' }}
+                ></audio>
                 <div>
                   <div className='item analysis'>
                     <div><span>최고음</span><Typography level="title-sm">A4</Typography></div>
