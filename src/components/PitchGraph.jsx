@@ -1,8 +1,9 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
 import { fetchPitchGraph } from '../libs/ExcelReader';
+import { Typography } from '@mui/joy';
 
-function PitchGraph({ enabled, src, seek }) {
+function PitchGraph({ status, src, seek, refresh }) {
 
   const [state, setState] = React.useState({
     time: [],
@@ -11,10 +12,10 @@ function PitchGraph({ enabled, src, seek }) {
   });
 
   React.useEffect(() => {
-    if (src && enabled) {
+    if (src && status === 'COMPLETE') {
       updateGraph();
     }
-  }, [src]);
+  }, [src, status, refresh]);
 
   const updateGraph = async () => {
     let [timeD, pitchD] = await fetchPitchGraph(src);
@@ -26,35 +27,46 @@ function PitchGraph({ enabled, src, seek }) {
   }
 
   return (
-    <div style={{ border: '1px solid #D5D5D5', borderRadius: '8px', maxWidth: '1000px', padding: '4px' }}>
-        <Plot
-          data={[
-            {
-              x: state.time.map(sec2dt),
-              y: state.pitch,
-              type: 'scatter',
-              mode: 'markers',
-              marker: { color: '#770ef8', size: 3 },
-            },
-          ]}
-          layout={{
-            width: 1000-8,
-            height: 240,
-            margin: { l: 24, r: 24, t: 48, b: 18 },
-            xaxis: {
-              range: [0, state.time[state.time.length - 1]].map(sec2dt),
-              tickformat: '%M:%S:%L',
-            },
-            yaxis: {
-              range: [0, Math.max(...state.pitch)+10],
-              fixedrange: true, // y축 이동 비활성화
-              tickvals: [65.42, 98.00, 130.81, 196.00, 261.63, 392.00, 523.25, 783.99],
-              ticktext: ['C2', 'G2', 'C3', 'G3', 'C4', 'G4', 'C5', 'G5']
-            },
-          }}
-          datarevision={state.revision}
-          onClick={handleOnClick}
-        />
+    <div style={{ border: '1px solid #D5D5D5', borderRadius: '8px', maxWidth: '1000px', padding: '4px', textAlign: 'center' }}>
+        {
+          (status === 'INCOMPLETE') &&
+          <Typography level='body-sm' sx={{ mt: '48px', mb: '48px' }}>음악 분석을 실행하여야 합니다.</Typography>
+        }
+        {
+          (status === 'RUNNING') &&
+          <Typography color='primary' level='body-sm' sx={{ mt: '48px', mb: '48px' }}>음악 분석 실행 중...</Typography>
+        }
+        {
+          (status === 'COMPLETE') &&
+          <Plot
+            data={[
+              {
+                x: state.time.map(sec2dt),
+                y: state.pitch,
+                type: 'scatter',
+                mode: 'markers',
+                marker: { color: '#770ef8', size: 3 },
+              },
+            ]}
+            layout={{
+              width: 1000-8,
+              height: 240,
+              margin: { l: 24, r: 24, t: 48, b: 18 },
+              xaxis: {
+                range: [0, state.time[state.time.length - 1]].map(sec2dt),
+                tickformat: '%M:%S:%L',
+              },
+              yaxis: {
+                range: [0, Math.max(...state.pitch)+10],
+                fixedrange: true, // y축 이동 비활성화
+                tickvals: [65.42, 98.00, 130.81, 196.00, 261.63, 392.00, 523.25, 783.99],
+                ticktext: ['C2', 'G2', 'C3', 'G3', 'C4', 'G4', 'C5', 'G5']
+              },
+            }}
+            datarevision={state.revision}
+            onClick={handleOnClick}
+          />
+        }
     </div>
   );
 }

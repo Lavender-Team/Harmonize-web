@@ -47,10 +47,14 @@ export default function AnalyzeMusic() {
   const [selectedMusic, setSelectedMusic] = React.useState<Music | null>(null); // 선택된 음악
   const [recentMusics, setRecentMusics] = React.useState<Music[]>([]); // 최근 100개 음악 목록
 
+  const [audioSrc, setAudioSrc] = React.useState('');
+  const [pitchGraphSrc, setPitchGraphSrc] = React.useState('');
+  const [refresh, setRefresh] = React.useState(false); // 새로고침 누를 시 음높이 그래프 갱신용
+
   // input file trigger를 위한 ref
   const audioRef = React.useRef<HTMLInputElement>(null);
   const lyricRef = React.useRef<HTMLInputElement>(null);
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const confidenceRef = React.useRef<HTMLInputElement>(null);
 
   // 처음 로딩 시 음악 선택 후보로 최근 음악 목록을 가져옴
   React.useEffect(() => {
@@ -101,7 +105,26 @@ export default function AnalyzeMusic() {
         lyricFile: null,
         lyrics: res.lyrics ? res.lyrics : '',
       });
+      setAudioSrc(res.audioFile);
+      setPitchGraphSrc(`/api/music/pitch/${musicId}`);
+      setRefresh(!refresh)
     }
+  }
+
+  async function requestAnalysis() {
+    const response = await fetch(`/api/music/${music.id}/analyze?confidence=${confidenceRef.current?.value}`, {
+      method: 'POST'
+    });
+
+    if (response.ok) {
+      alert('분석 요청이 완료되었습니다.');
+    } else {
+      alert('분석 요청 중 오류가 발생하였습니다. (음악 파일 업로드 확인)');
+    }
+  }
+
+  const refreshMusic = () => {
+    fetchMusic(music.id)
   }
 
   // 유튜브 링크 저장
@@ -358,35 +381,42 @@ export default function AnalyzeMusic() {
               <p className='sectionTitle'>분석</p>
                 <div className='action' style={{ marginBottom: '12px' }}>
                   <Typography level='body-xs' sx={{ display: 'inline', mr: 1 }}>음계 예측 신뢰도</Typography>
-                  <Input type="number" defaultValue={0.9} slotProps={{ input: { ref: inputRef, min: 0.1, max: 1.0, step: 0.01, }, }}
+                  <Input type="number" defaultValue={0.8} slotProps={{ input: { ref: confidenceRef, min: 0.1, max: 1.0, step: 0.01, }, }}
                     sx={{ display: 'inline-block', verticalAlign: 'bottom', mr: 3 }}/>
-                  <Button variant="solid" color="primary">
+                  <Button variant="solid" color="primary" onClick={requestAnalysis}>
                     분석 요청
                   </Button>
+                  <Button variant="outlined" color="primary" onClick={refreshMusic} sx={{ ml: '12px' }}>
+                    새로고침
+                  </Button>
                 </div>
-                <PitchGraph src={'/api/sample.xlsx'} enabled={false} seek={(time: number) => { handleSeekChange(time, audioPlayRef) }} />
-                <audio
-                  ref={audioPlayRef}
-                  src="/api/sample.wav"
-                  controls={true}
-                  style={{ width: '100%', maxWidth: '1000px', height: '40px', marginTop: '12px' }}
-                ></audio>
-                <div>
-                  <div className='item analysis'>
-                    <div><span>최고음</span><Typography level="title-sm">A4</Typography></div>
-                    <div><span>고음 비율</span><Typography level="title-sm">22%</Typography></div>
-                    <div><span>고음 지속</span><Typography level="title-sm">10초</Typography></div>
-                  </div>
-                  <div className='item analysis'>
-                    <div><span>최저음</span><Typography level="title-sm">D2</Typography></div>
-                    <div><span>저음 비율</span><Typography level="title-sm">0%</Typography></div>
-                    <div><span>저음 지속</span><Typography level="title-sm">0초</Typography></div>
-                  </div>
-                  <div className='item analysis'>
-                    <div><span>난이도</span><Typography level="title-sm">3</Typography></div>
-                    <div><span>급격한 음 변화</span><Typography level="title-sm">3회</Typography></div>
-                  </div>
-                </div>
+                <PitchGraph src={pitchGraphSrc} status={music.status} seek={(time: number) => { handleSeekChange(time, audioPlayRef) }} refresh={refresh} />
+                {
+                  (music.status === 'COMPLETE') && <>
+                    <audio
+                      ref={audioPlayRef}
+                      src={audioSrc}
+                      controls={true}
+                      style={{ width: '100%', maxWidth: '1000px', height: '40px', marginTop: '12px' }}
+                    ></audio>
+                    <div>
+                      <div className='item analysis'>
+                        <div><span>최고음</span><Typography level="title-sm">A4</Typography></div>
+                        <div><span>고음 비율</span><Typography level="title-sm">22%</Typography></div>
+                        <div><span>고음 지속</span><Typography level="title-sm">10초</Typography></div>
+                      </div>
+                      <div className='item analysis'>
+                        <div><span>최저음</span><Typography level="title-sm">D2</Typography></div>
+                        <div><span>저음 비율</span><Typography level="title-sm">0%</Typography></div>
+                        <div><span>저음 지속</span><Typography level="title-sm">0초</Typography></div>
+                      </div>
+                      <div className='item analysis'>
+                        <div><span>난이도</span><Typography level="title-sm">3</Typography></div>
+                        <div><span>급격한 음 변화</span><Typography level="title-sm">3회</Typography></div>
+                      </div>
+                    </div>
+                  </>
+                }
             </Box>
           </div>
         </Box>
