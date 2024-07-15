@@ -23,6 +23,7 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import OpenInNew from '@mui/icons-material/OpenInNew';
 
 import { Music } from 'TYPES';
+import { getNoteFromFrequency } from '../../libs/Converter';
 import './music.css';
 
 export default function AnalyzeMusic() {
@@ -213,15 +214,6 @@ export default function AnalyzeMusic() {
     }
   };
 
-  /* 오디오 재생 관련 */
-  const audioPlayRef = React.useRef(null);
-
-  // 오디오 재생 위치 변경
-  const handleSeekChange = (time: number, audioPlayRef: React.RefObject<HTMLAudioElement>) => {
-    if (!audioPlayRef.current) return;
-    audioPlayRef.current.currentTime = time;
-  };
-
 
   return (
     <CssVarsProvider disableTransitionOnChange>
@@ -390,33 +382,7 @@ export default function AnalyzeMusic() {
                     새로고침
                   </Button>
                 </div>
-                <PitchGraph src={pitchGraphSrc} status={music.status} seek={(time: number) => { handleSeekChange(time, audioPlayRef) }} refresh={refresh} />
-                {
-                  (music.status === 'COMPLETE') && <>
-                    <audio
-                      ref={audioPlayRef}
-                      src={audioSrc}
-                      controls={true}
-                      style={{ width: '100%', maxWidth: '1000px', height: '40px', marginTop: '12px' }}
-                    ></audio>
-                    <div>
-                      <div className='item analysis'>
-                        <div><span>최고음</span><Typography level="title-sm">A4</Typography></div>
-                        <div><span>고음 비율</span><Typography level="title-sm">22%</Typography></div>
-                        <div><span>고음 지속</span><Typography level="title-sm">10초</Typography></div>
-                      </div>
-                      <div className='item analysis'>
-                        <div><span>최저음</span><Typography level="title-sm">D2</Typography></div>
-                        <div><span>저음 비율</span><Typography level="title-sm">0%</Typography></div>
-                        <div><span>저음 지속</span><Typography level="title-sm">0초</Typography></div>
-                      </div>
-                      <div className='item analysis'>
-                        <div><span>난이도</span><Typography level="title-sm">3</Typography></div>
-                        <div><span>급격한 음 변화</span><Typography level="title-sm">3회</Typography></div>
-                      </div>
-                    </div>
-                  </>
-                }
+                <PitchGraph musicId={music.id} src={pitchGraphSrc} status={music.status} refresh={refresh} audioSrc={audioSrc} />
             </Box>
           </div>
         </Box>
