@@ -24,8 +24,8 @@ export const fetchPitchGraph = async (url) => {
         const pitch = [];
         for (const row of jsonData) {
             time[row.index] = row.time;
-            if (row.pitch_point !== 0)
-                pitch[row.index] = row.pitch_point;
+            if (row.pitch !== 0)
+                pitch[row.index] = row.pitch;
             else
                 pitch[row.index] = null;
         }

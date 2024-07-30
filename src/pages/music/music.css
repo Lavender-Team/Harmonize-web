@@ -127,7 +127,7 @@ ul[role="listbox"] {
 .music .analysis>div {
     display: inline-flex;
     justify-content: space-between;
-    width: 160px;
+    width: 200px;
 }
 .music .analysis>div>span {
     display: inline-block;

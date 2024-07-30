@@ -83,8 +83,19 @@ function PitchGraph({ musicId, status, src, refresh, audioSrc }) {
       playSoundFromFrequency(pitch, 500);
   }
 
-  const deletePoint = () => {
-    alert('TODO 삭제 기능 구현 필요')
+  const deletePoint = async () => {
+    if (!selectedTimeRef.current.innerText)
+      return;
+
+    const response = await fetch(`/api/music/${musicId}/delete?time=${selectedTimeRef.current.innerText}`, {
+      method: 'POST'
+    });
+
+    if (response.ok) {
+      alert('삭제 요청이 완료되었습니다. (몇 초 소요됨)');
+    } else {
+      alert('삭제 요청 중 오류가 발생하였습니다.');
+    }
   }
   
 
@@ -142,12 +153,16 @@ function PitchGraph({ musicId, status, src, refresh, audioSrc }) {
           <div style={{ display: 'flex', maxWidth: '1000px' }}>
             <div>
               <div className='item analysis'>
-                <div><span>최고음</span><Typography level="title-sm">{(analysis.highestPitch) ? getNoteFromFrequency(analysis.highestPitch) : '-'}</Typography></div>
+                <div><span>최고음</span><Typography level="title-sm">
+                  {(analysis.highestPitch) ? getNoteFromFrequency(analysis.highestPitch) + ` (${analysis.highestPitch.toFixed(2)})` : '-'}
+                </Typography></div>
                 <div><span>고음 비율</span><Typography level="title-sm">-%</Typography></div>
                 <div><span>고음 지속</span><Typography level="title-sm">-초</Typography></div>
               </div>
               <div className='item analysis'>
-                <div><span>최저음</span><Typography level="title-sm">{(analysis.lowestPitch) ? getNoteFromFrequency(analysis.lowestPitch) : '-'}</Typography></div>
+                <div><span>최저음</span><Typography level="title-sm">
+                  {(analysis.lowestPitch) ? getNoteFromFrequency(analysis.lowestPitch) + ` (${analysis.lowestPitch.toFixed(2)})` : '-'}  
+                </Typography></div>
                 <div><span>저음 비율</span><Typography level="title-sm">-%</Typography></div>
                 <div><span>저음 지속</span><Typography level="title-sm">-초</Typography></div>
               </div>
