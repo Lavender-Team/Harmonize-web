@@ -19,6 +19,7 @@ const rows_def: Music[] = [
     artist: '-',
     status: '-',
     genre: '-',
+    albumCover: '',
     view: 0,
     likes: 0,
     themes: []

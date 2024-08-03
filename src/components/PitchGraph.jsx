@@ -36,6 +36,8 @@ function PitchGraph({ musicId, status, src, refresh, audioSrc }) {
   }
 
   const updateMusicAnalysis = async (musicId) => {
+    if (!musicId || musicId === -1) return;
+
     const response = await fetch(`/api/music/${musicId}`);
 
     if (response.ok) {

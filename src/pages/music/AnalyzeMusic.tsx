@@ -89,6 +89,8 @@ export default function AnalyzeMusic() {
   }
 
   async function fetchMusic(musicId: number) {
+    if (!musicId || musicId === -1) return;
+
     const response = await fetch(`/api/music/${musicId}`);
 
     if (response.ok) {

@@ -17,6 +17,7 @@ const rows_def: Music[] = [
     artist: '-',
     status: '-',
     genre: '-',
+    albumCover: '',
     view: 0,
     likes: 0,
     themes: []
@@ -31,7 +32,6 @@ export default function MusicManage() {
   const [totalPages, setTotalPages] = React.useState(10);
 
   React.useEffect(() => {
-    setRows(rows_def);
     fetchMusicList(currentPage, 12);
   }, [currentPage]);
 

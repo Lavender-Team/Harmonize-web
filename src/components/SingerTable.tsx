@@ -1,20 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import * as React from 'react';
-import { ColorPaletteProp } from '@mui/joy/styles';
+import { Link as RouterLink } from 'react-router-dom';
 import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
-import Chip from '@mui/joy/Chip';
 import Divider from '@mui/joy/Divider';
 import FormControl from '@mui/joy/FormControl';
-import FormLabel from '@mui/joy/FormLabel';
 import Link from '@mui/joy/Link';
 import Input from '@mui/joy/Input';
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import ModalClose from '@mui/joy/ModalClose';
-import Select from '@mui/joy/Select';
-import Option from '@mui/joy/Option';
 import Table from '@mui/joy/Table';
 import Sheet from '@mui/joy/Sheet';
 import Checkbox from '@mui/joy/Checkbox';
@@ -28,195 +24,11 @@ import Dropdown from '@mui/joy/Dropdown';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import BlockIcon from '@mui/icons-material/Block';
-import AutorenewRoundedIcon from '@mui/icons-material/AutorenewRounded';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 
-const rows = [
-  {
-    id: 'INV-1234',
-    date: 'Feb 3, 2023',
-    status: 'Refunded',
-    customer: {
-      initial: 'O',
-      name: 'Olivia Ryhe',
-      email: 'olivia@email.com',
-    },
-  },
-  {
-    id: 'INV-1233',
-    date: 'Feb 3, 2023',
-    status: 'Paid',
-    customer: {
-      initial: 'S',
-      name: 'Steve Hampton',
-      email: 'steve.hamp@email.com',
-    },
-  },
-  {
-    id: 'INV-1232',
-    date: 'Feb 3, 2023',
-    status: 'Refunded',
-    customer: {
-      initial: 'C',
-      name: 'Ciaran Murray',
-      email: 'ciaran.murray@email.com',
-    },
-  },
-  {
-    id: 'INV-1231',
-    date: 'Feb 3, 2023',
-    status: 'Refunded',
-    customer: {
-      initial: 'M',
-      name: 'Maria Macdonald',
-      email: 'maria.mc@email.com',
-    },
-  },
-  {
-    id: 'INV-1230',
-    date: 'Feb 3, 2023',
-    status: 'Cancelled',
-    customer: {
-      initial: 'C',
-      name: 'Charles Fulton',
-      email: 'fulton@email.com',
-    },
-  },
-  {
-    id: 'INV-1229',
-    date: 'Feb 3, 2023',
-    status: 'Cancelled',
-    customer: {
-      initial: 'J',
-      name: 'Jay Hooper',
-      email: 'hooper@email.com',
-    },
-  },
-  {
-    id: 'INV-1228',
-    date: 'Feb 3, 2023',
-    status: 'Refunded',
-    customer: {
-      initial: 'K',
-      name: 'Krystal Stevens',
-      email: 'k.stevens@email.com',
-    },
-  },
-  {
-    id: 'INV-1227',
-    date: 'Feb 3, 2023',
-    status: 'Paid',
-    customer: {
-      initial: 'S',
-      name: 'Sachin Flynn',
-      email: 's.flyn@email.com',
-    },
-  },
-  {
-    id: 'INV-1226',
-    date: 'Feb 3, 2023',
-    status: 'Cancelled',
-    customer: {
-      initial: 'B',
-      name: 'Bradley Rosales',
-      email: 'brad123@email.com',
-    },
-  },
-  {
-    id: 'INV-1225',
-    date: 'Feb 3, 2023',
-    status: 'Paid',
-    customer: {
-      initial: 'O',
-      name: 'Olivia Ryhe',
-      email: 'olivia@email.com',
-    },
-  },
-  {
-    id: 'INV-1224',
-    date: 'Feb 3, 2023',
-    status: 'Cancelled',
-    customer: {
-      initial: 'S',
-      name: 'Steve Hampton',
-      email: 'steve.hamp@email.com',
-    },
-  },
-  {
-    id: 'INV-1223',
-    date: 'Feb 3, 2023',
-    status: 'Paid',
-    customer: {
-      initial: 'C',
-      name: 'Ciaran Murray',
-      email: 'ciaran.murray@email.com',
-    },
-  },
-  {
-    id: 'INV-1221',
-    date: 'Feb 3, 2023',
-    status: 'Refunded',
-    customer: {
-      initial: 'M',
-      name: 'Maria Macdonald',
-      email: 'maria.mc@email.com',
-    },
-  },
-  {
-    id: 'INV-1220',
-    date: 'Feb 3, 2023',
-    status: 'Paid',
-    customer: {
-      initial: 'C',
-      name: 'Charles Fulton',
-      email: 'fulton@email.com',
-    },
-  },
-  {
-    id: 'INV-1219',
-    date: 'Feb 3, 2023',
-    status: 'Cancelled',
-    customer: {
-      initial: 'J',
-      name: 'Jay Hooper',
-      email: 'hooper@email.com',
-    },
-  },
-  {
-    id: 'INV-1218',
-    date: 'Feb 3, 2023',
-    status: 'Cancelled',
-    customer: {
-      initial: 'K',
-      name: 'Krystal Stevens',
-      email: 'k.stevens@email.com',
-    },
-  },
-  {
-    id: 'INV-1217',
-    date: 'Feb 3, 2023',
-    status: 'Paid',
-    customer: {
-      initial: 'S',
-      name: 'Sachin Flynn',
-      email: 's.flyn@email.com',
-    },
-  },
-  {
-    id: 'INV-1216',
-    date: 'Feb 3, 2023',
-    status: 'Cancelled',
-    customer: {
-      initial: 'B',
-      name: 'Bradley Rosales',
-      email: 'brad123@email.com',
-    },
-  },
-];
+import { Singer } from 'TYPES';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -242,7 +54,7 @@ function getComparator<Key extends keyof any>(
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-function RowMenu() {
+function RowMenu({ singerId, deleteSinger }: { singerId: number, deleteSinger: (singerId: number) => void }) {
   return (
     <Dropdown>
       <MenuButton
@@ -252,15 +64,41 @@ function RowMenu() {
         <MoreHorizRoundedIcon />
       </MenuButton>
       <Menu size="sm" sx={{ minWidth: 140 }}>
-        <MenuItem>가수 정보 편집</MenuItem>
+        <MenuItem component={RouterLink} to={"/singer-manage/edit/"+singerId}>가수 정보 편집</MenuItem>
         <Divider />
-        <MenuItem color="danger">가수 삭제</MenuItem>
+        <MenuItem color="danger" onClick={() => { deleteSinger(singerId) }}>가수 삭제</MenuItem>
       </Menu>
     </Dropdown>
   );
 }
 
-export default function OrderTable() {
+function getPageStringList(currentPage: number, totalPages: number) {
+  const pageList = [currentPage];
+  let left = currentPage - 1;
+  let right = currentPage + 1;
+
+  while (pageList.length < 5 && (left > 0 || right <= totalPages)) {
+    if (left > 0) {
+      pageList.unshift(left);
+      left -= 1;
+    }
+    if (pageList.length < 5 && right <= totalPages) {
+      pageList.push(right);
+      right += 1;
+    }
+  }
+
+  return pageList;
+}
+
+export default function SingerTable({ rows, currentPage, totalElements, totalPages, setCurrentPage, deleteSinger }: {
+  rows: Singer[];
+  currentPage: number;
+  totalElements: number;
+  totalPages: number;
+  setCurrentPage: (page: number) => void;
+  deleteSinger: (singerId: number) => void;
+}) {
   const [order, setOrder] = React.useState<Order>('desc');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [open, setOpen] = React.useState(false);
@@ -268,6 +106,7 @@ export default function OrderTable() {
     <React.Fragment>
     </React.Fragment>
   );
+
   return (
     <React.Fragment>
       <Sheet
@@ -312,16 +151,17 @@ export default function OrderTable() {
         className="SearchAndFilters-tabletUp"
         sx={{
           borderRadius: 'sm',
-          py: 2,
+          py: '-4px',
           display: { xs: 'none', sm: 'flex' },
           flexWrap: 'wrap',
           gap: 1.5,
+          justifyContent: 'flex-end',
           '& > *': {
             minWidth: { xs: '120px', md: '160px' },
           },
         }}
       >
-        <FormControl sx={{ flex: 1 }} size="sm">
+        <FormControl sx={{ width: 380 }} size="sm">
           <Input size="sm" placeholder="가수 검색" startDecorator={<SearchIcon />} />
         </FormControl>
         {renderFilters()}
@@ -361,7 +201,7 @@ export default function OrderTable() {
                   checked={selected.length === rows.length}
                   onChange={(event) => {
                     setSelected(
-                      event.target.checked ? rows.map((row) => row.id) : [],
+                      event.target.checked ? rows.map((row) => row.id.toString()) : [],
                     );
                   }}
                   color={
@@ -372,7 +212,7 @@ export default function OrderTable() {
                   sx={{ verticalAlign: 'text-bottom' }}
                 />
               </th>
-              <th style={{ width: 120, padding: '12px 6px' }}>
+              <th style={{ width: 80, padding: '12px 6px' }}>
                 <Link
                   underline="none"
                   color="primary"
@@ -391,10 +231,12 @@ export default function OrderTable() {
                   ID
                 </Link>
               </th>
-              <th style={{ width: 140, padding: '12px 6px' }}>가수 이름</th>
-              <th style={{ width: 140, padding: '12px 6px' }}>성별</th>
-              <th style={{ width: 240, padding: '12px 6px' }}>유형</th>
-              <th style={{ width: 140, padding: '12px 6px' }}>편집</th>
+              <th style={{ width: 200, padding: '12px 6px' }}>이름</th>
+              <th style={{ width: 80, padding: '12px 6px' }}>성별</th>
+              <th style={{ width: 100, padding: '12px 6px' }}>국적</th>
+              <th style={{ width: 140, padding: '12px 6px' }}>소속사</th>
+              <th style={{ width: 240, padding: '12px 6px' }}>활동년대</th>
+              <th style={{ width: 100, padding: '12px 6px' }}>편집</th>
             </tr>
           </thead>
           <tbody>
@@ -403,13 +245,13 @@ export default function OrderTable() {
                 <td style={{ textAlign: 'center', width: 120 }}>
                   <Checkbox
                     size="sm"
-                    checked={selected.includes(row.id)}
-                    color={selected.includes(row.id) ? 'primary' : undefined}
+                    checked={selected.includes(row.id.toString())}
+                    color={selected.includes(row.id.toString()) ? 'primary' : undefined}
                     onChange={(event) => {
                       setSelected((ids) =>
                         event.target.checked
-                          ? ids.concat(row.id)
-                          : ids.filter((itemId) => itemId !== row.id),
+                          ? ids.concat(row.id.toString())
+                          : ids.filter((itemId) => itemId !== row.id.toString()),
                       );
                     }}
                     slotProps={{ checkbox: { sx: { textAlign: 'left' } } }}
@@ -420,42 +262,30 @@ export default function OrderTable() {
                   <Typography level="body-xs">{row.id}</Typography>
                 </td>
                 <td>
-                  <Typography level="body-xs">{row.date}</Typography>
+                  <Link component={RouterLink} to={"/singer-manage/edit/"+row.id}>
+                    <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+                      <Avatar size="sm" src={row.profileImage}></Avatar>
+                      <div>
+                        <Typography level="title-sm">{row.artistName}</Typography>
+                      </div>
+                    </Box>
+                  </Link>
                 </td>
                 <td>
-                  <Chip
-                    variant="soft"
-                    size="sm"
-                    startDecorator={
-                      {
-                        Paid: <CheckRoundedIcon />,
-                        Refunded: <AutorenewRoundedIcon />,
-                        Cancelled: <BlockIcon />,
-                      }[row.status]
-                    }
-                    color={
-                      {
-                        Paid: 'success',
-                        Refunded: 'neutral',
-                        Cancelled: 'danger',
-                      }[row.status] as ColorPaletteProp
-                    }
-                  >
-                    {row.status}
-                  </Chip>
+                  <Typography level="body-sm">{row.gender}</Typography>
+                </td>
+                <td>
+                  <Typography level="body-sm">{row.nation}</Typography>
+                </td>
+                <td>
+                  <Typography level="body-sm">{row.agency}</Typography>
+                </td>
+                <td>
+                  <Typography level="body-sm">{row.activityPeriod}</Typography>
                 </td>
                 <td>
                   <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                    <Avatar size="sm">{row.customer.initial}</Avatar>
-                    <div>
-                      <Typography level="body-xs">{row.customer.name}</Typography>
-                      <Typography level="body-xs">{row.customer.email}</Typography>
-                    </div>
-                  </Box>
-                </td>
-                <td>
-                  <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-                    <RowMenu />
+                    <RowMenu singerId={row.id} deleteSinger={deleteSinger} />
                   </Box>
                 </td>
               </tr>
@@ -475,36 +305,44 @@ export default function OrderTable() {
           },
         }}
       >
+        <Box sx={{ flex: 1, position: 'relative' }}>
+          <Typography level="body-sm" sx={{ position: 'absolute' }}>
+            전체 {totalElements}개, {currentPage}/{totalPages} 페이지
+          </Typography>
+        </Box>
+
         <Button
           size="sm"
           variant="outlined"
           color="neutral"
           startDecorator={<KeyboardArrowLeftIcon />}
+          onClick={() => { if (1 <= currentPage - 1) setCurrentPage(currentPage - 1); }}
         >
-          Previous
+          이전
         </Button>
-
-        <Box sx={{ flex: 1 }} />
-        {['1', '2', '3', '…', '8', '9', '10'].map((page) => (
+        <Box sx={{ width: 4 }} />
+        {getPageStringList(currentPage, totalPages).map((page) => (
           <IconButton
             key={page}
             size="sm"
-            variant={Number(page) ? 'outlined' : 'plain'}
+            variant={page === currentPage ? 'solid' : 'outlined'}
             color="neutral"
+            onClick={() => { setCurrentPage(page); }}
           >
             {page}
           </IconButton>
         ))}
-        <Box sx={{ flex: 1 }} />
-
+        <Box sx={{ width: 4 }} />
         <Button
           size="sm"
           variant="outlined"
           color="neutral"
           endDecorator={<KeyboardArrowRightIcon />}
+          onClick={() => { if (currentPage + 1 <= totalPages) setCurrentPage(currentPage + 1); }}
         >
-          Next
+          다음
         </Button>
+        <Box sx={{ flex: 1 }} />
       </Box>
     </React.Fragment>
   );

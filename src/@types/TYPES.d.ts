@@ -6,8 +6,19 @@ declare module "TYPES" {
         artist: string;
         genre: string;
         status: string;
+        albumCover: string;
         view: number;
         likes: number;
         themes: string[];
+    };
+
+    export type Singer = {
+        id: number;
+        artistName: string;
+        gender: string;
+        nation: string;
+        agency: string;
+        activityPeriod: string;
+        profileImage: string;
     };
 }

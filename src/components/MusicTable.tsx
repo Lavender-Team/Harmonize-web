@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { ColorPaletteProp } from '@mui/joy/styles';
+import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import Chip from '@mui/joy/Chip';
@@ -94,7 +95,6 @@ function getPageStringList(currentPage: number, totalPages: number) {
   }
 
   return pageList;
-
 }
 
 export default function MusicTable({ rows, currentPage, totalElements, totalPages, setCurrentPage, deleteMusic }: {
@@ -238,9 +238,9 @@ export default function MusicTable({ rows, currentPage, totalElements, totalPage
                   ID
                 </Link>
               </th>
-              <th style={{ width: 200, padding: '12px 6px' }}>제목</th>
+              <th style={{ width: 220, padding: '12px 6px' }}>제목</th>
               <th style={{ width: 100, padding: '12px 6px' }}>가수</th>
-              <th style={{ width: 100, padding: '12px 6px' }}>장르</th>
+              <th style={{ width: 80, padding: '12px 6px' }}>장르</th>
               <th style={{ width: 100, padding: '12px 6px' }}>분석 상태</th>
               <th style={{ width: 80, padding: '12px 6px' }}>조회수</th>
               <th style={{ width: 80, padding: '12px 6px' }}>좋아요</th>
@@ -271,7 +271,12 @@ export default function MusicTable({ rows, currentPage, totalElements, totalPage
                 </td>
                 <td>
                   <Link component={RouterLink} to={"/music-manage/edit/"+row.id}>
-                    <Typography level="title-sm">{row.title}</Typography>
+                    <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+                      <Avatar size="sm" src={row.albumCover} sx={{ borderRadius: '4px' }}></Avatar>
+                      <div>
+                        <Typography level="title-sm">{row.title}</Typography>
+                      </div>
+                    </Box>
                   </Link>
                 </td>
                 <td>
