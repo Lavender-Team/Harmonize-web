@@ -15,6 +15,8 @@ import AnalyzeMusic from './pages/music/AnalyzeMusic';
 import SingerManage from './pages/singer/SingerManage';
 import AddSinger from './pages/singer/AddSinger';
 import EditSinger from './pages/singer/EditSinger';
+import AddGroup from './pages/group/AddGroup';
+import GroupManage from './pages/group/GroupManage';
 import ThemeManage from './pages/theme/ThemeManage';
 import ThemeMusicManage from './pages/theme/ThemeMusicManage';
 import ManageUsers from './ManageUsers';
@@ -45,14 +47,16 @@ export default function App() {
                 {isAuthenticated ? (
                   <>
                     <Route path="/admin-home" element={<AdminHome />} />
+                    <Route path="/add-music" element={<AddMusic />} />
+                    <Route path="/analyze-music" element={<AnalyzeMusic />} />
                     <Route path="/music-manage" element={<MusicManage />} />
                     <Route path="/music-manage/edit/:id" element={<EditMusic />} />
+                    <Route path="/add-music-bulk" element={<AddMusicBulk />} />
+                    <Route path="/add-singer" element={<AddSinger />} />
                     <Route path="/singer-manage" element={<SingerManage />} />
                     <Route path="/singer-manage/edit/:id" element={<EditSinger />} />
-                    <Route path="/add-music" element={<AddMusic />} />
-                    <Route path="/add-music-bulk" element={<AddMusicBulk />} />
-                    <Route path="/analyze-music" element={<AnalyzeMusic />} />
-                    <Route path="/add-singer" element={<AddSinger />} />
+                    <Route path="/add-group" element={<AddGroup />} />
+                    <Route path="/group-manage" element={<GroupManage />} />
                     <Route path="/theme-manage" element={<ThemeManage />} />
                     <Route path="/theme-manage/:themeName" element={<ThemeMusicManage />} />
                     <Route path="/user-manage" element={<ManageUsers />} />

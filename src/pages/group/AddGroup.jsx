@@ -11,38 +11,38 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
 import Button from "@mui/joy/Button";
 import Input from "@mui/joy/Input";
-import Select from "@mui/joy/Select";
-import Option from "@mui/joy/Option";
+import RadioGroup from "@mui/joy/RadioGroup";
+import Radio from "@mui/joy/Radio";
 
-import "./singer.css";
+import SingerSelector from "../../components/SingerSelector";
 
-const GENDERLIST = { 남성: "MALE", 여성: "FEMALE", 기타: "OTHER" };
+import "./group.css";
 
-export default function AddSinger() {
+export default function AddGroup() {
     const navigate = useNavigate();
 
-    const [singer, setSinger] = useState({
-        artistName: "",
-        gender: "",
-        activityPeriod: "",
-        nation: "",
-        agency: "",
+    const [group, setGroup] = useState({
+        groupName: '',
+        groupType: "솔로",
+        agency: '',
         profileImage: null,
         profileImageFile: null,
     });
 
+    const [members, setMembers] = useState([]);
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setSinger({
-            ...singer,
+        setGroup({
+            ...group,
             [name]: value,
         });
     };
 
-    const handleGenderChange = (value) => {
-        setSinger({
-            ...singer,
-            gender: value,
+    const handleGroupTypeChange = (value) => {
+        setGroup({
+            ...group,
+            groupType: value,
         });
     };
 
@@ -51,8 +51,8 @@ export default function AddSinger() {
         if (file) {
             const reader = new FileReader();
             reader.onload = () => {
-                setSinger({
-                    ...singer,
+                setGroup({
+                    ...group,
                     profileImage: reader.result,
                     profileImageFile: file,
                 });
@@ -61,63 +61,49 @@ export default function AddSinger() {
         }
     };
 
-    const isSingerValid = (singer) => {
+    const isGroupValid = (singer) => {
         if (
-            !singer.artistName ||
-            !singer.gender ||
-            !singer.activityPeriod ||
-            !singer.nation ||
-            !singer.agency ||
-            !singer.profileImage
+            !group.groupName ||
+            !group.agency ||
+            !group.profileImage ||
+            members.length === 0
         ) {
+            // TODO: 필수가 아닌 항목은 체크하지 않아도 되도록 수정
             return false;
         }
         return true;
     };
 
-    // 가수 등록 요청
-    const handleSingerSubmit = async () => {
-        if (!isSingerValid(singer)) {
-            alert("가수 정보를 모두 입력해주세요.");
+    // 그룹 등록 요청
+    const handleGroupSubmit = async () => {
+        if (!isGroupValid(group)) {
+            alert("그룹 정보를 모두 입력해주세요.");
             return;
         }
 
         let data = new FormData();
-        data.append("artistName", singer.artistName);
-        data.append("gender", singer.gender);
-        data.append("activityPeriod", singer.activityPeriod);
-        data.append("nation", singer.nation);
-        data.append("agency", singer.agency);
-        data.append("profileImage", singer.profileImageFile);
+        data.append("groupName", group.groupName);
+        data.append("groupType", (members.length === 1) ? 'SOLO' : 'GROUP');
+        data.append("agency", group.agency);
+        data.append("profileImage", group.profileImageFile);
+        data.append("artistIds", members.map((member) => member.id).toString());
 
         try {
-            const res = await fetch(`/api/artist`, {
+            const res = await fetch(`/api/group`, {
                 method: "POST",
                 credentials: "include",
                 body: data,
             });
 
             if (res.ok) {
-                navigate("/singer-manage");
+                navigate("/group-manage");
             } else {
                 const errorText = await res.text();
-                alert("가수 등록 중 오류가 발생하였습니다: " + errorText);
+                alert("그룹 등록 중 오류가 발생하였습니다: " + errorText);
             }
         } catch (error) {
-            alert("가수 등록 중 오류가 발생하였습니다: " + error.message);
+            alert("그룹 등록 중 오류가 발생하였습니다: " + error.message);
         }
-    };
-
-    const clearSinger = () => {
-        setSinger({
-            artistName: "",
-            gender: "",
-            activityPeriod: "",
-            nation: "",
-            agency: "",
-            profileImage: null,
-            profileImageFile: null,
-        });
     };
 
     return (
@@ -170,7 +156,7 @@ export default function AddSinger() {
                                 fontWeight={500}
                                 fontSize={12}
                             >
-                                가수 추가
+                                그룹 추가
                             </Typography>
                         </Breadcrumbs>
                     </Box>
@@ -183,15 +169,15 @@ export default function AddSinger() {
                         }}
                     >
                         <Typography level="h2" component="h1">
-                            가수 추가
+                            그룹 추가
                         </Typography>
 
-                        <div className="singer">
+                        <div className="group">
                             <div className="horizontal">
                                 <div>
                                     <div
                                         className={
-                                            singer.profileImage ? "none" : ""
+                                            group.profileImage ? "none" : ""
                                         }
                                     >
                                         <input
@@ -211,10 +197,10 @@ export default function AddSinger() {
                                             </span>
                                         </label>
                                     </div>
-                                    {singer.profileImage && (
+                                    {group.profileImage && (
                                         <label htmlFor="profileImage">
                                             <img
-                                                src={singer.profileImage}
+                                                src={group.profileImage}
                                                 alt="프로필 이미지"
                                                 className="preview"
                                             />
@@ -224,87 +210,74 @@ export default function AddSinger() {
                                 <div style={{ margin: "0 0 0 12px", paddingTop: '12px' }}>
                                     <Input
                                         type="text"
-                                        placeholder="가수 이름 입력"
-                                        name="artistName"
-                                        value={singer.artistName}
+                                        placeholder="그룹 이름 입력"
+                                        name="groupName"
+                                        value={group.groupName}
                                         onChange={handleInputChange}
                                         sx={{ width: 400 }}
                                     />
-                                </div>
-                            </div>
-                            <div className="section">
-                                <p className="sectionTitle">가수 정보</p>
-                                <div className="item">
-                                    <span>성별</span>
-                                    <Select
-                                        placeholder="성별 선택"
-                                        sx={{ width: 180 }}
-                                    >
-                                        {Object.keys(GENDERLIST).map(
-                                            (gender, index) => (
-                                                <Option
-                                                    key={index}
-                                                    value={gender}
-                                                    onClick={() => {
-                                                        handleGenderChange(
-                                                            GENDERLIST[gender]
-                                                        );
-                                                    }}
-                                                >
-                                                    {gender}
-                                                </Option>
-                                            )
-                                        )}
-                                    </Select>
-                                </div>
-                                <div className="item">
-                                    <span>활동 연대</span>
-                                    <Input
-                                        type="text"
-                                        placeholder="활동 연대 입력"
-                                        name="activityPeriod"
-                                        value={singer.activityPeriod}
-                                        onChange={handleInputChange}
-                                        sx={{ width: 180 }}
-                                    />
-                                </div>
-                                <div className="item">
-                                    <span>국적</span>
-                                    <Input
-                                        type="text"
-                                        placeholder="국적 입력"
-                                        name="nation"
-                                        value={singer.nation}
-                                        onChange={handleInputChange}
-                                        sx={{ width: 180 }}
-                                    />
-                                </div>
-                                <div className="item">
-                                    <span>소속사</span>
                                     <Input
                                         type="text"
                                         placeholder="소속사 입력"
                                         name="agency"
-                                        value={singer.agency}
+                                        value={group.agency}
                                         onChange={handleInputChange}
-                                        sx={{ width: 180 }}
+                                        sx={{ width: 220, mt: '12px' }}
                                     />
                                 </div>
                             </div>
+                            <div className="section">
+                                <RadioGroup
+                                    orientation="horizontal" name="groupType" value={group.groupType}
+                                    onChange={ (event) => handleGroupTypeChange(event.target.value) }
+                                    sx={{
+                                        display: 'inline-flex',
+                                        minHeight: 48,
+                                        padding: '4px',
+                                        borderRadius: '12px',
+                                        bgcolor: 'neutral.softBg',
+                                        '--RadioGroup-gap': '4px',
+                                        '--Radio-actionRadius': '8px',
+                                    }}
+                                    >
+                                    {['솔로', '그룹'].map((item) => (
+                                        <Radio key={item} color="neutral" value={item} disableIcon label={item} variant="plain"
+                                        sx={{
+                                            px: 6,
+                                            alignItems: 'center',
+                                            fontSize: '14px',
+                                        }}
+                                        slotProps={{
+                                            action: ({ checked }) => ({
+                                            sx: {
+                                                ...(checked && {
+                                                bgcolor: 'background.surface',
+                                                boxShadow: 'sm',
+                                                '&:hover': {
+                                                    bgcolor: 'background.surface',
+                                                },
+                                                }),
+                                            },
+                                            }),
+                                        }}
+                                        />
+                                    ))}
+                                </RadioGroup>
+                                <Box sx={{ maxWidth: '1000px' }}>
+                                    <SingerSelector
+                                        multiple={(group.groupType === '그룹')}
+                                        members={members}
+                                        setMembers={setMembers}
+                                    />
+                                </Box>
+                            </div>
                             <div className="action">
                                 <Button
-                                    variant="outlined"
-                                    onClick={clearSinger}
-                                    sx={{ width: 80, height: 40, mr: "12px" }}
-                                >
-                                    초기화
-                                </Button>
-                                <Button
                                     variant="solid"
-                                    onClick={handleSingerSubmit}
+                                    onClick={handleGroupSubmit}
                                     sx={{ width: 120, height: 40 }}
                                 >
-                                    가수 추가
+                                    그룹 추가
                                 </Button>
                             </div>
                         </div>

@@ -185,6 +185,16 @@ export default function Sidebar({ onLogout }: { onLogout: () => void }) {
                     가수 관리
                   </ListItemButton>
                 </ListItem>
+                <ListItem>
+                  <ListItemButton component={Link} to="/add-group">
+                    그룹 추가
+                  </ListItemButton>
+                </ListItem>
+                <ListItem>
+                  <ListItemButton component={Link} to="/group-manage">
+                    그룹 관리
+                  </ListItemButton>
+                </ListItem>
               </List>
             </Toggler>
           </ListItem>

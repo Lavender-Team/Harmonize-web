@@ -21,4 +21,14 @@ declare module "TYPES" {
         activityPeriod: string;
         profileImage: string;
     };
+
+    export type Group = {
+        id: number;
+        groupName: string;
+        groupType: string;
+        groupSize: number;
+        agency: string;
+        profileImage: string;
+        members: Singer[];
+    }
 }
