@@ -14,7 +14,7 @@ import Input from "@mui/joy/Input";
 import RadioGroup from "@mui/joy/RadioGroup";
 import Radio from "@mui/joy/Radio";
 
-import SingerSelector from "../../components/SingerSelector";
+import SingerGroupSelector from "../../components/SingerGroupSelector";
 
 import "./group.css";
 
@@ -264,7 +264,7 @@ export default function AddGroup() {
                                     ))}
                                 </RadioGroup>
                                 <Box sx={{ maxWidth: '1000px' }}>
-                                    <SingerSelector
+                                    <SingerGroupSelector
                                         multiple={(group.groupType === '그룹')}
                                         members={members}
                                         setMembers={setMembers}

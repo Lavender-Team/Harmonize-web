@@ -16,7 +16,7 @@ import Radio from "@mui/joy/Radio";
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 
-import SingerSelector from "../../components/SingerSelector";
+import SingerGroupSelector from "../../components/SingerGroupSelector";
 import "./group.css";
 
 export default function EditGroup() {
@@ -226,7 +226,7 @@ export default function EditGroup() {
                     ))}
                 </RadioGroup>
                 <Box sx={{ maxWidth: '1000px' }}>
-                    <SingerSelector
+                    <SingerGroupSelector
                         multiple={(group.groupType === '그룹')}
                         members={members}
                         setMembers={setMembers}

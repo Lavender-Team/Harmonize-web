@@ -18,6 +18,7 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 
+import GroupSelector from '../../components/GroupSelector';
 import './music.css';
 
 const GENRELIST = { '가요': 'KPOP', '팝송': 'POP', '발라드': 'BALLADE', '랩/힙합': 'RAP', '댄스':
@@ -48,6 +49,8 @@ export default function EditMusic() {
     albumCoverFile: null
   });
 
+  const [group, setGroup] = useState();
+  const [query, setQuery] = useState('');
   const [themeList, setThemeList] = useState([]);
 
   useEffect(() => {
@@ -71,6 +74,8 @@ export default function EditMusic() {
         view: res.view,
         likes: res.likes
       });
+      if (res.artist !== '-')
+        setQuery(res.artist);
     }
   }
 
@@ -140,6 +145,9 @@ export default function EditMusic() {
     data.append('karaokeNum', music.karaokeNum);
     data.append('albumCover', music.albumCoverFile);
     data.append('themes', music.themes.map(theme => theme.label).join(','));
+    if (group) {
+      data.append('groupId', group.id);
+    }
 
     const res = await fetch(`/api/music/${id}`, {
         method: 'PUT',
@@ -216,7 +224,7 @@ export default function EditMusic() {
                 </div>
                 <div style={{ margin: "0 0 0 12px" }}>
                   <Input type="text" placeholder="음악 제목 입력" name="title" value={music.title} onChange={handleInputChange} sx={{ width: 400 }}/>
-                  <Input type="text" placeholder="가수 선택" sx={{ width: 400, mt: "12px" }}/>
+                  <GroupSelector setGroup={setGroup} query={query} setQuery={setQuery} />
                 </div>
               </div>
               <div className='section'>

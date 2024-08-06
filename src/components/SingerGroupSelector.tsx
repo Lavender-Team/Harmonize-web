@@ -18,7 +18,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import { Singer } from 'TYPES';
 import { func } from 'joi';
 
-export default function SingerSelector({ multiple, members, setMembers }:
+export default function SingerGroupSelector({ multiple, members, setMembers }:
   {
     multiple: boolean,
     members: Singer[],

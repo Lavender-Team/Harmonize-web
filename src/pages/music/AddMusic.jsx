@@ -15,6 +15,7 @@ import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import Autocomplete from '@mui/joy/Autocomplete';
 
+import GroupSelector from '../../components/GroupSelector';
 import './music.css';
 
 const GENRELIST = { '가요': 'KPOP', '팝송': 'POP', '발라드': 'BALLADE', '랩/힙합': 'RAP', '댄스':
@@ -34,29 +35,13 @@ export default function AddMusic() {
     albumCoverFile: null
   });
 
-  const [groupQuery, setGroupQuery] = useState('');
-  const [groupList, setGroupList] = useState([]);
+  const [group, setGroup] = useState();
+  const [query, setQuery] = useState('');
   const [themeList, setThemeList] = useState([]);
 
   useEffect(() => {
     fetchThemeList();
-    fetchGroupList();
   }, []);
-
-  useEffect(() => {
-    fetchGroupList();
-  }, [groupQuery]);
-
-  async function fetchGroupList() {
-    const response = await fetch(`/api/group?page=0&size=10&groupName=${groupQuery}`);
-
-    if (response.ok) {
-      const res = await response.json();
-      setGroupList(res.content);
-    } else {
-      console.error('Failed to fetch group list');
-    }
-  }
 
   async function fetchThemeList() {
     const response = await fetch(`/api/music/theme?page=0&size=1000`);
@@ -125,6 +110,9 @@ export default function AddMusic() {
     data.append('karaokeNum', music.karaokeNum);
     data.append('albumCover', music.albumCoverFile);
     data.append('themes', music.themes.map(theme => theme.label).join(','));
+    if (group) {
+      data.append('groupId', group.id);
+    }
 
     const res = await fetch(`/api/music`, {
         method: 'POST',
@@ -208,7 +196,7 @@ export default function AddMusic() {
                 </div>
                 <div style={{ margin: "0 0 0 12px" }}>
                   <Input type="text" placeholder="음악 제목 입력" name="title" value={music.title} onChange={handleInputChange} sx={{ width: 400 }}/>
-                  <Input type="text" placeholder="가수 선택" sx={{ width: 400, mt: "12px" }}/>
+                  <GroupSelector setGroup={setGroup} query={query} setQuery={setQuery} />
                 </div>
               </div>
               <div className='section'>
