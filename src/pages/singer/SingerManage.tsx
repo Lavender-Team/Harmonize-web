@@ -29,13 +29,19 @@ export default function SingerManage() {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [totalElements, setTotalElements] = React.useState(0);
   const [totalPages, setTotalPages] = React.useState(10);
+  const [query, setQuery] = React.useState('');
 
   React.useEffect(() => {
     fetchSingerList(currentPage, 12);
   }, [currentPage]);
 
+  React.useEffect(() => {
+    setCurrentPage(1);
+    fetchSingerList(1, 12);
+  }, [query]);
+
   async function fetchSingerList(page: number, size: number) {
-    const response = await fetch(`/api/artist?page=${page-1}&size=${size}`);
+    const response = await fetch(`/api/artist?page=${page-1}&size=${size}&artistName=${query}`);
   
     if (response.ok) {
       const data = await response.json();
@@ -111,6 +117,8 @@ export default function SingerManage() {
               totalPages={totalPages}
               setCurrentPage={setCurrentPage}
               deleteSinger={deleteSinger}
+              query={query}
+              setQuery={setQuery}
             />
           </Box>
         </Box>

@@ -34,11 +34,29 @@ export default function AddMusic() {
     albumCoverFile: null
   });
 
+  const [groupQuery, setGroupQuery] = useState('');
+  const [groupList, setGroupList] = useState([]);
   const [themeList, setThemeList] = useState([]);
 
   useEffect(() => {
     fetchThemeList();
+    fetchGroupList();
   }, []);
+
+  useEffect(() => {
+    fetchGroupList();
+  }, [groupQuery]);
+
+  async function fetchGroupList() {
+    const response = await fetch(`/api/group?page=0&size=10&groupName=${groupQuery}`);
+
+    if (response.ok) {
+      const res = await response.json();
+      setGroupList(res.content);
+    } else {
+      console.error('Failed to fetch group list');
+    }
+  }
 
   async function fetchThemeList() {
     const response = await fetch(`/api/music/theme?page=0&size=1000`);

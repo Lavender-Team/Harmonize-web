@@ -30,13 +30,19 @@ export default function MusicManage() {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [totalElements, setTotalElements] = React.useState(0);
   const [totalPages, setTotalPages] = React.useState(10);
+  const [query, setQuery] = React.useState('');
 
   React.useEffect(() => {
     fetchMusicList(currentPage, 12);
   }, [currentPage]);
 
+  React.useEffect(() => {
+    setCurrentPage(1);
+    fetchMusicList(1, 12);
+  }, [query])
+
   async function fetchMusicList(page: number, size: number) {
-    const response = await fetch(`/api/music?page=${page-1}&size=${size}`);
+    const response = await fetch(`/api/music?page=${page-1}&size=${size}&title=${query}`);
   
     if (response.ok) {
       const data = await response.json();
@@ -113,6 +119,8 @@ export default function MusicManage() {
               totalPages={totalPages}
               setCurrentPage={setCurrentPage}
               deleteMusic={deleteMusic}
+              query={query}
+              setQuery={setQuery}
             />
           </Box>
         </Box>

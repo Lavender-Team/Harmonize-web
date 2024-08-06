@@ -64,7 +64,7 @@ function RowMenu({ groupId, deleteGroup }: { groupId: number, deleteGroup: (grou
         <MoreHorizRoundedIcon />
       </MenuButton>
       <Menu size="sm" sx={{ minWidth: 140 }}>
-        <MenuItem component={RouterLink} to={"/qroup-manage/edit/"+groupId}>그룹 정보 편집</MenuItem>
+        <MenuItem component={RouterLink} to={"/group-manage/edit/"+groupId}>그룹 정보 편집</MenuItem>
         <Divider />
         <MenuItem color="danger" onClick={() => { deleteGroup(groupId) }}>그룹 삭제</MenuItem>
       </Menu>
@@ -91,13 +91,15 @@ function getPageStringList(currentPage: number, totalPages: number) {
   return pageList;
 }
 
-export default function GroupTable({ rows, currentPage, totalElements, totalPages, setCurrentPage, deleteGroup }: {
+export default function GroupTable({ rows, currentPage, totalElements, totalPages, setCurrentPage, deleteGroup, query, setQuery }: {
   rows: Group[];
   currentPage: number;
   totalElements: number;
   totalPages: number;
   setCurrentPage: (page: number) => void;
   deleteGroup: (singerId: number) => void;
+  query: string;
+  setQuery: (query: string) => void;
 }) {
   const [order, setOrder] = React.useState<Order>('desc');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -162,7 +164,8 @@ export default function GroupTable({ rows, currentPage, totalElements, totalPage
         }}
       >
         <FormControl sx={{ width: 380 }} size="sm">
-          <Input size="sm" placeholder="그룹 검색" startDecorator={<SearchIcon />} />
+          <Input value={query} onChange={(e) => setQuery(e.target.value)}
+            size="sm" placeholder="그룹 검색" startDecorator={<SearchIcon />} />
         </FormControl>
         {renderFilters()}
       </Box>
@@ -212,7 +215,7 @@ export default function GroupTable({ rows, currentPage, totalElements, totalPage
                   sx={{ verticalAlign: 'text-bottom' }}
                 />
               </th>
-              <th style={{ width: 80, padding: '12px 6px' }}>
+              <th style={{ width: 60, padding: '12px 6px' }}>
                 <Link
                   underline="none"
                   color="primary"
@@ -233,9 +236,9 @@ export default function GroupTable({ rows, currentPage, totalElements, totalPage
               </th>
               <th style={{ width: 200, padding: '12px 6px' }}>이름</th>
               <th style={{ width: 80, padding: '12px 6px' }}>솔로/그룹</th>
-              <th style={{ width: 100, padding: '12px 6px' }}>인원</th>
+              <th style={{ width: 80, padding: '12px 6px' }}>인원</th>
               <th style={{ width: 140, padding: '12px 6px' }}>소속사</th>
-              <th style={{ width: 240, padding: '12px 6px' }}>멤버</th>
+              <th style={{ width: 280, padding: '12px 6px' }}>멤버</th>
               <th style={{ width: 100, padding: '12px 6px' }}>편집</th>
             </tr>
           </thead>

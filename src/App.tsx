@@ -17,6 +17,7 @@ import AddSinger from './pages/singer/AddSinger';
 import EditSinger from './pages/singer/EditSinger';
 import AddGroup from './pages/group/AddGroup';
 import GroupManage from './pages/group/GroupManage';
+import EditGroup from './pages/group/EditGroup';
 import ThemeManage from './pages/theme/ThemeManage';
 import ThemeMusicManage from './pages/theme/ThemeMusicManage';
 import ManageUsers from './ManageUsers';
@@ -57,6 +58,7 @@ export default function App() {
                     <Route path="/singer-manage/edit/:id" element={<EditSinger />} />
                     <Route path="/add-group" element={<AddGroup />} />
                     <Route path="/group-manage" element={<GroupManage />} />
+                    <Route path="/group-manage/edit/:id" element={<EditGroup />} />
                     <Route path="/theme-manage" element={<ThemeManage />} />
                     <Route path="/theme-manage/:themeName" element={<ThemeMusicManage />} />
                     <Route path="/user-manage" element={<ManageUsers />} />

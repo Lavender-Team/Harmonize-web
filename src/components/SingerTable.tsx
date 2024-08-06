@@ -91,13 +91,15 @@ function getPageStringList(currentPage: number, totalPages: number) {
   return pageList;
 }
 
-export default function SingerTable({ rows, currentPage, totalElements, totalPages, setCurrentPage, deleteSinger }: {
+export default function SingerTable({ rows, currentPage, totalElements, totalPages, setCurrentPage, deleteSinger, query, setQuery }: {
   rows: Singer[];
   currentPage: number;
   totalElements: number;
   totalPages: number;
   setCurrentPage: (page: number) => void;
   deleteSinger: (singerId: number) => void;
+  query: string;
+  setQuery: (query: string) => void;
 }) {
   const [order, setOrder] = React.useState<Order>('desc');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -162,7 +164,8 @@ export default function SingerTable({ rows, currentPage, totalElements, totalPag
         }}
       >
         <FormControl sx={{ width: 380 }} size="sm">
-          <Input size="sm" placeholder="가수 검색" startDecorator={<SearchIcon />} />
+          <Input value={query} onChange={(e) => setQuery(e.target.value)}
+            size="sm" placeholder="가수 검색" startDecorator={<SearchIcon />} />
         </FormControl>
         {renderFilters()}
       </Box>

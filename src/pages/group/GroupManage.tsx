@@ -29,13 +29,19 @@ export default function GroupManage() {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [totalElements, setTotalElements] = React.useState(0);
   const [totalPages, setTotalPages] = React.useState(10);
+  const [query, setQuery] = React.useState('');
 
   React.useEffect(() => {
     fetchGroupList(currentPage, 12);
   }, [currentPage]);
 
+  React.useEffect(() => {
+    setCurrentPage(1);
+    fetchGroupList(1, 12);
+  }, [query]);
+
   async function fetchGroupList(page: number, size: number) {
-    const response = await fetch(`/api/group?page=${page-1}&size=${size}`);
+    const response = await fetch(`/api/group?page=${page-1}&size=${size}&groupName=${query}`);
   
     if (response.ok) {
       const data = await response.json();
@@ -111,6 +117,8 @@ export default function GroupManage() {
               totalPages={totalPages}
               setCurrentPage={setCurrentPage}
               deleteGroup={deleteGroup}
+              query={query}
+              setQuery={setQuery}
             />
           </Box>
         </Box>

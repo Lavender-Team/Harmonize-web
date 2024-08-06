@@ -97,13 +97,15 @@ function getPageStringList(currentPage: number, totalPages: number) {
   return pageList;
 }
 
-export default function MusicTable({ rows, currentPage, totalElements, totalPages, setCurrentPage, deleteMusic }: {
+export default function MusicTable({ rows, currentPage, totalElements, totalPages, setCurrentPage, deleteMusic, query, setQuery }: {
   rows: Music[];
   currentPage: number;
   totalElements: number;
   totalPages: number;
   setCurrentPage: (page: number) => void;
   deleteMusic: (musicId: number) => void;
+  query: string;
+  setQuery: (query: string) => void;
 }) {
 
   const [order, setOrder] = React.useState<Order>('desc');
@@ -169,7 +171,8 @@ export default function MusicTable({ rows, currentPage, totalElements, totalPage
         }}
       >
         <FormControl sx={{ width: 380 }} size="sm">
-          <Input size="sm" placeholder="음악 검색" startDecorator={<SearchIcon />} />
+          <Input value={query} onChange={(e) => setQuery(e.target.value)}
+            size="sm" placeholder="음악 검색" startDecorator={<SearchIcon />} />
         </FormControl>
         {renderFilters()}
       </Box>

@@ -15,8 +15,6 @@ import Input from '@mui/joy/Input';
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import ModalClose from '@mui/joy/ModalClose';
-import Select from '@mui/joy/Select';
-import Option from '@mui/joy/Option';
 import Table from '@mui/joy/Table';
 import Sheet from '@mui/joy/Sheet';
 import Checkbox from '@mui/joy/Checkbox';
@@ -30,13 +28,9 @@ import Dropdown from '@mui/joy/Dropdown';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import BlockIcon from '@mui/icons-material/Block';
-import AutorenewRoundedIcon from '@mui/icons-material/AutorenewRounded';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
-import { resolve } from 'url';
 
 
 
@@ -101,12 +95,14 @@ function getPageStringList(currentPage: number, totalPages: number) {
 }
 
 
-export default function ThemeTable({ rows, currentPage, setCurrentPage, totalElements, totalPages }: {
+export default function ThemeTable({ rows, currentPage, setCurrentPage, totalElements, totalPages, query, setQuery }: {
   rows: any[];
   currentPage: number;
   setCurrentPage: (page: number) => void;
   totalElements: number;
   totalPages: number;
+  query: string;
+  setQuery: (query: string) => void;
 }) {
 
   const [order, setOrder] = React.useState<Order>('desc');
@@ -172,7 +168,8 @@ export default function ThemeTable({ rows, currentPage, setCurrentPage, totalEle
         }}
       >
         <FormControl sx={{ width: 380 }} size="sm">
-          <Input size="sm" placeholder="테마 검색" startDecorator={<SearchIcon />} />
+          <Input value={query} onChange={(e) => setQuery(e.target.value)}
+            size="sm" placeholder="테마 검색" startDecorator={<SearchIcon />} />
         </FormControl>
         {renderFilters()}
       </Box>
