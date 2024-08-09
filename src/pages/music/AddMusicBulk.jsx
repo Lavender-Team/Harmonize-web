@@ -14,6 +14,7 @@ import Textarea from '@mui/joy/Textarea';
 import FileDrop from '../../components/FileDrop';
 import Radio from '@mui/joy/Radio';
 import RadioGroup from '@mui/joy/RadioGroup';
+import Checkbox from '@mui/joy/Checkbox';
 
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 
@@ -27,6 +28,7 @@ export default function AddMusicBulk() {
     csvFile: null
   });
   const [bulkLog, setBulkLog] = useState(''); // 음악 업로드 로그
+  const [isEucKr, setIsEucKr] = useState(false); // 음악 업로드 EUC-KR 인코딩 사용 여부
 
   const [fileType, setFileType] = React.useState('앨범 커버'); // 파일 업로드 옵션 (앨범 커버, 음악, 가사)
   const [bulkFileLog, setBulkFileLog] = useState(''); // 파일 업로드 로그
@@ -51,7 +53,7 @@ export default function AddMusicBulk() {
       const formData = new FormData();
       formData.append('bulkFile', file.csvFile);
 
-      fetch('/api/music/bulk', {
+      fetch(`/api/music/bulk?charset=${isEucKr ? 'euc-kr' : 'utf-8'}`, {
         method: 'POST',
         body: formData
       })
@@ -183,26 +185,29 @@ export default function AddMusicBulk() {
                   <Button variant="solid" color="primary" sx={{ width: '90px', ml: 1 }} onClick={submitCsvFile}>
                     업로드
                   </Button>
-                  <a href={"/music-sample.csv"} target='_blank'>
-                    <Button variant="outlined" color="primary" sx={{ ml: 2 }}>
-                      양식
-                    </Button>
-                  </a>
+                  <Checkbox label="EUC-KR 업로드" sx={{ ml: '24px', flex: 1 }} checked={isEucKr} onChange={(e) => { setIsEucKr(e.target.checked) }}/>
                   <Box  sx={{ position: 'absolute', right: 0, ml: 4 }}>
-                    <Button variant="outlined" color="primary" onClick={() => clearBulkLog(false)}>
-                      로그 삭제
-                    </Button>
-                    <Button variant="solid" color="primary" sx={{ ml: 1 }} onClick={() => fetchBulkLog(false)}>
-                      로그 조회
-                    </Button>
+                    <a href={"/music-sample.csv"} target='_blank'>
+                      <Button variant="outlined" color="primary" sx={{ ml: 2 }}>
+                        양식
+                      </Button>
+                    </a>
                   </Box>
                 </div>
+                <Box sx={{ textAlign: 'right', maxWidth: '1000px', mt: '24px' }}>
+                  <Button variant="outlined" color="primary" onClick={() => clearBulkLog(false)}>
+                    로그 삭제
+                  </Button>
+                  <Button variant="solid" color="primary" sx={{ ml: 1 }} onClick={() => fetchBulkLog(false)}>
+                    로그 조회
+                  </Button>
+                </Box>
                 <Textarea
                   value={bulkLog}
                   placeholder="일괄 업로드 결과를 보려면 로그 조회 누르기…"
                   minRows={5}
                   maxRows={5}
-                  sx={{ width: '100%', maxWidth: '1000px', mt: '24px'}}
+                  sx={{ width: '100%', maxWidth: '1000px', mt: '12px'}}
                 />
               </Box>
               <Box sx={{ mt: '6px', maxWidth: '1000px' }}>
