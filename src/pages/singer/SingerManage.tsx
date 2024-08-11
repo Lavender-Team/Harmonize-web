@@ -15,6 +15,7 @@ const rows_def: Singer[] = [
     id: 1,
     artistName: '로드 중',
     gender: '-',
+    genderName: '-',
     nation: '-',
     agency: '-',
     activityPeriod: '-',

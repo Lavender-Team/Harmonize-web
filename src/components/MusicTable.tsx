@@ -243,7 +243,7 @@ export default function MusicTable({ rows, currentPage, totalElements, totalPage
               </th>
               <th style={{ width: 220, padding: '12px 6px' }}>제목</th>
               <th style={{ width: 160, padding: '12px 6px' }}>가수</th>
-              <th style={{ width: 60, padding: '12px 6px' }}>장르</th>
+              <th style={{ width: 80, padding: '12px 6px' }}>장르</th>
               <th style={{ width: 80, padding: '12px 6px' }}>분석 상태</th>
               <th style={{ width: 70, padding: '12px 6px' }}>조회수</th>
               <th style={{ width: 70, padding: '12px 6px' }}>좋아요</th>
@@ -286,7 +286,7 @@ export default function MusicTable({ rows, currentPage, totalElements, totalPage
                   <Typography level="body-sm">{row.artist}</Typography>
                 </td>
                 <td>
-                  <Typography level="body-sm">{row.genre}</Typography>
+                  <Typography level="body-sm">{row.genreName}</Typography>
                 </td>
                 <td>
                   <Chip

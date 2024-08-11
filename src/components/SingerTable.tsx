@@ -275,7 +275,7 @@ export default function SingerTable({ rows, currentPage, totalElements, totalPag
                   </Link>
                 </td>
                 <td>
-                  <Typography level="body-sm">{row.gender}</Typography>
+                  <Typography level="body-sm">{row.genderName}</Typography>
                 </td>
                 <td>
                   <Typography level="body-sm">{row.nation}</Typography>

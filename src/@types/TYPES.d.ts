@@ -5,6 +5,7 @@ declare module "TYPES" {
         title: string;
         artist: string;
         genre: string;
+        genreName: string;
         status: string;
         albumCover: string;
         view: number;
@@ -16,6 +17,7 @@ declare module "TYPES" {
         id: number;
         artistName: string;
         gender: string;
+        genderName: string;
         nation: string;
         agency: string;
         activityPeriod: string;
@@ -26,6 +28,7 @@ declare module "TYPES" {
         id: number;
         groupName: string;
         groupType: string;
+        groupTypeName: string;
         groupSize: number;
         agency: string;
         profileImage: string;

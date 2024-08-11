@@ -15,6 +15,7 @@ const rows_def: Group[] = [
     id: 1,
     groupName: '로드 중',
     groupType: '-',
+    groupTypeName: '-',
     groupSize: 0,
     agency: '-',
     profileImage: '-',

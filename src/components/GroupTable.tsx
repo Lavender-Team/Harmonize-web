@@ -275,7 +275,7 @@ export default function GroupTable({ rows, currentPage, totalElements, totalPage
                   </Link>
                 </td>
                 <td>
-                  <Typography level="body-sm">{row.groupType}</Typography>
+                  <Typography level="body-sm">{row.groupTypeName}</Typography>
                 </td>
                 <td>
                   <Typography level="body-sm">{row.groupSize}</Typography>
