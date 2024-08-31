@@ -185,7 +185,9 @@ export default function AddMusicBulk() {
                   <Button variant="solid" color="primary" sx={{ width: '90px', ml: 1 }} onClick={submitCsvFile}>
                     업로드
                   </Button>
-                  <Checkbox label="EUC-KR 업로드" sx={{ ml: '24px', flex: 1 }} checked={isEucKr} onChange={(e) => { setIsEucKr(e.target.checked) }}/>
+                  <Box sx={{ flex: 1 }}>
+                    <Checkbox label="EUC-KR 업로드" sx={{ ml: '24px', fontSize: '14px', color: '#8E8F91' }} checked={isEucKr} onChange={(e) => { setIsEucKr(e.target.checked) }}/>
+                  </Box>
                   <Box  sx={{ position: 'absolute', right: 0, ml: 4 }}>
                     <a href={"/music-sample.csv"} target='_blank'>
                       <Button variant="outlined" color="primary" sx={{ ml: 2 }}>

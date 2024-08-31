@@ -22,6 +22,7 @@ import BlockIcon from '@mui/icons-material/Block';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import OpenInNew from '@mui/icons-material/OpenInNew';
 
+import { alertMessage } from '../../libs/ErrorMessage';
 import { Music } from 'TYPES';
 import { getNoteFromFrequency } from '../../libs/Converter';
 import './music.css';
@@ -34,6 +35,9 @@ export default function AnalyzeMusic() {
   const [music, setMusic] = React.useState({
     id: -1,
     title: '로드 중',
+    genre: '',
+    releaseDate: '',
+    karaokeNum: '',
     artist: '',
     status: '',
     albumCover: '',
@@ -99,6 +103,9 @@ export default function AnalyzeMusic() {
         ...music,
         id: res.id,
         title: res.title,
+        genre: res.genre,
+        releaseDate: res.releaseDate.substring(0, res.releaseDate.indexOf('T')),
+        karaokeNum: res.karaokeNum,
         artist: res.artist,
         status: res.status,
         albumCover: res.albumCover,
@@ -133,6 +140,10 @@ export default function AnalyzeMusic() {
   // 유튜브 링크 저장
   const savePlayLink = async () => {
     let data = new FormData();
+    data.append('title', music.title);
+    data.append('genre', music.genre);
+    data.append('releaseDate', music.releaseDate + 'T00:00:00');
+    data.append('karaokeNum', music.karaokeNum);
     data.append('playLink', music.playLink);
 
     const res = await fetch(`/api/music/${music.id}`, { method: 'PUT', credentials: 'include', body: data })
@@ -140,7 +151,8 @@ export default function AnalyzeMusic() {
     if (res.ok)
       alert('유튜브 링크가 저장되었습니다.');
     else {
-      alert('음악 편집 중 오류가 발생하였습니다.');
+      const errors = await res.json();
+      alert(alertMessage(errors));
     }
   };
 

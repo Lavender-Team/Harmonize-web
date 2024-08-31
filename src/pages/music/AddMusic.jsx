@@ -15,6 +15,7 @@ import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import Autocomplete from '@mui/joy/Autocomplete';
 
+import { alertMessage } from '../../libs/ErrorMessage';
 import GroupSelector from '../../components/GroupSelector';
 import './music.css';
 
@@ -124,7 +125,8 @@ export default function AddMusic() {
       navigate('/music-manage')
     }
     else {
-      alert('음악 등록 중 오류가 발생하였습니다.');
+      const errors = await res.json();
+      alert(alertMessage(errors));
     }
   };
 

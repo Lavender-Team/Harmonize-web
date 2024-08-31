@@ -18,6 +18,7 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 
+import { alertMessage } from '../../libs/ErrorMessage';
 import GroupSelector from '../../components/GroupSelector';
 import './music.css';
 
@@ -45,6 +46,7 @@ export default function EditMusic() {
     releaseDate: '',
     karaokeNum: '',
     themes: [],
+    playLink: '',
     albumCover: null,
     albumCoverFile: null
   });
@@ -71,6 +73,7 @@ export default function EditMusic() {
         karaokeNum: res.karaokeNum,
         themes: res.themes.map(theme => ({ id: -1, label: theme })),
         albumCover: res.albumCover,
+        playLink: res.playLink,
         view: res.view,
         likes: res.likes
       });
@@ -143,7 +146,9 @@ export default function EditMusic() {
     data.append('genre', music.genre);
     data.append('releaseDate', music.releaseDate + 'T00:00:00');
     data.append('karaokeNum', music.karaokeNum);
-    data.append('albumCover', music.albumCoverFile);
+    if (music.albumCoverFile)
+      data.append('albumCover', music.albumCoverFile);
+    data.append('playLink', music.playLink);
     data.append('themes', music.themes.map(theme => theme.label).join(','));
     if (group) {
       data.append('groupId', group.id);
@@ -159,7 +164,8 @@ export default function EditMusic() {
       navigate('/music-manage')
     }
     else {
-      alert('음악 편집 중 오류가 발생하였습니다.');
+      const errors = await res.json();
+      alert(alertMessage(errors));
     }
   };
 
