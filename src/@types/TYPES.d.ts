@@ -33,5 +33,22 @@ declare module "TYPES" {
         agency: string;
         profileImage: string;
         members: Singer[];
-    }
+    };
+
+    export type User = {
+        id: number;
+        loginId: string;
+        password: string;
+        email: string;
+        nickname: string;
+        role: string;
+        gender: string;
+        age: number;
+        createdAt: string;
+        deletedAt: string | null;
+        isDeleted: boolean;
+        isBanned: boolean;
+        isLocked: boolean;
+        profileImage: string;
+    };
 }
