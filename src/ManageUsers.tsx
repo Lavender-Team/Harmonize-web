@@ -12,7 +12,7 @@ import { User } from "TYPES";
 
 const rows_def: User[] = [
     {
-        id: 1,
+        userId: 1,
         loginId: "로드 중",
         password: "-",
         email: "-",

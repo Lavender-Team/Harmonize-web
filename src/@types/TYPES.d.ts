@@ -36,7 +36,7 @@ declare module "TYPES" {
     };
 
     export type User = {
-        id: number;
+        userId: number;
         loginId: string;
         password: string;
         email: string;

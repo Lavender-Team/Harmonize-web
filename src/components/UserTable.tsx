@@ -23,7 +23,7 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 type User = {
-    id: number;
+    userId: number;
     loginId: string;
     email: string;
     nickname: string;
@@ -193,7 +193,7 @@ export default function UserTable({
                                         setSelected(
                                             event.target.checked
                                                 ? rows.map((row) =>
-                                                      row.id.toString()
+                                                      row.userId.toString()
                                                   )
                                                 : []
                                         );
@@ -207,7 +207,7 @@ export default function UserTable({
                                     sx={{ verticalAlign: "text-bottom" }}
                                 />
                             </th>
-                            <th style={{ width: 80, padding: "12px 6px" }}>
+                            <th style={{ width: 40, padding: "12px 6px" }}>
                                 <Link
                                     underline="none"
                                     color="primary"
@@ -232,53 +232,53 @@ export default function UserTable({
                                     ID
                                 </Link>
                             </th>
-                            <th style={{ width: 220, padding: "12px 6px" }}>
+                            <th style={{ width: 160, padding: "12px 6px" }}>
                                 로그인 ID
                             </th>
-                            <th style={{ width: 160, padding: "12px 6px" }}>
+                            <th style={{ width: 220, padding: "12px 6px" }}>
                                 이메일
                             </th>
                             <th style={{ width: 120, padding: "12px 6px" }}>
                                 닉네임
                             </th>
-                            <th style={{ width: 100, padding: "12px 6px" }}>
+                            <th style={{ width: 80, padding: "12px 6px" }}>
                                 역할
                             </th>
-                            <th style={{ width: 80, padding: "12px 6px" }}>
+                            <th style={{ width: 60, padding: "12px 6px" }}>
                                 성별
                             </th>
-                            <th style={{ width: 60, padding: "12px 6px" }}>
+                            <th style={{ width: 40, padding: "12px 6px" }}>
                                 나이
                             </th>
-                            <th style={{ width: 150, padding: "12px 6px" }}>
+                            <th style={{ width: 160, padding: "12px 6px" }}>
                                 가입일
                             </th>
-                            <th style={{ width: 80, padding: "12px 6px" }}>
+                            <th style={{ width: 60, padding: "12px 6px" }}>
                                 삭제됨
                             </th>
-                            <th style={{ width: 80, padding: "12px 6px" }}>
+                            <th style={{ width: 60, padding: "12px 6px" }}>
                                 차단됨
                             </th>
-                            <th style={{ width: 80, padding: "12px 6px" }}>
+                            <th style={{ width: 60, padding: "12px 6px" }}>
                                 잠금
                             </th>
-                            <th style={{ width: 100, padding: "12px 6px" }}>
+                            <th style={{ width: 70, padding: "12px 6px" }}>
                                 편집
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         {rows.map((row) => (
-                            <tr key={row?.id}>
+                            <tr key={row?.userId}>
                                 <td style={{ textAlign: "center" }}>
                                     <Checkbox
                                         size="sm"
                                         checked={selected.includes(
-                                            row?.id?.toString() || ""
+                                            row?.userId?.toString() || ""
                                         )}
                                         color={
                                             selected.includes(
-                                                row?.id?.toString() || ""
+                                                row?.userId?.toString() || ""
                                             )
                                                 ? "primary"
                                                 : undefined
@@ -287,13 +287,13 @@ export default function UserTable({
                                             setSelected((ids) =>
                                                 event.target.checked
                                                     ? ids.concat(
-                                                          row?.id?.toString() ||
+                                                          row?.userId?.toString() ||
                                                               ""
                                                       )
                                                     : ids.filter(
                                                           (itemId) =>
                                                               itemId !==
-                                                              row?.id?.toString()
+                                                              row?.userId?.toString()
                                                       )
                                             );
                                         }}
@@ -304,13 +304,13 @@ export default function UserTable({
                                 </td>
                                 <td>
                                     <Typography level="body-sm">
-                                        {row?.id?.toString() || "N/A"}
+                                        {row?.userId?.toString() || "N/A"}
                                     </Typography>
                                 </td>
                                 <td>
                                     <Link
                                         component={RouterLink}
-                                        to={"/user-manage/edit/" + row?.id}
+                                        to={"/user-manage/edit/" + row?.userId}
                                     >
                                         <Box
                                             sx={{
@@ -359,7 +359,11 @@ export default function UserTable({
                                 </td>
                                 <td>
                                     <Typography level="body-sm">
-                                        {row?.createdAt || "N/A"}
+                                        {row?.createdAt
+                                            ? new Date(
+                                                  row.createdAt
+                                              ).toLocaleString()
+                                            : "N/A"}
                                     </Typography>
                                 </td>
                                 <td>
@@ -386,7 +390,7 @@ export default function UserTable({
                                         }}
                                     >
                                         <RowMenu
-                                            userId={row?.id || 0}
+                                            userId={row?.userId || 0}
                                             deleteUser={deleteUser}
                                         />
                                     </Box>
