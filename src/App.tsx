@@ -21,6 +21,7 @@ import EditGroup from './pages/group/EditGroup';
 import ThemeManage from './pages/theme/ThemeManage';
 import ThemeMusicManage from './pages/theme/ThemeMusicManage';
 import ManageUsers from './ManageUsers';
+import EditUsers from './EditUsers';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 
@@ -62,6 +63,7 @@ export default function App() {
                     <Route path="/theme-manage" element={<ThemeManage />} />
                     <Route path="/theme-manage/:themeName" element={<ThemeMusicManage />} />
                     <Route path="/user-manage" element={<ManageUsers />} />
+                    <Route path="/user-manage/edit/:id" element={<EditUsers />} />
                     <Route path="*" element={<Navigate to="/admin-home" />} />
                   </>
                 ) : (
