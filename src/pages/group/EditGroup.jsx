@@ -16,6 +16,7 @@ import Radio from "@mui/joy/Radio";
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 
+import { alertMessage } from '../../libs/ErrorMessage';
 import SingerGroupSelector from "../../components/SingerGroupSelector";
 import "./group.css";
 
@@ -107,8 +108,9 @@ export default function EditGroup() {
     data.append("groupName", group.groupName);
     data.append("groupType", (members.length === 1) ? 'SOLO' : 'GROUP');
     data.append("agency", group.agency);
-    data.append("profileImage", group.profileImageFile);
     data.append("artistIds", members.map((member) => member.id).toString());
+    if (group.profileImageFile)
+      data.append("profileImage", group.profileImageFile);
 
     const res = await fetch(`/api/group/${id}`, {
         method: 'PUT',
@@ -120,7 +122,8 @@ export default function EditGroup() {
       navigate('/group-manage')
     }
     else {
-      alert('그룹 정보 편집 중 오류가 발생하였습니다.');
+      const errors = await res.json();
+      alert(alertMessage(errors));
     }
   };
 

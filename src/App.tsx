@@ -20,8 +20,8 @@ import GroupManage from './pages/group/GroupManage';
 import EditGroup from './pages/group/EditGroup';
 import ThemeManage from './pages/theme/ThemeManage';
 import ThemeMusicManage from './pages/theme/ThemeMusicManage';
-import ManageUsers from './ManageUsers';
-import EditUsers from './EditUsers';
+import ManageUsers from './pages/user/ManageUsers';
+import EditUsers from './pages/user/EditUsers';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 

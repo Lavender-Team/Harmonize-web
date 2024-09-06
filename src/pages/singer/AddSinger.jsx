@@ -14,6 +14,7 @@ import Input from "@mui/joy/Input";
 import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
 
+import { alertMessage } from '../../libs/ErrorMessage';
 import "./singer.css";
 
 const GENDERLIST = { 남성: "MALE", 여성: "FEMALE", 기타: "OTHER" };
@@ -100,8 +101,8 @@ export default function AddSinger() {
             if (res.ok) {
                 navigate("/singer-manage");
             } else {
-                const errorText = await res.text();
-                alert("가수 등록 중 오류가 발생하였습니다: " + errorText);
+                const errors = await res.json();
+                alert(alertMessage(errors));
             }
         } catch (error) {
             alert("가수 등록 중 오류가 발생하였습니다: " + error.message);

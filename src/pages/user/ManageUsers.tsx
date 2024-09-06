@@ -7,7 +7,7 @@ import Breadcrumbs from "@mui/joy/Breadcrumbs";
 import Link from "@mui/joy/Link";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import UserTable from "./components/UserTable";
+import UserTable from "../../components/UserTable";
 import { User } from "TYPES";
 
 const rows_def: User[] = [
@@ -47,7 +47,7 @@ export default function ManageUsers() {
 
     async function fetchUserList(page: number, size: number) {
         const response = await fetch(
-            `/api/users?page=${page - 1}&size=${size}&query=${query}`
+            `/api/user?page=${page - 1}&size=${size}&query=${query}`
         );
 
         if (response.ok) {
@@ -62,7 +62,7 @@ export default function ManageUsers() {
 
     function deleteUser(userId: number) {
         if (window.confirm("정말 삭제하시겠습니까?")) {
-            fetch(`/api/users/${userId}`, {
+            fetch(`/api/user/${userId}`, {
                 method: "DELETE",
             }).then((response) => {
                 if (response.ok) {

@@ -16,6 +16,7 @@ import Grid from "@mui/joy/Grid";
 
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
+import { alertMessage } from "../../libs/ErrorMessage";
 
 const ROLELIST = {
     User: "USER",
@@ -28,6 +29,7 @@ export default function EditUsers() {
     const { id } = useParams();
 
     const [user, setUser] = useState({
+        loginId: "",
         nickname: "",
         email: "",
         role: "",
@@ -44,10 +46,11 @@ export default function EditUsers() {
 
     async function fetchUser(userId) {
         try {
-            const response = await fetch(`/api/users/${userId}`);
+            const response = await fetch(`/api/user/${userId}`);
             if (response.ok) {
                 const res = await response.json();
                 setUser({
+                    loginId: res.loginId,
                     nickname: res.nickname,
                     email: res.email,
                     role: res.role,
@@ -101,13 +104,22 @@ export default function EditUsers() {
             return;
         }
 
+        let data = new FormData();
+        data.append('nickname', user.nickname);
+        data.append('email', user.email);
+        data.append('role', user.role);
+        if (user.gender)
+            data.append('gender', user.gender);
+        if (user.age)
+            data.append('age', user.age);
+        data.append('isDeleted', user.isDeleted);
+        data.append('isBanned', user.isBanned);
+        data.append('isLocked', user.isLocked);
+
         try {
-            const res = await fetch(`/api/users/${id}`, {
+            const res = await fetch(`/api/user/admin/${id}`, {
                 method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(user),
+                body: data,
             });
 
             if (res.ok) {
@@ -115,8 +127,7 @@ export default function EditUsers() {
                 navigate("/user-manage");
             } else {
                 const errors = await res.json();
-                alert("사용자 정보 업데이트에 실패했습니다.");
-                console.error("Error:", errors);
+                alert(alertMessage(errors));
             }
         } catch (error) {
             console.error("Error submitting user:", error);
@@ -130,7 +141,7 @@ export default function EditUsers() {
         if (!confirmDelete) return;
 
         try {
-            const res = await fetch(`/api/users/${id}`, {
+            const res = await fetch(`/api/user/${id}`, {
                 method: "DELETE",
             });
 
@@ -138,8 +149,8 @@ export default function EditUsers() {
                 alert("사용자가 성공적으로 삭제되었습니다.");
                 navigate("/user-manage");
             } else {
-                alert("사용자 삭제에 실패했습니다.");
-                console.error("Failed to delete user");
+                const errors = await res.json();
+                alert(alertMessage(errors));
             }
         } catch (error) {
             console.error("Error deleting user:", error);
@@ -227,6 +238,7 @@ export default function EditUsers() {
                                 display: "flex",
                                 flexDirection: "column",
                                 gap: "16px",
+                                maxWidth: "1000px",
                             }}
                         >
                             <div className="section">
@@ -236,7 +248,22 @@ export default function EditUsers() {
                                 <Grid container spacing={2} sx={{ mt: 2 }}>
                                     <Grid item xs={12} sm={3}>
                                         <Typography
-                                            level="body1"
+                                            level="title-md"
+                                            fontWeight={500}
+                                        >
+                                            아이디
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={12} sm={9}>
+                                    <Typography
+                                            level="body-md"
+                                        >
+                                            {user.loginId}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={12} sm={3}>
+                                        <Typography
+                                            level="title-md"
                                             fontWeight={500}
                                         >
                                             닉네임
@@ -258,7 +285,7 @@ export default function EditUsers() {
 
                                     <Grid item xs={12} sm={3}>
                                         <Typography
-                                            level="body1"
+                                            level="title-md"
                                             fontWeight={500}
                                         >
                                             이메일
@@ -280,7 +307,7 @@ export default function EditUsers() {
 
                                     <Grid item xs={12} sm={3}>
                                         <Typography
-                                            level="body1"
+                                            level="title-md"
                                             fontWeight={500}
                                         >
                                             역할
@@ -313,7 +340,7 @@ export default function EditUsers() {
 
                                     <Grid item xs={12} sm={3}>
                                         <Typography
-                                            level="body1"
+                                            level="title-md"
                                             fontWeight={500}
                                         >
                                             성별
@@ -339,7 +366,7 @@ export default function EditUsers() {
 
                                     <Grid item xs={12} sm={3}>
                                         <Typography
-                                            level="body1"
+                                            level="title-md"
                                             fontWeight={500}
                                         >
                                             나이
@@ -365,13 +392,13 @@ export default function EditUsers() {
                                 className="section"
                                 style={{ marginTop: "16px" }}
                             >
-                                <Typography level="h5" fontWeight={500}>
+                                <Typography level="title-lg" fontWeight={500}>
                                     계정 상태 설정
                                 </Typography>
                                 <Grid container spacing={2} sx={{ mt: 2 }}>
                                     <Grid item xs={12} sm={3}>
                                         <Typography
-                                            level="body1"
+                                            level="title-md"
                                             fontWeight={500}
                                         >
                                             삭제됨
@@ -388,7 +415,7 @@ export default function EditUsers() {
 
                                     <Grid item xs={12} sm={3}>
                                         <Typography
-                                            level="body1"
+                                            level="title-md"
                                             fontWeight={500}
                                         >
                                             차단됨
@@ -405,7 +432,7 @@ export default function EditUsers() {
 
                                     <Grid item xs={12} sm={3}>
                                         <Typography
-                                            level="body1"
+                                            level="title-md"
                                             fontWeight={500}
                                         >
                                             잠금
@@ -427,16 +454,17 @@ export default function EditUsers() {
                                 style={{
                                     marginTop: "16px",
                                     display: "flex",
-                                    justifyContent: "flex-start",
+                                    justifyContent: "flex-end",
                                     gap: "16px",
                                 }}
                             >
                                 <Button
-                                    variant="solid"
-                                    onClick={handleUserSubmit}
+                                    variant="outlined"
+                                    color="danger"
+                                    onClick={handleUserDelete}
                                     sx={{ width: 120, height: 40 }}
                                 >
-                                    사용자 편집
+                                    사용자 삭제
                                 </Button>
                                 <Button
                                     variant="outlined"
@@ -446,12 +474,11 @@ export default function EditUsers() {
                                     취소
                                 </Button>
                                 <Button
-                                    variant="outlined"
-                                    color="danger"
-                                    onClick={handleUserDelete}
+                                    variant="solid"
+                                    onClick={handleUserSubmit}
                                     sx={{ width: 120, height: 40 }}
                                 >
-                                    사용자 삭제
+                                    사용자 편집
                                 </Button>
                             </div>
                         </div>

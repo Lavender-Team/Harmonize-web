@@ -16,6 +16,7 @@ import Option from '@mui/joy/Option';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 
+import { alertMessage } from '../../libs/ErrorMessage';
 import "./singer.css";
 
 const GENDERLIST = { 남성: "MALE", 여성: "FEMALE", 기타: "OTHER" };
@@ -121,7 +122,8 @@ export default function EditSinger() {
     data.append("activityPeriod", singer.activityPeriod);
     data.append("nation", singer.nation);
     data.append("agency", singer.agency);
-    data.append("profileImage", singer.profileImageFile);
+    if (singer.profileImageFile)
+      data.append("profileImage", singer.profileImageFile);
 
     const res = await fetch(`/api/artist/${id}`, {
         method: 'PUT',
@@ -133,7 +135,8 @@ export default function EditSinger() {
       navigate('/singer-manage')
     }
     else {
-      alert('가수 정보 편집 중 오류가 발생하였습니다.');
+      const errors = await res.json();
+      alert(alertMessage(errors));
     }
   };
 

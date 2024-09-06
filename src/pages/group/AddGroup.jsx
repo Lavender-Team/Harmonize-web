@@ -14,6 +14,7 @@ import Input from "@mui/joy/Input";
 import RadioGroup from "@mui/joy/RadioGroup";
 import Radio from "@mui/joy/Radio";
 
+import { alertMessage } from '../../libs/ErrorMessage';
 import SingerGroupSelector from "../../components/SingerGroupSelector";
 
 import "./group.css";
@@ -98,8 +99,8 @@ export default function AddGroup() {
             if (res.ok) {
                 navigate("/group-manage");
             } else {
-                const errorText = await res.text();
-                alert("그룹 등록 중 오류가 발생하였습니다: " + errorText);
+                const errors = await res.json();
+                alert(alertMessage(errors));
             }
         } catch (error) {
             alert("그룹 등록 중 오류가 발생하였습니다: " + error.message);

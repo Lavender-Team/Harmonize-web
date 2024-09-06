@@ -269,7 +269,7 @@ export default function UserTable({
                     </thead>
                     <tbody>
                         {rows.map((row) => (
-                            <tr key={row?.userId}>
+                            <tr key={row?.userId} style={{ textDecoration: row?.isDeleted ? 'line-through' : '' }}>
                                 <td style={{ textAlign: "center" }}>
                                     <Checkbox
                                         size="sm"
@@ -325,7 +325,7 @@ export default function UserTable({
                                                 sx={{ borderRadius: "4px" }}
                                             ></Avatar>
                                             <div>
-                                                <Typography level="title-sm">
+                                                <Typography level="title-sm" >
                                                     {row?.loginId || "N/A"}
                                                 </Typography>
                                             </div>
