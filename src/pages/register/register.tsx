@@ -8,6 +8,7 @@ import Typography from "@mui/joy/Typography";
 import Card from "@mui/joy/Card";
 import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
+import { alertMessage } from "../../libs/ErrorMessage";
 
 export default function Register() {
     const navigate = useNavigate();
@@ -43,29 +44,26 @@ export default function Register() {
         }
 
         try {
-            const data = {
-                loginId: loginId,
-                password: password,
-                email: email,
-                nickname: nickname,
-                gender: gender,
-                age: age,
-            };
+            let data = new FormData();
+            data.append("loginId", loginId);
+            data.append("password", password);
+            data.append("email", email);
+            data.append("nickname", nickname);
+            data.append("gender", gender);
+            data.append("age", age);
 
-            const res = await fetch("/api/user/register", {
+            const res = await fetch("/api/user", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json", // 데이터를 JSON으로 보냄
-                },
-                body: JSON.stringify(data),
+                body: data
             });
 
             if (res.status === 201) {
                 navigate("/login");
             } else {
                 const errorData = await res.json();
+
                 setErrorMessage(
-                    errorData.message || "회원가입에 실패했습니다."
+                    alertMessage(errorData) || "회원가입에 실패했습니다."
                 );
             }
         } catch (err) {
