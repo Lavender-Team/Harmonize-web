@@ -13,6 +13,7 @@ import Button from "@mui/joy/Button";
 import Input from "@mui/joy/Input";
 import Select from "@mui/joy/Select";
 import Option from "@mui/joy/Option";
+import Checkbox from '@mui/joy/Checkbox';
 
 import { alertMessage } from '../../libs/ErrorMessage';
 import "./singer.css";
@@ -26,11 +27,12 @@ export default function AddSinger() {
         artistName: "",
         gender: "",
         activityPeriod: "",
-        nation: "",
+        nation: "대한민국",
         agency: "",
         profileImage: null,
         profileImageFile: null,
     });
+    const [createSoloGroup, setCreateSoloGroup] = useState(true);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -66,9 +68,7 @@ export default function AddSinger() {
         if (
             !singer.artistName ||
             !singer.gender ||
-            !singer.activityPeriod ||
             !singer.nation ||
-            !singer.agency ||
             !singer.profileImage
         ) {
             return false;
@@ -90,6 +90,7 @@ export default function AddSinger() {
         data.append("nation", singer.nation);
         data.append("agency", singer.agency);
         data.append("profileImage", singer.profileImageFile);
+        data.append("createSoloGroup", createSoloGroup);
 
         try {
             const res = await fetch(`/api/artist`, {
@@ -290,6 +291,16 @@ export default function AddSinger() {
                                         onChange={handleInputChange}
                                         sx={{ width: 180 }}
                                     />
+                                </div>
+                                <div className="item" style={{ marginTop: '36px' }}>
+                                    <span>솔로 그룹 생성</span>
+                                    <Checkbox
+                                        label="솔로 그룹 만들기"
+                                        sx={{ width: '200px !important', fontSize: '14px', color: '#8E8F91' }}
+                                        checked={createSoloGroup}
+                                        onChange={(e) => { setCreateSoloGroup(e.target.checked) }}
+                                    />
+                                    <span style={{ width: '200px', marginLeft: '36px' }}> *솔로 곡이 있으면 선택하세요</span>
                                 </div>
                             </div>
                             <div className="action">
