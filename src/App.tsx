@@ -24,6 +24,7 @@ import ManageUsers from './pages/user/ManageUsers';
 import EditUsers from './pages/user/EditUsers';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
+import Register from './pages/register/register';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
@@ -42,10 +43,8 @@ export default function App() {
             {isAuthenticated && <Header />}
             <Box sx={{ flex: 1, padding: 2 }}>
               <Routes>
-                <Route
-                  path="/login"
-                  element={<SignIn onSignIn={() => setIsAuthenticated(true)} />}
-                />
+                <Route path="/login" element={<SignIn onSignIn={() => setIsAuthenticated(true)} />} />
+                <Route path="/register" element={<Register />} />
                 {isAuthenticated ? (
                   <>
                     <Route path="/admin-home" element={<AdminHome />} />
