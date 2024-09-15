@@ -41,7 +41,7 @@ export default function App() {
           {isAuthenticated && <Sidebar onLogout={handleLogout} />}
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             {isAuthenticated && <Header />}
-            <Box sx={{ flex: 1, padding: 2 }}>
+            <Box sx={{ flex: 1, padding: 0 }}>
               <Routes>
                 <Route path="/login" element={<SignIn onSignIn={() => setIsAuthenticated(true)} />} />
                 <Route path="/register" element={<Register />} />

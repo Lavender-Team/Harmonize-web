@@ -119,40 +119,35 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
             <GlobalStyles
                 styles={{
                     ":root": {
-                        "--Form-maxWidth": "800px",
                         "--Transition-duration": "0.4s",
                     },
                 }}
             />
             <Box
-                sx={(theme) => ({
-                    width: { xs: "100%", md: "50vw" },
-                    transition: "width var(--Transition-duration)",
-                    transitionDelay: "calc(var(--Transition-duration) + 0.1s)",
-                    position: "relative",
-                    zIndex: 1,
+                sx={{
                     display: "flex",
-                    justifyContent: "flex-end",
-                    backdropFilter: "blur(12px)",
-                    backgroundColor: "rgba(255 255 255 / 0.2)",
-                    [theme.getColorSchemeSelector("dark")]: {
-                        backgroundColor: "rgba(19 19 24 / 0.4)",
-                    },
-                })}
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                    backgroundColor: "rgba(239, 226, 254, 1)",
+                }}
             >
                 <Box
                     sx={{
                         display: "flex",
                         flexDirection: "column",
-                        minHeight: "100dvh",
-                        width: "100%",
-                        px: 2,
+                        width: "100vh",
+                        maxWidth: "500px",
+                        padding: "16px",
+                        borderRadius: "8px",
+                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                        backgroundColor: "rgba(255, 255, 255, 1)",
                     }}
                 >
                     <Box
                         component="header"
                         sx={{
-                            py: 3,
+                            py: 2,
                             display: "flex",
                             justifyContent: "space-between",
                         }}
@@ -178,24 +173,10 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
                     <Box
                         component="main"
                         sx={{
-                            my: "auto",
-                            py: 2,
-                            pb: 5,
                             display: "flex",
                             flexDirection: "column",
                             gap: 2,
-                            width: 400,
-                            maxWidth: "100%",
-                            mx: "auto",
-                            borderRadius: "sm",
-                            "& form": {
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: 2,
-                            },
-                            [`& .MuiFormLabel-asterisk`]: {
-                                visibility: "hidden",
-                            },
+                            my: "auto",
                         }}
                     >
                         <Stack gap={4} sx={{ mb: 2 }}>
@@ -219,15 +200,7 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
                                 Continue with Google
                             </Button>
                         </Stack>
-                        <Divider
-                            sx={(theme) => ({
-                                [theme.getColorSchemeSelector("light")]: {
-                                    color: { xs: "#FFF", md: "text.tertiary" },
-                                },
-                            })}
-                        >
-                            or
-                        </Divider>
+                        <Divider>or</Divider>
                         <Stack gap={4} sx={{ mt: 2 }}>
                             <form onSubmit={handleSubmit}>
                                 <FormControl>
@@ -299,9 +272,9 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
                             </form>
                         </Stack>
                     </Box>
-                    <Box component="footer" sx={{ py: 3 }}>
+                    <Box component="footer" sx={{ py: 2 }}>
                         <Typography level="body-xs" textAlign="center">
-                            © Your company {new Date().getFullYear()}
+                            © Harmonize {new Date().getFullYear()}
                         </Typography>
                     </Box>
                 </Box>
