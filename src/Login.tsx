@@ -45,7 +45,7 @@ function ColorSchemeToggle(props: IconButtonProps) {
             variant="outlined"
             disabled={!mounted}
             onClick={(event) => {
-                setMode(mode === "light" ? "dark" : "dark");
+                setMode(mode === "light" ? "dark" : "light");
                 onClick?.(event);
             }}
             {...other}
@@ -64,10 +64,16 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
     const [loginId, setLoginId] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [failedAttempts, setFailedAttempts] = useState<number | null>(null); // 로그인 실패 횟수 상태 관리
+    const [remainingAttempts, setRemainingAttempts] = useState<number | null>(
+        null
+    ); // 남은 시도 횟수 상태 관리
 
     const handleSubmit = async (event: React.FormEvent<SignInFormElement>) => {
         event.preventDefault();
         setErrorMessage("");
+        setFailedAttempts(null);
+        setRemainingAttempts(null);
 
         if (!loginId || !password) {
             setErrorMessage("로그인 ID와 비밀번호를 입력하세요.");
@@ -92,7 +98,15 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
                 onSignIn();
                 navigate("/admin-home");
             } else {
-                setErrorMessage("로그인 정보가 잘못되었습니다.");
+                if (
+                    data.failedAttempts !== undefined &&
+                    data.remainingAttempts !== undefined
+                ) {
+                    setFailedAttempts(data.failedAttempts);
+                    setRemainingAttempts(data.remainingAttempts);
+                } else {
+                    setErrorMessage("로그인 정보가 잘못되었습니다.");
+                }
             }
         } catch (err) {
             setErrorMessage("서버와의 통신 중 오류가 발생했습니다.");
@@ -245,6 +259,19 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
                                         {errorMessage}
                                     </Typography>
                                 )}
+                                {failedAttempts !== null &&
+                                    remainingAttempts !== null && (
+                                        <Typography
+                                            sx={{
+                                                color: "orange",
+                                                marginTop: 2,
+                                            }}
+                                        >
+                                            로그인 실패 횟수: {failedAttempts},
+                                            잠금까지 남은 횟수:{" "}
+                                            {remainingAttempts}
+                                        </Typography>
+                                    )}
                                 <Stack gap={4} sx={{ mt: 2 }}>
                                     <Box
                                         sx={{
