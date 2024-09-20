@@ -114,6 +114,7 @@ export default function AddGroup() {
                     display: "flex",
                     flexDirection: "column",
                     marginLeft: "240px",
+                    padding: 2,
                 }}
             >
                 <Box

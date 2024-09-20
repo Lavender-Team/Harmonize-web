@@ -82,6 +82,7 @@ export default function ManageUsers() {
                     display: "flex",
                     flexDirection: "column",
                     marginLeft: "240px",
+                    padding: 2
                 }}
             >
                 <Box

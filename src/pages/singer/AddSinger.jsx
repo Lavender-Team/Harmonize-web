@@ -130,6 +130,7 @@ export default function AddSinger() {
                     display: "flex",
                     flexDirection: "column",
                     marginLeft: "240px",
+                    padding: 2
                 }}
             >
                 <Box

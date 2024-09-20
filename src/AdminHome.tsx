@@ -49,6 +49,7 @@ export default function AdminHome() {
                     display: "flex",
                     flexDirection: "column",
                     marginLeft: "240px",
+                    padding: 2
                 }}
             >
                 <Box

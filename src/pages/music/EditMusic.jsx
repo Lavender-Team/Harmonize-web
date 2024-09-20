@@ -172,7 +172,7 @@ export default function EditMusic() {
   return (
     <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />
-      <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '240px' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '240px', padding: 2 }}>
         <Box
           component="main"
           sx={{
