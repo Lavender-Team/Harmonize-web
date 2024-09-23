@@ -86,7 +86,7 @@ export default function Sidebar({ onLogout }: { onLogout: () => void }) {
         })}
       />
       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-        <IconButton variant="soft" color="primary" size="sm">
+        <IconButton variant="soft" size="sm">
           <img src={Logo} alt="Logo" style={{ width: '24px', height: '24px' }} />
         </IconButton>
         <Typography level="title-lg">하모나이즈</Typography>
