@@ -54,6 +54,7 @@ export default function AnalyzeMusic() {
 
   const [audioSrc, setAudioSrc] = React.useState('');
   const [pitchGraphSrc, setPitchGraphSrc] = React.useState('');
+  const [pitchAudioSrc, setPitchAudioSrc] = React.useState('');
   const [refresh, setRefresh] = React.useState(false); // 새로고침 누를 시 음높이 그래프 갱신용
 
   // input file trigger를 위한 ref
@@ -117,6 +118,7 @@ export default function AnalyzeMusic() {
       });
       setAudioSrc(res.audioFile);
       setPitchGraphSrc(`/api/music/pitch/${musicId}`);
+      setPitchAudioSrc(`/api/music/pitch/audio/${musicId}`);
       setRefresh(!refresh)
     }
   }
@@ -396,7 +398,7 @@ export default function AnalyzeMusic() {
                     새로고침
                   </Button>
                 </div>
-                <PitchGraph musicId={music.id} src={pitchGraphSrc} status={music.status} refresh={refresh} audioSrc={audioSrc} />
+                <PitchGraph musicId={music.id} src={pitchGraphSrc} status={music.status} refresh={refresh} audioSrc={audioSrc} pitchAudioSrc={pitchAudioSrc} />
             </Box>
           </div>
         </Box>

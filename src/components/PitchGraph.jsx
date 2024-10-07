@@ -4,7 +4,7 @@ import { fetchPitchGraph } from '../libs/ExcelReader';
 import { Typography, Button, Box } from '@mui/joy';
 import { getNoteFromFrequency, playSoundFromFrequency } from '../libs/Converter';
 
-function PitchGraph({ musicId, status, src, refresh, audioSrc }) {
+function PitchGraph({ musicId, status, src, refresh, audioSrc, pitchAudioSrc }) {
 
   const [state, setState] = React.useState({
     time: [],
@@ -65,12 +65,15 @@ function PitchGraph({ musicId, status, src, refresh, audioSrc }) {
   const selectedTimeRef = React.useRef(null);
   const selectedPitchRef = React.useRef(null);
   const selectedNoteRef = React.useRef(null);
+  const pitchAudioPlayRef = React.useRef(null);
 
   // 오디오 재생 위치 변경
   const handleSeekChange = (time) => {
-    if (!audioPlayRef.current) return;
-    audioPlayRef.current.currentTime = time;
-  };
+    if (audioPlayRef.current)
+      audioPlayRef.current.currentTime = time;
+    if (pitchAudioPlayRef.current)
+      pitchAudioPlayRef.current.currentTime = time;
+  }
 
   // 선택한 음 값 설정 (state로 관리시 다시 렌더링되기 때문에 ref로 관리)
   const handleSelectedChange = (time, pitch) => {
@@ -169,6 +172,12 @@ function PitchGraph({ musicId, status, src, refresh, audioSrc }) {
             src={audioSrc}
             controls={true}
             style={{ width: '100%', maxWidth: '1000px', height: '40px', marginTop: '12px', marginBottom: '12px' }}
+          ></audio>
+          <audio
+            ref={pitchAudioPlayRef}
+            src={pitchAudioSrc}
+            controls={true}
+            style={{ width: '100%', maxWidth: '1000px', height: '40px', marginTop: '4px', marginBottom: '12px' }}
           ></audio>
           <div style={{ display: 'flex', maxWidth: '1000px' }}>
             <div>
