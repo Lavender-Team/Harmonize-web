@@ -1,7 +1,7 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
 import { fetchPitchGraph } from '../libs/ExcelReader';
-import { Typography, Button } from '@mui/joy';
+import { Typography, Button, Box } from '@mui/joy';
 import { getNoteFromFrequency, playSoundFromFrequency } from '../libs/Converter';
 
 function PitchGraph({ musicId, status, src, refresh, audioSrc }) {
@@ -85,12 +85,30 @@ function PitchGraph({ musicId, status, src, refresh, audioSrc }) {
       playSoundFromFrequency(pitch, 500);
   }
 
-  const deletePoint = async () => {
+  const deletePitch = async () => {
     if (!selectedTimeRef.current.innerText)
       return;
 
-    const response = await fetch(`/api/music/${musicId}/delete?time=${selectedTimeRef.current.innerText}`, {
-      method: 'POST'
+    const response = await fetch(`/api/music/${musicId}/delete?action=value&time=${selectedTimeRef.current.innerText}`, {
+      method: 'PUT'
+    });
+
+    if (response.ok) {
+      alert('삭제 요청이 완료되었습니다. (몇 초 소요됨)');
+    } else {
+      alert('삭제 요청 중 오류가 발생하였습니다.');
+    }
+  }
+
+  const deletePitchRange = async (range) => {
+    if (!window.confirm('선택한 음보다 ' + range  + '인 음 전체를 삭제하시겠습니까?'))
+      return
+
+    if (!selectedTimeRef.current.innerText)
+      return;
+
+    const response = await fetch(`/api/music/${musicId}/delete?action=range&time=${selectedTimeRef.current.innerText}&range=${range}`, {
+      method: 'PUT'
     });
 
     if (response.ok) {
@@ -179,8 +197,16 @@ function PitchGraph({ musicId, status, src, refresh, audioSrc }) {
                 <span ref={selectedTimeRef}>-</span>초,&nbsp;
                 <span ref={selectedPitchRef}>-</span>(<span ref={selectedNoteRef}>-</span>)
               </Typography>
-              <Button variant="outlined" size="sm" onClick={playSound}>음 듣기</Button>
-              <Button variant="outlined" size="sm" onClick={deletePoint} sx={{ ml: '12px' }}>삭제</Button>
+              <Box>
+                <Button variant="outlined" size="sm" onClick={playSound}>음 듣기</Button>
+                <Button variant="outlined" size="sm" onClick={deletePitch} sx={{ ml: '12px' }}>삭제</Button>
+              </Box>
+              <Box sx={{ mt: 1 }}>
+                <Button variant="outlined" size="sm" onClick={() => { deletePitchRange("upper") }}>선택한 음 위쪽 삭제</Button>
+              </Box>
+              <Box sx={{ mt: 1 }}>
+                <Button variant="outlined" size="sm" onClick={() => { deletePitchRange("lower") }}>선택한 음 아래쪽 삭제</Button>
+              </Box>
             </div>
           </div>
         </>
