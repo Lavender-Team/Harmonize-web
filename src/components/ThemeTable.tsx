@@ -95,14 +95,15 @@ function getPageStringList(currentPage: number, totalPages: number) {
 }
 
 
-export default function ThemeTable({ rows, currentPage, setCurrentPage, totalElements, totalPages, query, setQuery }: {
+export default function ThemeTable({ rows, currentPage, navigatePage, totalElements, totalPages, query, setQuery, search }: {
   rows: any[];
   currentPage: number;
-  setCurrentPage: (page: number) => void;
+  navigatePage: (page: number) => void;
   totalElements: number;
   totalPages: number;
   query: string;
   setQuery: (query: string) => void;
+  search: () => void;
 }) {
 
   const [order, setOrder] = React.useState<Order>('desc');
@@ -169,6 +170,7 @@ export default function ThemeTable({ rows, currentPage, setCurrentPage, totalEle
       >
         <FormControl sx={{ width: 380 }} size="sm">
           <Input value={query} onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => { if (e.key == 'Enter') { search() } }}
             size="sm" placeholder="테마 검색" startDecorator={<SearchIcon />} />
         </FormControl>
         {renderFilters()}
@@ -302,7 +304,7 @@ export default function ThemeTable({ rows, currentPage, setCurrentPage, totalEle
           variant="outlined"
           color="neutral"
           startDecorator={<KeyboardArrowLeftIcon />}
-          onClick={() => { if (1 <= currentPage - 1) setCurrentPage(currentPage - 1); }}
+          onClick={() => { if (1 <= currentPage - 1) navigatePage(currentPage - 1); }}
         >
           이전
         </Button>
@@ -313,7 +315,7 @@ export default function ThemeTable({ rows, currentPage, setCurrentPage, totalEle
             size="sm"
             variant={page === currentPage ? 'solid' : 'outlined'}
             color="neutral"
-            onClick={() => { setCurrentPage(page); }}
+            onClick={() => { navigatePage(page); }}
           >
             {page}
           </IconButton>
@@ -324,7 +326,7 @@ export default function ThemeTable({ rows, currentPage, setCurrentPage, totalEle
           variant="outlined"
           color="neutral"
           endDecorator={<KeyboardArrowRightIcon />}
-          onClick={() => { if (currentPage + 1 <= totalPages) setCurrentPage(currentPage + 1); }}
+          onClick={() => { if (currentPage + 1 <= totalPages) navigatePage(currentPage + 1); }}
         >
           다음
         </Button>

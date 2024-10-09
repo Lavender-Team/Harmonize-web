@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { CssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
@@ -26,20 +27,19 @@ const rows_def: Singer[] = [
 
 export default function SingerManage() {
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const queryParams = new URLSearchParams(location.search);
+
   const [rows, setRows] = React.useState<Singer[]>(rows_def);
-  const [currentPage, setCurrentPage] = React.useState(1);
+  const [currentPage, setCurrentPage] = React.useState(queryParams.get('page') ? parseInt(queryParams.get('page') as string) : 1);
   const [totalElements, setTotalElements] = React.useState(0);
   const [totalPages, setTotalPages] = React.useState(10);
-  const [query, setQuery] = React.useState('');
+  const [query, setQuery] = React.useState(queryParams.get('query') || '');
 
   React.useEffect(() => {
     fetchSingerList(currentPage, 12);
   }, [currentPage]);
-
-  React.useEffect(() => {
-    setCurrentPage(1);
-    fetchSingerList(1, 12);
-  }, [query]);
 
   async function fetchSingerList(page: number, size: number) {
     const response = await fetch(`/api/artist?page=${page-1}&size=${size}&artistName=${query}`);
@@ -67,6 +67,19 @@ export default function SingerManage() {
         }
       });
     }
+  }
+
+  function navigatePage(page : number) {
+    setCurrentPage(page);
+    navigate({
+      pathname: location.pathname,
+      search: "?page=" + page + "&query=" + query,
+    });
+  }
+
+  function search() {
+    navigatePage(1);
+    fetchSingerList(1, 12);
   }
 
   return (
@@ -116,10 +129,11 @@ export default function SingerManage() {
               currentPage={currentPage}
               totalElements={totalElements}
               totalPages={totalPages}
-              setCurrentPage={setCurrentPage}
+              navigatePage={navigatePage}
               deleteSinger={deleteSinger}
               query={query}
               setQuery={setQuery}
+              search={search}
             />
           </Box>
         </Box>

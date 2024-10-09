@@ -91,15 +91,16 @@ function getPageStringList(currentPage: number, totalPages: number) {
   return pageList;
 }
 
-export default function GroupTable({ rows, currentPage, totalElements, totalPages, setCurrentPage, deleteGroup, query, setQuery }: {
+export default function GroupTable({ rows, currentPage, totalElements, totalPages, navigatePage, deleteGroup, query, setQuery, search }: {
   rows: Group[];
   currentPage: number;
   totalElements: number;
   totalPages: number;
-  setCurrentPage: (page: number) => void;
+  navigatePage: (page: number) => void;
   deleteGroup: (singerId: number) => void;
   query: string;
   setQuery: (query: string) => void;
+  search: () => void;
 }) {
   const [order, setOrder] = React.useState<Order>('desc');
   const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -165,6 +166,7 @@ export default function GroupTable({ rows, currentPage, totalElements, totalPage
       >
         <FormControl sx={{ width: 380 }} size="sm">
           <Input value={query} onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => { if (e.key == 'Enter') { search() } }}
             size="sm" placeholder="그룹 검색" startDecorator={<SearchIcon />} />
         </FormControl>
         {renderFilters()}
@@ -319,7 +321,7 @@ export default function GroupTable({ rows, currentPage, totalElements, totalPage
           variant="outlined"
           color="neutral"
           startDecorator={<KeyboardArrowLeftIcon />}
-          onClick={() => { if (1 <= currentPage - 1) setCurrentPage(currentPage - 1); }}
+          onClick={() => { if (1 <= currentPage - 1) navigatePage(currentPage - 1); }}
         >
           이전
         </Button>
@@ -330,7 +332,7 @@ export default function GroupTable({ rows, currentPage, totalElements, totalPage
             size="sm"
             variant={page === currentPage ? 'solid' : 'outlined'}
             color="neutral"
-            onClick={() => { setCurrentPage(page); }}
+            onClick={() => { navigatePage(page); }}
           >
             {page}
           </IconButton>
@@ -341,7 +343,7 @@ export default function GroupTable({ rows, currentPage, totalElements, totalPage
           variant="outlined"
           color="neutral"
           endDecorator={<KeyboardArrowRightIcon />}
-          onClick={() => { if (currentPage + 1 <= totalPages) setCurrentPage(currentPage + 1); }}
+          onClick={() => { if (currentPage + 1 <= totalPages) navigatePage(currentPage + 1); }}
         >
           다음
         </Button>

@@ -43,10 +43,11 @@ type UserTableProps = {
     currentPage: number;
     totalElements: number;
     totalPages: number;
-    setCurrentPage: (page: number) => void;
+    navigatePage: (page: number) => void;
     deleteUser: (userId: number) => void;
     query: string;
     setQuery: (query: string) => void;
+    search: () => void;
 };
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -116,10 +117,11 @@ export default function UserTable({
     currentPage,
     totalElements,
     totalPages,
-    setCurrentPage,
+    navigatePage,
     deleteUser,
     query,
     setQuery,
+    search,
 }: UserTableProps) {
     const [order, setOrder] = React.useState<Order>("desc");
     const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -143,8 +145,9 @@ export default function UserTable({
                 <Input
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
+                    onKeyDown={(e) => { if (e.key == 'Enter') { search() } }}
                     size="sm"
-                    placeholder="사용자 검색"
+                    placeholder="닉네임 검색"
                     sx={{ flexGrow: 1, maxWidth: "300px" }}
                 />
             </Box>
@@ -425,7 +428,7 @@ export default function UserTable({
                     startDecorator={<KeyboardArrowLeftIcon />}
                     onClick={() => {
                         if (1 <= currentPage - 1)
-                            setCurrentPage(currentPage - 1);
+                            navigatePage(currentPage - 1);
                     }}
                 >
                     이전
@@ -440,7 +443,7 @@ export default function UserTable({
                                 page === currentPage ? "solid" : "outlined"
                             }
                             color="neutral"
-                            onClick={() => setCurrentPage(page)}
+                            onClick={() => navigatePage(page)}
                         >
                             {page}
                         </IconButton>
@@ -454,7 +457,7 @@ export default function UserTable({
                     endDecorator={<KeyboardArrowRightIcon />}
                     onClick={() => {
                         if (currentPage + 1 <= totalPages)
-                            setCurrentPage(currentPage + 1);
+                            navigatePage(currentPage + 1);
                     }}
                 >
                     다음

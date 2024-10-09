@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { CssVarsProvider } from "@mui/joy/styles";
 import CssBaseline from "@mui/joy/CssBaseline";
 import Box from "@mui/joy/Box";
@@ -30,6 +31,11 @@ const rows_def: User[] = [
 ];
 
 export default function ManageUsers() {
+
+    const location = useLocation();
+    const navigate = useNavigate();
+    const queryParams = new URLSearchParams(location.search);
+
     const [rows, setRows] = React.useState<User[]>(rows_def);
     const [currentPage, setCurrentPage] = React.useState(1);
     const [totalElements, setTotalElements] = React.useState(0);
@@ -39,11 +45,6 @@ export default function ManageUsers() {
     React.useEffect(() => {
         fetchUserList(currentPage, 12);
     }, [currentPage]);
-
-    React.useEffect(() => {
-        setCurrentPage(1);
-        fetchUserList(1, 12);
-    }, [query]);
 
     async function fetchUserList(page: number, size: number) {
         const response = await fetch(
@@ -73,6 +74,19 @@ export default function ManageUsers() {
             });
         }
     }
+
+    function navigatePage(page : number) {
+        setCurrentPage(page);
+        navigate({
+          pathname: location.pathname,
+          search: "?page=" + page + "&query=" + query,
+        });
+      }
+    
+      function search() {
+        navigatePage(1);
+        fetchUserList(1, 12);
+      }
 
     return (
         <CssVarsProvider disableTransitionOnChange>
@@ -146,10 +160,11 @@ export default function ManageUsers() {
                             currentPage={currentPage}
                             totalElements={totalElements}
                             totalPages={totalPages}
-                            setCurrentPage={setCurrentPage}
+                            navigatePage={navigatePage}
                             deleteUser={deleteUser}
                             query={query}
                             setQuery={setQuery}
+                            search={search}
                         />
                     </Box>
                 </Box>

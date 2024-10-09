@@ -56,7 +56,7 @@ function Toggler({
   );
 }
 
-export default function Sidebar({ onLogout }: { onLogout: () => void }) {
+export default function Sidebar({ adminLoginId, onLogout }: { adminLoginId: string, onLogout: () => void }) {
   const navigate = useNavigate();
 
   return (
@@ -224,7 +224,7 @@ export default function Sidebar({ onLogout }: { onLogout: () => void }) {
         <Avatar variant="outlined" size="sm" />
         <Box sx={{ minWidth: 0, flex: 1 }}>
           <Typography level="title-sm">관리자</Typography>
-          <Typography level="body-xs">admin</Typography>
+          <Typography level="body-xs">{adminLoginId}</Typography>
         </Box>
         <IconButton size="sm" variant="plain" color="neutral" onClick={onLogout}>
           <LogoutRoundedIcon />

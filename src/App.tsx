@@ -27,18 +27,23 @@ import Sidebar from './components/Sidebar';
 import Register from './pages/register/register';
 
 export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [isAuthenticated, setIsAuthenticated] = React.useState(localStorage.getItem('token') ? true : false);
+  const [adminLoginId, _] = React.useState(localStorage.getItem('loginId') || '');
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    const res = await fetch(`/api/user/logout`, { method: "GET" });
+    localStorage.removeItem('token');
+
     setIsAuthenticated(false);
   };
+
 
   return (
     <CssVarsProvider disableTransitionOnChange theme={theme}>
       <CssBaseline />
       <Router>
         <Box sx={{ display: 'flex', height: '100vh' }}>
-          {isAuthenticated && <Sidebar onLogout={handleLogout} />}
+          {isAuthenticated && <Sidebar adminLoginId={adminLoginId} onLogout={handleLogout} />}
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             {isAuthenticated && <Header />}
             <Box sx={{ flex: 1 }}>

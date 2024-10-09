@@ -126,19 +126,21 @@ export default function MusicTable({
     currentPage,
     totalElements,
     totalPages,
-    setCurrentPage,
+    navigatePage,
     deleteMusic,
     query,
     setQuery,
+    search,
 }: {
     rows: Music[];
     currentPage: number;
     totalElements: number;
     totalPages: number;
-    setCurrentPage: (page: number) => void;
+    navigatePage: (page: number) => void;
     deleteMusic: (musicId: number) => void;
     query: string;
     setQuery: (query: string) => void;
+    search: () => void;
 }) {
     const [order, setOrder] = React.useState<Order>("desc");
     const [selected, setSelected] = React.useState<readonly string[]>([]);
@@ -215,6 +217,7 @@ export default function MusicTable({
                     <Input
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
+                        onKeyDown={(e) => { if (e.key == 'Enter') { search() } }}
                         size="sm"
                         placeholder="음악 검색"
                         startDecorator={<SearchIcon />}
@@ -499,7 +502,7 @@ export default function MusicTable({
                     startDecorator={<KeyboardArrowLeftIcon />}
                     onClick={() => {
                         if (1 <= currentPage - 1)
-                            setCurrentPage(currentPage - 1);
+                            navigatePage(currentPage - 1);
                     }}
                 >
                     이전
@@ -512,7 +515,7 @@ export default function MusicTable({
                         variant={page === currentPage ? "solid" : "outlined"}
                         color="neutral"
                         onClick={() => {
-                            setCurrentPage(page);
+                            navigatePage(page);
                         }}
                     >
                         {page}
@@ -526,7 +529,7 @@ export default function MusicTable({
                     endDecorator={<KeyboardArrowRightIcon />}
                     onClick={() => {
                         if (currentPage + 1 <= totalPages)
-                            setCurrentPage(currentPage + 1);
+                            navigatePage(currentPage + 1);
                     }}
                 >
                     다음

@@ -61,13 +61,15 @@ function ColorSchemeToggle(props: IconButtonProps) {
 
 export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
     const navigate = useNavigate();
-    const [loginId, setLoginId] = useState("");
+    const [loginId, setLoginId] = useState(localStorage.getItem('prevLoginId') || '');
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [failedAttempts, setFailedAttempts] = useState<number | null>(null); // 로그인 실패 횟수 상태 관리
     const [remainingAttempts, setRemainingAttempts] = useState<number | null>(
         null
     ); // 남은 시도 횟수 상태 관리
+
+    const [saveLoginId, setSaveLoginId] = useState(localStorage.getItem('prevLoginId') ? true : false);
 
     const handleSubmit = async (event: React.FormEvent<SignInFormElement>) => {
         event.preventDefault();
@@ -94,7 +96,20 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
 
             const data = await res.json();
             if (res.status === 200) {
+                if (data.role !== "ADMIN" && data.role !== "MODERATOR") {
+                    setErrorMessage("관리자만 접근할 수 있습니다.");
+                    return;
+                }
+
                 localStorage.setItem("token", data.token); // JWT 토큰 저장
+                localStorage.setItem("loginId", loginId); // 관리자 아이디 저장
+
+                if (saveLoginId) {
+                    localStorage.setItem("prevLoginId", loginId);
+                } else {
+                    localStorage.removeItem("prevLoginId");
+                }
+
                 onSignIn();
                 navigate("/admin-home");
             } else {
@@ -166,9 +181,8 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
                                     style={{ width: "50px", height: "50px" }}
                                 />
                             </IconButton>
-                            <Typography level="title-lg">Harmonize</Typography>
+                            <Typography level="title-lg">하모나이즈</Typography>
                         </Box>
-                        <ColorSchemeToggle />
                     </Box>
                     <Box
                         component="main"
@@ -182,12 +196,12 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
                         <Stack gap={4} sx={{ mb: 2 }}>
                             <Stack gap={1}>
                                 <Typography component="h1" level="h3">
-                                    Sign in
+                                    로그인
                                 </Typography>
                                 <Typography level="body-sm">
-                                    New to company?{" "}
+                                    새로운 아이디를 만들까요?{" "}
                                     <Link href="/register" level="title-sm">
-                                        Sign up!
+                                        회원가입
                                     </Link>
                                 </Typography>
                             </Stack>
@@ -204,7 +218,7 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
                         <Stack gap={4} sx={{ mt: 2 }}>
                             <form onSubmit={handleSubmit}>
                                 <FormControl>
-                                    <FormLabel>Login ID</FormLabel>
+                                    <FormLabel>아이디</FormLabel>
                                     <Input
                                         type="text"
                                         name="loginId"
@@ -214,8 +228,8 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
                                         }
                                     />
                                 </FormControl>
-                                <FormControl>
-                                    <FormLabel>Password</FormLabel>
+                                <FormControl sx={{ mt: 2 }}>
+                                    <FormLabel>비밀번호</FormLabel>
                                     <Input
                                         type="password"
                                         name="password"
@@ -255,18 +269,14 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
                                     >
                                         <Checkbox
                                             size="sm"
-                                            label="Remember me"
+                                            label="아이디 저장하기"
                                             name="persistent"
+                                            checked={saveLoginId}
+                                            onChange={(e) => {setSaveLoginId(e.target.checked)}}
                                         />
-                                        <Link
-                                            level="title-sm"
-                                            href="#replace-with-a-link"
-                                        >
-                                            Forgot your password?
-                                        </Link>
                                     </Box>
                                     <Button type="submit" fullWidth>
-                                        Sign in
+                                        로그인
                                     </Button>
                                 </Stack>
                             </form>
@@ -274,7 +284,7 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
                     </Box>
                     <Box component="footer" sx={{ py: 2 }}>
                         <Typography level="body-xs" textAlign="center">
-                            © Harmonize {new Date().getFullYear()}
+                            © 하모나이즈 by 라벤터 팀 {new Date().getFullYear()}
                         </Typography>
                     </Box>
                 </Box>

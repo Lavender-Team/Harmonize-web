@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { CssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
@@ -18,6 +19,10 @@ const rows_def = [
 
 export default function ThemeManage() {
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const queryParams = new URLSearchParams(location.search);
+
   const [rows, setRows] = React.useState(rows_def);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [totalElements, setTotalElements] = React.useState(0);
@@ -26,15 +31,10 @@ export default function ThemeManage() {
 
   React.useEffect(() => {
     setRows(rows_def);
-    fetchMusicList(currentPage, 12);
+    fetchThemeList(currentPage, 12);
   }, [currentPage]);
 
-  React.useEffect(() => {
-    setCurrentPage(1);
-    fetchMusicList(1, 12);
-  }, [query]);
-
-  async function fetchMusicList(page: number, size: number) {
+  async function fetchThemeList(page: number, size: number) {
     const response = await fetch(`/api/music/theme?page=${page-1}&size=${size}&themeName=${query}`);
   
     if (response.ok) {
@@ -48,8 +48,21 @@ export default function ThemeManage() {
       setTotalElements(res.totalElements);
       setTotalPages(res.totalPages);
     } else {
-      console.error('Failed to fetch music list');
+      console.error('Failed to fetch theme list');
     }
+  }
+
+  function navigatePage(page : number) {
+    setCurrentPage(page);
+    navigate({
+      pathname: location.pathname,
+      search: "?page=" + page + "&query=" + query,
+    });
+  }
+
+  function search() {
+    navigatePage(1);
+    fetchThemeList(1, 12);
   }
 
   return (
@@ -95,11 +108,12 @@ export default function ThemeManage() {
             <ThemeTable
               rows={rows}
               currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
+              navigatePage={navigatePage}
               totalElements={totalElements}
               totalPages={totalPages}
               query={query}
               setQuery={setQuery}
+              search={search}
             />
           </Box>
         </Box>
