@@ -24,7 +24,6 @@ import OpenInNew from '@mui/icons-material/OpenInNew';
 
 import { alertMessage } from '../../libs/ErrorMessage';
 import { Music } from 'TYPES';
-import { getNoteFromFrequency } from '../../libs/Converter';
 import './music.css';
 
 export default function AnalyzeMusic() {
@@ -132,6 +131,18 @@ export default function AnalyzeMusic() {
       alert('분석 요청이 완료되었습니다.');
     } else {
       alert('분석 요청 중 오류가 발생하였습니다. (음악 파일 업로드 확인)');
+    }
+  }
+
+  async function requestAnalysisWithoutModel() {
+    const response = await fetch(`/api/music/${music.id}/analyze?confidence=${confidenceRef.current?.value}&analyzeWithoutModel=true`, {
+      method: 'POST'
+    });
+
+    if (response.ok) {
+      alert('분석 요청이 완료되었습니다.');
+    } else {
+      alert('분석 요청 중 오류가 발생하였습니다.');
     }
   }
 
@@ -387,7 +398,13 @@ export default function AnalyzeMusic() {
 
             <Box sx={{ mt: '36px' }}>
               <p className='sectionTitle'>분석</p>
-                <div className='action' style={{ marginBottom: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }} className='action'>
+                <div>
+                  <Button variant="outlined" color="primary" onClick={requestAnalysisWithoutModel}>
+                    직접 분석결과 업로드 후 적용
+                  </Button>
+                </div>
+                <div>
                   <Typography level='body-xs' sx={{ display: 'inline', mr: 1 }}>음계 예측 신뢰도</Typography>
                   <Input type="number" defaultValue={0.8} slotProps={{ input: { ref: confidenceRef, min: 0.1, max: 1.0, step: 0.01, }, }}
                     sx={{ display: 'inline-block', verticalAlign: 'bottom', mr: 3 }}/>
@@ -398,7 +415,8 @@ export default function AnalyzeMusic() {
                     새로고침
                   </Button>
                 </div>
-                <PitchGraph musicId={music.id} src={pitchGraphSrc} status={music.status} refresh={refresh} audioSrc={audioSrc} pitchAudioSrc={pitchAudioSrc} />
+              </div>
+              <PitchGraph musicId={music.id} src={pitchGraphSrc} status={music.status} refresh={refresh} audioSrc={audioSrc} pitchAudioSrc={pitchAudioSrc} />
             </Box>
           </div>
         </Box>

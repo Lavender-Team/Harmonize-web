@@ -54,6 +54,7 @@ export default function AddGroup() {
             reader.onload = () => {
                 setGroup({
                     ...group,
+                    groupName: (group.groupName) ? group.groupName : file.name.split('.')[0], // 이름 없으면 파일명으로 이름 자동 입력
                     profileImage: reader.result,
                     profileImageFile: file,
                 });

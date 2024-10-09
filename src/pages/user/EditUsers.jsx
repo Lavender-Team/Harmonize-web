@@ -124,7 +124,7 @@ export default function EditUsers() {
 
             if (res.ok) {
                 alert("사용자 정보가 성공적으로 업데이트되었습니다.");
-                navigate("/user-manage");
+                navigate(-1);
             } else {
                 const errors = await res.json();
                 alert(alertMessage(errors));

@@ -56,6 +56,7 @@ export default function AddSinger() {
             reader.onload = () => {
                 setSinger({
                     ...singer,
+                    artistName: (singer.artistName) ? singer.artistName : file.name.split('.')[0], // 이름 없으면 파일명으로 이름 자동 입력
                     profileImage: reader.result,
                     profileImageFile: file,
                 });

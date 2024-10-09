@@ -119,7 +119,7 @@ export default function EditGroup() {
     })
 
     if (res.ok) {
-      navigate('/group-manage')
+      navigate(-1)
     }
     else {
       const errors = await res.json();

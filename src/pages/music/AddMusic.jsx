@@ -82,6 +82,7 @@ export default function AddMusic() {
       reader.onload = () => {
         setMusic({
           ...music,
+          title: (music.title) ? music.title : file.name.split('.')[0], // 이름 없으면 파일명으로 이름 자동 입력
           albumCover: reader.result,
           albumCoverFile: file
         });

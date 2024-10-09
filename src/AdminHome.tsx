@@ -332,7 +332,7 @@ export default function AdminHome() {
                                                 component={RouterLink}
                                                 to="/add-music"
                                             >
-                                                새 음악 등록
+                                                음악 등록
                                             </Link>
                                         </li>
                                         <li style={{ listStyle: "none", marginBottom: 10 }}>
@@ -349,6 +349,14 @@ export default function AdminHome() {
                                                 to="/music-manage"
                                             >
                                                 음악 관리
+                                            </Link>
+                                        </li>
+                                        <li style={{ listStyle: "none", marginBottom: 10 }}>
+                                            <Link
+                                                component={RouterLink}
+                                                to="/add-music-bulk"
+                                            >
+                                                음악 일괄 업로드
                                             </Link>
                                         </li>
                                     </ul>
@@ -380,6 +388,22 @@ export default function AdminHome() {
                                                 to="/singer-manage"
                                             >
                                                 가수 관리
+                                            </Link>
+                                        </li>
+                                        <li style={{ listStyle: "none", marginBottom: 10 }}>
+                                            <Link
+                                                component={RouterLink}
+                                                to="/add-group"
+                                            >
+                                                그룹 추가
+                                            </Link>
+                                        </li>
+                                        <li style={{ listStyle: "none", marginBottom: 10 }}>
+                                            <Link
+                                                component={RouterLink}
+                                                to="/group-manage"
+                                            >
+                                                그룹 관리
                                             </Link>
                                         </li>
                                     </ul>

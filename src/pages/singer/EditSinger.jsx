@@ -132,7 +132,7 @@ export default function EditSinger() {
     })
 
     if (res.ok) {
-      navigate('/singer-manage')
+      navigate(-1)
     }
     else {
       const errors = await res.json();

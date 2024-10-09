@@ -161,7 +161,7 @@ export default function EditMusic() {
     })
 
     if (res.ok) {
-      navigate('/music-manage')
+      navigate(-1)
     }
     else {
       const errors = await res.json();
