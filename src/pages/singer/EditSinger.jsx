@@ -100,15 +100,13 @@ export default function EditSinger() {
     if (
         !singer.artistName ||
         !singer.gender ||
-        !singer.activityPeriod ||
         !singer.nation ||
-        !singer.agency ||
         !singer.profileImage
     ) {
         return false;
     }
     return true;
-  };
+};
 
   const handleSingerSubmit = async () => {
     if (!isSingerValid(singer)) {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { CssVarsProvider } from '@mui/joy/styles';
 import { ColorPaletteProp } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
@@ -28,6 +28,8 @@ import './music.css';
 
 export default function AnalyzeMusic() {
 
+  const location = useLocation();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const musicId = searchParams.get('id');
 
@@ -119,6 +121,12 @@ export default function AnalyzeMusic() {
       setPitchGraphSrc(`/api/music/pitch/${musicId}`);
       setPitchAudioSrc(`/api/music/pitch/audio/${musicId}`);
       setRefresh(!refresh)
+
+      // query params 설정
+      navigate({
+        pathname: location.pathname,
+        search: "?id=" + musicId,
+      });
     }
   }
 
@@ -377,7 +385,10 @@ export default function AnalyzeMusic() {
               </div>
               <div className='item'>
                 <span>가사 파일</span>
-                <input className='hidden' type="file" accept=".txt" ref={lyricRef} onChange={handleLyricFileChange}/>
+                <input className='hidden' type="file" accept=".txt" ref={lyricRef}
+                  onChange={handleLyricFileChange}
+                  onClick={(e)=>{const element = e.target as HTMLInputElement; element.value = '';}}
+                />
                 <Input
                   value={music.lyricFilename}
                   startDecorator={

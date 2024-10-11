@@ -185,14 +185,14 @@ function PitchGraph({ musicId, status, src, refresh, audioSrc, pitchAudioSrc }) 
                 <div><span>최고음</span><Typography level="title-sm">
                   {(analysis.highestPitch) ? getNoteFromFrequency(analysis.highestPitch) + ` (${analysis.highestPitch.toFixed(2)})` : '-'}
                 </Typography></div>
-                <div><span>고음 비율</span><Typography level="title-sm">-%</Typography></div>
+                <div><span>고음 비율</span><Typography level="title-sm">{(analysis.highPitchRatio * 100).toFixed(1)}%</Typography></div>
                 <div><span>고음 지속</span><Typography level="title-sm">-초</Typography></div>
               </div>
               <div className='item analysis'>
                 <div><span>최저음</span><Typography level="title-sm">
                   {(analysis.lowestPitch) ? getNoteFromFrequency(analysis.lowestPitch) + ` (${analysis.lowestPitch.toFixed(2)})` : '-'}  
                 </Typography></div>
-                <div><span>저음 비율</span><Typography level="title-sm">-%</Typography></div>
+                <div><span>저음 비율</span><Typography level="title-sm">{(analysis.lowPitchRatio * 100).toFixed(1)}%</Typography></div>
                 <div><span>저음 지속</span><Typography level="title-sm">-초</Typography></div>
               </div>
               <div className='item analysis'>

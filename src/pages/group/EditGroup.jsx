@@ -88,7 +88,6 @@ export default function EditGroup() {
   const isGroupValid = (singer) => {
     if (
         !group.groupName ||
-        !group.agency ||
         !group.profileImage ||
         members.length === 0
     ) {

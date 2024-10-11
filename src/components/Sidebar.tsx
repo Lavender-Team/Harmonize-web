@@ -56,8 +56,10 @@ function Toggler({
   );
 }
 
-export default function Sidebar({ adminLoginId, onLogout }: { adminLoginId: string, onLogout: () => void }) {
+export default function Sidebar({ onLogout }: { onLogout: () => void }) {
   const navigate = useNavigate();
+
+  const [adminLoginId, _] = React.useState(localStorage.getItem('loginId') || '');
 
   return (
     <Sheet

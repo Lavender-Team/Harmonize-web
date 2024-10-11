@@ -28,7 +28,6 @@ import Register from './pages/register/register';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = React.useState(localStorage.getItem('token') ? true : false);
-  const [adminLoginId, _] = React.useState(localStorage.getItem('loginId') || '');
 
   const handleLogout = async () => {
     const res = await fetch(`/api/user/logout`, { method: "GET" });
@@ -43,7 +42,7 @@ export default function App() {
       <CssBaseline />
       <Router>
         <Box sx={{ display: 'flex', height: '100vh' }}>
-          {isAuthenticated && <Sidebar adminLoginId={adminLoginId} onLogout={handleLogout} />}
+          {isAuthenticated && <Sidebar onLogout={handleLogout} />}
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             {isAuthenticated && <Header />}
             <Box sx={{ flex: 1 }}>
