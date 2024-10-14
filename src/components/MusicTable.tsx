@@ -449,12 +449,12 @@ export default function MusicTable({
                                     </td>
                                     <td>
                                         <Typography level="body-sm">
-                                            {0}
+                                            {row.view}
                                         </Typography>
                                     </td>
                                     <td>
                                         <Typography level="body-sm">
-                                            {0}
+                                            {row.likes}
                                         </Typography>
                                     </td>
                                     <td>
