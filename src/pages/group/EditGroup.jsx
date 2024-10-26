@@ -40,7 +40,7 @@ export default function EditGroup() {
   }, []);
 
   async function fetchGroup(groupId) {
-    const response = await fetch(`/api/group/${groupId}`);
+    const response = await fetch(`/api/group/${groupId}`, { credentials: 'include' });
 
     if (response.ok) {
       const res = await response.json();

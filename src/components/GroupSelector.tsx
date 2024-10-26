@@ -28,7 +28,7 @@ export default function GroupSelector({ setGroup, query, setQuery }:
   }, [query]);
 
   async function fetchGroupList() {
-    const response = await fetch(`/api/group?page=0&size=10&groupName=${query}`);
+    const response = await fetch(`/api/group?page=0&size=10&groupName=${query}`, { credentials: 'include' });
 
     if (response.ok) {
       const res = await response.json();

@@ -61,7 +61,7 @@ export default function EditMusic() {
   }, []);
 
   async function fetchMusic(musicId) {
-    const response = await fetch(`/api/music/${musicId}`);
+    const response = await fetch(`/api/music/${musicId}`, { credentials: 'include' });
 
     if (response.ok) {
       const res = await response.json();
@@ -83,7 +83,7 @@ export default function EditMusic() {
   }
 
   async function fetchThemeList() {
-    const response = await fetch(`/api/music/theme?page=0&size=1000`);
+    const response = await fetch(`/api/music/theme?page=0&size=1000`, { credentials: 'include' });
   
     if (response.ok) {
       const res = await response.json();

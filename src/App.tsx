@@ -30,7 +30,7 @@ export default function App() {
   const [isAuthenticated, setIsAuthenticated] = React.useState(localStorage.getItem('token') ? true : false);
 
   const handleLogout = async () => {
-    const res = await fetch(`/api/user/logout`, { method: "GET" });
+    const res = await fetch(`/api/user/logout`, { method: "GET", credentials: 'include' });
     localStorage.removeItem('token');
 
     setIsAuthenticated(false);

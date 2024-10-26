@@ -88,6 +88,7 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
                 headers: {
                     "Content-Type": "application/json",
                 },
+                credentials: 'include',
                 body: JSON.stringify({
                     loginId: loginId,
                     password: password,

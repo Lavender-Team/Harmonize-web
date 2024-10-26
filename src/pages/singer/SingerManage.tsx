@@ -42,7 +42,7 @@ export default function SingerManage() {
   }, [currentPage]);
 
   async function fetchSingerList(page: number, size: number) {
-    const response = await fetch(`/api/artist?page=${page-1}&size=${size}&artistName=${query}`);
+    const response = await fetch(`/api/artist?page=${page-1}&size=${size}&artistName=${query}`, { credentials: 'include' });
   
     if (response.ok) {
       const data = await response.json();

@@ -48,7 +48,8 @@ export default function ManageUsers() {
 
     async function fetchUserList(page: number, size: number) {
         const response = await fetch(
-            `/api/user?page=${page - 1}&size=${size}&query=${query}`
+            `/api/user?page=${page - 1}&size=${size}&query=${query}`,
+            { credentials: "include" }
         );
 
         if (response.ok) {

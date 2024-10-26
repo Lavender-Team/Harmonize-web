@@ -38,7 +38,7 @@ function PitchGraph({ musicId, status, src, refresh, audioSrc, pitchAudioSrc }) 
   const updateMusicAnalysis = async (musicId) => {
     if (!musicId || musicId === -1) return;
 
-    const response = await fetch(`/api/music/${musicId}`);
+    const response = await fetch(`/api/music/${musicId}`, { credentials: 'include' });
 
     if (response.ok) {
       const res = await response.json();
@@ -93,7 +93,8 @@ function PitchGraph({ musicId, status, src, refresh, audioSrc, pitchAudioSrc }) 
       return;
 
     const response = await fetch(`/api/music/${musicId}/delete?action=value&time=${selectedTimeRef.current.innerText}`, {
-      method: 'PUT'
+      method: 'PUT',
+      credentials: 'include'
     });
 
     if (response.ok) {
@@ -111,7 +112,8 @@ function PitchGraph({ musicId, status, src, refresh, audioSrc, pitchAudioSrc }) 
       return;
 
     const response = await fetch(`/api/music/${musicId}/delete?action=range&time=${selectedTimeRef.current.innerText}&range=${range}`, {
-      method: 'PUT'
+      method: 'PUT',
+      credentials: 'include'
     });
 
     if (response.ok) {

@@ -84,7 +84,7 @@ export default function AnalyzeMusic() {
   }, [selectedMusic]);
 
   async function fetchRecentMusicList() {
-    const response = await fetch(`/api/music?page=${0}&size=${100}`);
+    const response = await fetch(`/api/music?page=${0}&size=${100}`, { credentials: 'include' });
   
     if (response.ok) {
       const data = await response.json();
@@ -97,7 +97,7 @@ export default function AnalyzeMusic() {
   async function fetchMusic(musicId: number) {
     if (!musicId || musicId === -1) return;
 
-    const response = await fetch(`/api/music/${musicId}`);
+    const response = await fetch(`/api/music/${musicId}`, { credentials: 'include' });
 
     if (response.ok) {
       const res = await response.json();
@@ -132,7 +132,8 @@ export default function AnalyzeMusic() {
 
   async function requestAnalysis() {
     const response = await fetch(`/api/music/${music.id}/analyze?confidence=${confidenceRef.current?.value}`, {
-      method: 'POST'
+      method: 'POST',
+      credentials: 'include'
     });
 
     if (response.ok) {
@@ -144,7 +145,8 @@ export default function AnalyzeMusic() {
 
   async function requestAnalysisWithoutModel() {
     const response = await fetch(`/api/music/${music.id}/analyze?confidence=${confidenceRef.current?.value}&analyzeWithoutModel=true`, {
-      method: 'POST'
+      method: 'POST',
+      credentials: 'include'
     });
 
     if (response.ok) {

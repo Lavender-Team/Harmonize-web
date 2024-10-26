@@ -46,7 +46,9 @@ export default function ThemeMusicManage() {
   }, [currentPage]);
 
   async function fetchMusicList(page: number, size: number) {
-    const response = await fetch(`/api/music/theme/music?themeName=${themeName}&page=${page-1}&size=${size}&title=${query}`);
+    const response = await fetch(`/api/music/theme/music?themeName=${themeName}&page=${page-1}&size=${size}&title=${query}`, {
+      credentials: 'include'
+    });
   
     if (response.ok) {
       const data = await response.json();

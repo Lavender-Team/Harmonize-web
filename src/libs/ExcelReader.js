@@ -6,7 +6,8 @@ export const fetchPitchGraph = async (url) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            }
+            },
+            credentials: 'include'
         });
 
         if (!response.ok) {

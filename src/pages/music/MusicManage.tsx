@@ -44,7 +44,7 @@ export default function MusicManage() {
   }, [currentPage]);
 
   async function fetchMusicList(page: number, size: number) {
-    const response = await fetch(`/api/music?page=${page-1}&size=${size}&title=${query}`);
+    const response = await fetch(`/api/music?page=${page-1}&size=${size}&title=${query}`, { credentials: 'include' });
   
     if (response.ok) {
       const data = await response.json();

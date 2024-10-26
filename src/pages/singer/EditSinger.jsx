@@ -50,7 +50,7 @@ export default function EditSinger() {
   }, []);
 
   async function fetchSinger(singerId) {
-    const response = await fetch(`/api/artist/${singerId}`);
+    const response = await fetch(`/api/artist/${singerId}`, { credentials: 'include' });
 
     if (response.ok) {
       const res = await response.json();

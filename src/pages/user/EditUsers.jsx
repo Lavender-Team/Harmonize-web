@@ -46,7 +46,7 @@ export default function EditUsers() {
 
     async function fetchUser(userId) {
         try {
-            const response = await fetch(`/api/user/${userId}`);
+            const response = await fetch(`/api/user/${userId}`, { credentials: 'include' });
             if (response.ok) {
                 const res = await response.json();
                 setUser({
@@ -119,6 +119,7 @@ export default function EditUsers() {
         try {
             const res = await fetch(`/api/user/admin/${id}`, {
                 method: "PUT",
+                credentials: "include",
                 body: data,
             });
 
@@ -143,6 +144,7 @@ export default function EditUsers() {
         try {
             const res = await fetch(`/api/user/${id}`, {
                 method: "DELETE",
+                credentials: 'include'
             });
 
             if (res.ok) {

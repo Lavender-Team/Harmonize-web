@@ -33,7 +33,7 @@ export default function SingerGroupSelector({ multiple, members, setMembers }:
   }, [query]);
 
   async function fetchSingerList(artistName: string) {
-    const response = await fetch('/api/artist?artistName=' + artistName);
+    const response = await fetch('/api/artist?artistName=' + artistName, { credentials: 'include' });
     
     if (response.ok) {
       const data = await response.json();

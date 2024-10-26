@@ -42,7 +42,7 @@ export default function GroupManage() {
   }, [currentPage]);
 
   async function fetchGroupList(page: number, size: number) {
-    const response = await fetch(`/api/group?page=${page-1}&size=${size}&groupName=${query}`);
+    const response = await fetch(`/api/group?page=${page-1}&size=${size}&groupName=${query}`, { credentials: 'include' });
   
     if (response.ok) {
       const data = await response.json();

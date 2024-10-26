@@ -45,7 +45,7 @@ export default function AddMusic() {
   }, []);
 
   async function fetchThemeList() {
-    const response = await fetch(`/api/music/theme?page=0&size=1000`);
+    const response = await fetch(`/api/music/theme?page=0&size=1000`, { credentials: 'include' });
   
     if (response.ok) {
       const res = await response.json();
