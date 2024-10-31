@@ -56,7 +56,6 @@ function descendingComparator(a: User, b: User, orderBy: keyof User): number {
     const aValue = a[orderBy];
     const bValue = b[orderBy];
 
-    // null 또는 undefined 값 처리
     if (aValue == null && bValue != null) {
         return 1;
     }
@@ -67,7 +66,6 @@ function descendingComparator(a: User, b: User, orderBy: keyof User): number {
         return 0;
     }
 
-    // 타입에 따른 비교 로직
     if (typeof aValue === "string" && typeof bValue === "string") {
         return bValue.localeCompare(aValue);
     } else if (typeof aValue === "number" && typeof bValue === "number") {
@@ -138,14 +136,11 @@ export default function UserTable({
     search,
 }: UserTableProps) {
     const [order, setOrder] = React.useState<Order>("desc");
-    const [orderBy, setOrderBy] = React.useState<keyof User>("userId");
+    const orderBy: keyof User = "userId"; // orderBy를 'userId'로 고정
     const [selected, setSelected] = React.useState<readonly string[]>([]);
-    const [open, setOpen] = React.useState(false);
 
-    const handleRequestSort = (property: keyof User) => {
-        const isAsc = orderBy === property && order === "asc";
-        setOrder(isAsc ? "desc" : "asc");
-        setOrderBy(property);
+    const handleRequestSort = () => {
+        setOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
     };
 
     return (
@@ -241,14 +236,13 @@ export default function UserTable({
                                     underline="none"
                                     color="primary"
                                     component="button"
-                                    onClick={() => handleRequestSort("userId")}
+                                    onClick={handleRequestSort}
                                     fontWeight="lg"
                                     endDecorator={<ArrowDropDownIcon />}
                                     sx={{
                                         "& svg": {
                                             transition: "0.2s",
                                             transform:
-                                                orderBy === "userId" &&
                                                 order === "desc"
                                                     ? "rotate(0deg)"
                                                     : "rotate(180deg)",
@@ -259,162 +253,25 @@ export default function UserTable({
                                 </Link>
                             </th>
                             <th style={{ width: 160, padding: "12px 6px" }}>
-                                <Link
-                                    underline="none"
-                                    color="primary"
-                                    component="button"
-                                    onClick={() => handleRequestSort("loginId")}
-                                    fontWeight="lg"
-                                    endDecorator={<ArrowDropDownIcon />}
-                                    sx={{
-                                        "& svg": {
-                                            transition: "0.2s",
-                                            transform:
-                                                orderBy === "loginId" &&
-                                                order === "desc"
-                                                    ? "rotate(0deg)"
-                                                    : "rotate(180deg)",
-                                        },
-                                    }}
-                                >
-                                    로그인 ID
-                                </Link>
+                                로그인 ID
                             </th>
                             <th style={{ width: 220, padding: "12px 6px" }}>
-                                <Link
-                                    underline="none"
-                                    color="primary"
-                                    component="button"
-                                    onClick={() => handleRequestSort("email")}
-                                    fontWeight="lg"
-                                    endDecorator={<ArrowDropDownIcon />}
-                                    sx={{
-                                        "& svg": {
-                                            transition: "0.2s",
-                                            transform:
-                                                orderBy === "email" &&
-                                                order === "desc"
-                                                    ? "rotate(0deg)"
-                                                    : "rotate(180deg)",
-                                        },
-                                    }}
-                                >
-                                    이메일
-                                </Link>
+                                이메일
                             </th>
                             <th style={{ width: 120, padding: "12px 6px" }}>
-                                <Link
-                                    underline="none"
-                                    color="primary"
-                                    component="button"
-                                    onClick={() =>
-                                        handleRequestSort("nickname")
-                                    }
-                                    fontWeight="lg"
-                                    endDecorator={<ArrowDropDownIcon />}
-                                    sx={{
-                                        "& svg": {
-                                            transition: "0.2s",
-                                            transform:
-                                                orderBy === "nickname" &&
-                                                order === "desc"
-                                                    ? "rotate(0deg)"
-                                                    : "rotate(180deg)",
-                                        },
-                                    }}
-                                >
-                                    닉네임
-                                </Link>
+                                닉네임
                             </th>
                             <th style={{ width: 80, padding: "12px 6px" }}>
-                                <Link
-                                    underline="none"
-                                    color="primary"
-                                    component="button"
-                                    onClick={() => handleRequestSort("role")}
-                                    fontWeight="lg"
-                                    endDecorator={<ArrowDropDownIcon />}
-                                    sx={{
-                                        "& svg": {
-                                            transition: "0.2s",
-                                            transform:
-                                                orderBy === "role" &&
-                                                order === "desc"
-                                                    ? "rotate(0deg)"
-                                                    : "rotate(180deg)",
-                                        },
-                                    }}
-                                >
-                                    역할
-                                </Link>
+                                역할
                             </th>
                             <th style={{ width: 60, padding: "12px 6px" }}>
-                                <Link
-                                    underline="none"
-                                    color="primary"
-                                    component="button"
-                                    onClick={() => handleRequestSort("gender")}
-                                    fontWeight="lg"
-                                    endDecorator={<ArrowDropDownIcon />}
-                                    sx={{
-                                        "& svg": {
-                                            transition: "0.2s",
-                                            transform:
-                                                orderBy === "gender" &&
-                                                order === "desc"
-                                                    ? "rotate(0deg)"
-                                                    : "rotate(180deg)",
-                                        },
-                                    }}
-                                >
-                                    성별
-                                </Link>
+                                성별
                             </th>
                             <th style={{ width: 40, padding: "12px 6px" }}>
-                                <Link
-                                    underline="none"
-                                    color="primary"
-                                    component="button"
-                                    onClick={() => handleRequestSort("age")}
-                                    fontWeight="lg"
-                                    endDecorator={<ArrowDropDownIcon />}
-                                    sx={{
-                                        "& svg": {
-                                            transition: "0.2s",
-                                            transform:
-                                                orderBy === "age" &&
-                                                order === "desc"
-                                                    ? "rotate(0deg)"
-                                                    : "rotate(180deg)",
-                                        },
-                                    }}
-                                >
-                                    나이
-                                </Link>
+                                나이
                             </th>
                             <th style={{ width: 160, padding: "12px 6px" }}>
-                                <Link
-                                    underline="none"
-                                    color="primary"
-                                    component="button"
-                                    onClick={() =>
-                                        handleRequestSort("createdAt")
-                                    }
-                                    fontWeight="lg"
-                                    endDecorator={<ArrowDropDownIcon />}
-                                    sx={{
-                                        "& svg": {
-                                            transition: "0.2s",
-                                            transform:
-                                                orderBy === "createdAt" &&
-                                                order === "desc"
-                                                    ? "rotate(0deg)"
-                                                    : "rotate(180deg)",
-                                        },
-                                    }}
-                                >
-                                    가입일
-                                </Link>
+                                가입일
                             </th>
                             <th style={{ width: 60, padding: "12px 6px" }}>
                                 삭제됨
@@ -500,7 +357,9 @@ export default function UserTable({
                                                     src={
                                                         row?.profileImage || ""
                                                     }
-                                                    sx={{ borderRadius: "4px" }}
+                                                    sx={{
+                                                        borderRadius: "4px",
+                                                    }}
                                                 ></Avatar>
                                                 <div>
                                                     <Typography level="title-sm">
