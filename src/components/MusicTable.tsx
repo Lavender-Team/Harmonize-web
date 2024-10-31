@@ -35,15 +35,16 @@ import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded";
 import { Music } from "TYPES";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-    if (b[orderBy] < a[orderBy]) {
+    if (a[orderBy] > b[orderBy]) {
         return -1;
     }
-    if (b[orderBy] > a[orderBy]) {
+    if (a[orderBy] < b[orderBy]) {
         return 1;
     }
     return 0;
 }
 
+// 여기서 Order 타입을 정의합니다.
 type Order = "asc" | "desc";
 
 function getComparator<Key extends keyof any>(
@@ -57,6 +58,7 @@ function getComparator<Key extends keyof any>(
         ? (a, b) => descendingComparator(a, b, orderBy)
         : (a, b) => -descendingComparator(a, b, orderBy);
 }
+
 
 function RowMenu({
     musicId,
@@ -142,6 +144,7 @@ export default function MusicTable({
     setQuery: (query: string) => void;
     search: () => void;
 }) {
+    // 여기서 Order 타입을 사용합니다.
     const [order, setOrder] = React.useState<Order>("desc");
     const [selected, setSelected] = React.useState<readonly string[]>([]);
     const [open, setOpen] = React.useState(false);
@@ -217,7 +220,11 @@ export default function MusicTable({
                     <Input
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
-                        onKeyDown={(e) => { if (e.key == 'Enter') { search() } }}
+                        onKeyDown={(e) => {
+                            if (e.key == "Enter") {
+                                search();
+                            }
+                        }}
                         size="sm"
                         placeholder="음악 검색"
                         startDecorator={<SearchIcon />}
@@ -501,8 +508,7 @@ export default function MusicTable({
                     color="neutral"
                     startDecorator={<KeyboardArrowLeftIcon />}
                     onClick={() => {
-                        if (1 <= currentPage - 1)
-                            navigatePage(currentPage - 1);
+                        if (1 <= currentPage - 1) navigatePage(currentPage - 1);
                     }}
                 >
                     이전

@@ -31,27 +31,27 @@ import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import { Group } from 'TYPES';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
+    if (a[orderBy] > b[orderBy]) {
+        return -1;
+    }
+    if (a[orderBy] < b[orderBy]) {
+        return 1;
+    }
+    return 0;
 }
 
-type Order = 'asc' | 'desc';
+type Order = "asc" | "desc";
 
 function getComparator<Key extends keyof any>(
-  order: Order,
-  orderBy: Key,
+    order: Order,
+    orderBy: Key
 ): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string },
+    a: { [key in Key]: number | string },
+    b: { [key in Key]: number | string }
 ) => number {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+    return order === "desc"
+        ? (a, b) => descendingComparator(a, b, orderBy)
+        : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
 function RowMenu({ groupId, deleteGroup }: { groupId: number, deleteGroup: (groupId: number) => void }) {
@@ -102,13 +102,10 @@ export default function GroupTable({ rows, currentPage, totalElements, totalPage
   setQuery: (query: string) => void;
   search: () => void;
 }) {
-  const [order, setOrder] = React.useState<Order>('desc');
+  const [order, setOrder] = React.useState<Order>("desc");
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [open, setOpen] = React.useState(false);
-  const renderFilters = () => (
-    <React.Fragment>
-    </React.Fragment>
-  );
+  const renderFilters = () => <React.Fragment></React.Fragment>;
 
   return (
     <React.Fragment>
