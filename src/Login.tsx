@@ -97,11 +97,6 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
 
             const data = await res.json();
             if (res.status === 200) {
-                // if (data.role !== "ADMIN" && data.role !== "MODERATOR") {
-                //     setErrorMessage("관리자만 접근할 수 있습니다.");
-                //     return;
-                // }
-
                 localStorage.setItem("token", data.token); // JWT 토큰 저장
                 localStorage.setItem("loginId", loginId); // 관리자 아이디 저장
                 localStorage.setItem("role", data.role); 
