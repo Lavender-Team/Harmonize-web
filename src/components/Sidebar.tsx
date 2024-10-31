@@ -59,179 +59,235 @@ function Toggler({
 export default function Sidebar({ onLogout }: { onLogout: () => void }) {
   const navigate = useNavigate();
 
-  const [adminLoginId, _] = React.useState(localStorage.getItem('loginId') || '');
+  const [adminLoginId, ] = React.useState(localStorage.getItem('loginId') || '');
+  const [role, ] = React.useState(localStorage.getItem('role') || '');
 
+  
   return (
-    <Sheet
-      className="Sidebar"
-      sx={{
-        position: 'fixed',
-        left: 0,
-        width: '240px',
-        height: '100vh',
-        overflowY: 'auto',
-        transition: 'transform 0.4s, width 0.4s',
-        zIndex: 10000,
-        borderRight: '1px solid',
-        borderColor: 'divider',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 2,
-        p: 2,
-      }}
-    >
-      <GlobalStyles
-        styles={(theme) => ({
-          ':root': {
-            '--Sidebar-width': '240px',
-          },
-        })}
-      />
-      <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-        <IconButton variant="soft" size="sm">
-          <img src={Logo} alt="Logo" style={{ width: '24px', height: '24px' }} />
-        </IconButton>
-        <Typography level="title-lg">하모나이즈</Typography>
-        <ColorSchemeToggle sx={{ ml: 'auto' }} />
-      </Box>
-      <Box
-        sx={{
-          minHeight: 0,
-          overflow: 'hidden auto',
-          flexGrow: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          [`& .${listItemButtonClasses.root}`]: {
-            gap: 1.5,
-          },
-        }}
-      >
-        <List
-          size="sm"
+      <Sheet
+          className="Sidebar"
           sx={{
-            gap: 1,
-            '--List-nestedInsetStart': '30px',
-            '--ListItem-radius': (theme) => theme.vars.radius.sm,
+              position: "fixed",
+              left: 0,
+              width: "240px",
+              height: "100vh",
+              overflowY: "auto",
+              transition: "transform 0.4s, width 0.4s",
+              zIndex: 10000,
+              borderRight: "1px solid",
+              borderColor: "divider",
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              p: 2,
           }}
-        >
-          <ListItem>
-            <ListItemButton component={Link} to="/admin-home">
-              <HomeRoundedIcon />
-              <ListItemContent>
-                <Typography level="title-sm">관리자 홈</Typography>
-              </ListItemContent>
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem nested>
-            <Toggler
-              renderToggle={({ open, setOpen }) => (
-                <ListItemButton onClick={() => setOpen(!open)}>
-                  <LibraryMusicIcon />
-                  <ListItemContent>
-                    <Typography level="title-sm">음악 관리</Typography>
-                  </ListItemContent>
-                  <KeyboardArrowDownIcon
-                    sx={{ transform: open ? 'rotate(180deg)' : 'none' }}
+      >
+          <GlobalStyles
+              styles={(theme) => ({
+                  ":root": {
+                      "--Sidebar-width": "240px",
+                  },
+              })}
+          />
+          <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+              <IconButton variant="soft" size="sm">
+                  <img
+                      src={Logo}
+                      alt="Logo"
+                      style={{ width: "24px", height: "24px" }}
                   />
-                </ListItemButton>
-              )}
-            >
-              <List sx={{ gap: 0.5 }}>
-                <ListItem sx={{ mt: 0.5 }}>
-                  <ListItemButton component={Link} to="/add-music">
-                    음악 등록
-                  </ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton component={Link} to="/analyze-music">
-                    음악 분석
-                  </ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton component={Link} to="/music-manage">
-                    음악 관리
-                  </ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton component={Link} to="/add-music-bulk">
-                    음악 일괄 업로드
-                  </ListItemButton>
-                </ListItem>
+              </IconButton>
+              <Typography level="title-lg">하모나이즈</Typography>
+              <ColorSchemeToggle sx={{ ml: "auto" }} />
+          </Box>
+          <Box
+              sx={{
+                  minHeight: 0,
+                  overflow: "hidden auto",
+                  flexGrow: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  [`& .${listItemButtonClasses.root}`]: {
+                      gap: 1.5,
+                  },
+              }}
+          >
+              <List
+                  size="sm"
+                  sx={{
+                      gap: 1,
+                      "--List-nestedInsetStart": "30px",
+                      "--ListItem-radius": (theme) => theme.vars.radius.sm,
+                  }}
+              >
+                  <ListItem>
+                      <ListItemButton component={Link} to="/admin-home">
+                          <HomeRoundedIcon />
+                          <ListItemContent>
+                              <Typography level="title-sm">
+                                  관리자 홈
+                              </Typography>
+                          </ListItemContent>
+                      </ListItemButton>
+                  </ListItem>
+
+                  <ListItem nested>
+                      <Toggler
+                          renderToggle={({ open, setOpen }) => (
+                              <ListItemButton onClick={() => setOpen(!open)}>
+                                  <LibraryMusicIcon />
+                                  <ListItemContent>
+                                      <Typography level="title-sm">
+                                          음악 관리
+                                      </Typography>
+                                  </ListItemContent>
+                                  <KeyboardArrowDownIcon
+                                      sx={{
+                                          transform: open
+                                              ? "rotate(180deg)"
+                                              : "none",
+                                      }}
+                                  />
+                              </ListItemButton>
+                          )}
+                      >
+                          <List sx={{ gap: 0.5 }}>
+                              <ListItem sx={{ mt: 0.5 }}>
+                                  <ListItemButton
+                                      component={Link}
+                                      to="/add-music"
+                                  >
+                                      음악 등록
+                                  </ListItemButton>
+                              </ListItem>
+                              <ListItem>
+                                  <ListItemButton
+                                      component={Link}
+                                      to="/analyze-music"
+                                  >
+                                      음악 분석
+                                  </ListItemButton>
+                              </ListItem>
+                              <ListItem>
+                                  <ListItemButton
+                                      component={Link}
+                                      to="/music-manage"
+                                  >
+                                      음악 관리
+                                  </ListItemButton>
+                              </ListItem>
+                              <ListItem>
+                                  <ListItemButton
+                                      component={Link}
+                                      to="/add-music-bulk"
+                                  >
+                                      음악 일괄 업로드
+                                  </ListItemButton>
+                              </ListItem>
+                          </List>
+                      </Toggler>
+                  </ListItem>
+
+                  <ListItem nested>
+                      <Toggler
+                          renderToggle={({ open, setOpen }) => (
+                              <ListItemButton onClick={() => setOpen(!open)}>
+                                  <RecordVoiceOverIcon />
+                                  <ListItemContent>
+                                      <Typography level="title-sm">
+                                          가수 관리
+                                      </Typography>
+                                  </ListItemContent>
+                                  <KeyboardArrowDownIcon
+                                      sx={{
+                                          transform: open
+                                              ? "rotate(180deg)"
+                                              : "none",
+                                      }}
+                                  />
+                              </ListItemButton>
+                          )}
+                      >
+                          <List sx={{ gap: 0.5 }}>
+                              <ListItem sx={{ mt: 0.5 }}>
+                                  <ListItemButton
+                                      component={Link}
+                                      to="/add-singer"
+                                  >
+                                      가수 추가
+                                  </ListItemButton>
+                              </ListItem>
+                              <ListItem>
+                                  <ListItemButton
+                                      component={Link}
+                                      to="/singer-manage"
+                                  >
+                                      가수 관리
+                                  </ListItemButton>
+                              </ListItem>
+                              <ListItem>
+                                  <ListItemButton
+                                      component={Link}
+                                      to="/add-group"
+                                  >
+                                      그룹 추가
+                                  </ListItemButton>
+                              </ListItem>
+                              <ListItem>
+                                  <ListItemButton
+                                      component={Link}
+                                      to="/group-manage"
+                                  >
+                                      그룹 관리
+                                  </ListItemButton>
+                              </ListItem>
+                          </List>
+                      </Toggler>
+                  </ListItem>
+
+                  <ListItem>
+                      <ListItemButton component={Link} to="/theme-manage">
+                          <LabelIcon />
+                          <ListItemContent>
+                              <Typography level="title-sm">
+                                  테마 관리
+                              </Typography>
+                          </ListItemContent>
+                      </ListItemButton>
+                  </ListItem>
+
+                  <ListItem>
+                      <ListItemButton component={Link} to="/user-manage">
+                          <AccountCircleIcon />
+                          <ListItemContent>
+                              <Typography level="title-sm">
+                                  회원 관리
+                              </Typography>
+                          </ListItemContent>
+                      </ListItemButton>
+                  </ListItem>
               </List>
-            </Toggler>
-          </ListItem>
+          </Box>
 
-          <ListItem nested>
-            <Toggler
-              renderToggle={({ open, setOpen }) => (
-                <ListItemButton onClick={() => setOpen(!open)}>
-                  <RecordVoiceOverIcon />
-                  <ListItemContent>
-                    <Typography level="title-sm">가수 관리</Typography>
-                  </ListItemContent>
-                  <KeyboardArrowDownIcon
-                    sx={{ transform: open ? 'rotate(180deg)' : 'none' }}
-                  />
-                </ListItemButton>
-              )}
-            >
-              <List sx={{ gap: 0.5 }}>
-                <ListItem sx={{ mt: 0.5 }}>
-                  <ListItemButton component={Link} to="/add-singer">
-                    가수 추가
-                  </ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton component={Link} to="/singer-manage">
-                    가수 관리
-                  </ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton component={Link} to="/add-group">
-                    그룹 추가
-                  </ListItemButton>
-                </ListItem>
-                <ListItem>
-                  <ListItemButton component={Link} to="/group-manage">
-                    그룹 관리
-                  </ListItemButton>
-                </ListItem>
-              </List>
-            </Toggler>
-          </ListItem>
+          <Divider />
 
-          <ListItem>
-            <ListItemButton component={Link} to="/theme-manage">
-              <LabelIcon />
-              <ListItemContent>
-                <Typography level="title-sm">테마 관리</Typography>
-              </ListItemContent>
-            </ListItemButton>
-          </ListItem>
-
-          <ListItem>
-            <ListItemButton component={Link} to="/user-manage">
-              <AccountCircleIcon />
-              <ListItemContent>
-                <Typography level="title-sm">회원 관리</Typography>
-              </ListItemContent>
-            </ListItemButton>
-          </ListItem>
-        </List>
-      </Box>
-
-      <Divider />
-      <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-        <Avatar variant="outlined" size="sm" />
-        <Box sx={{ minWidth: 0, flex: 1 }}>
-          <Typography level="title-sm">관리자</Typography>
-          <Typography level="body-xs">{adminLoginId}</Typography>
-        </Box>
-        <IconButton size="sm" variant="plain" color="neutral" onClick={onLogout}>
-          <LogoutRoundedIcon />
-        </IconButton>
-      </Box>
-    </Sheet>
+          <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+              <Avatar variant="outlined" size="sm" />
+              <Box sx={{ minWidth: 0, flex: 1 }}>
+                  <Typography level="title-sm">
+                      {role === "ADMIN" ? "관리자" : "사용자"}
+                  </Typography>
+                  <Typography level="body-xs">{adminLoginId}</Typography>
+              </Box>
+              <IconButton
+                  size="sm"
+                  variant="plain"
+                  color="neutral"
+                  onClick={onLogout}
+              >
+                  <LogoutRoundedIcon />
+              </IconButton>
+          </Box>
+      </Sheet>
   );
 }

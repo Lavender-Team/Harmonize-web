@@ -97,13 +97,14 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
 
             const data = await res.json();
             if (res.status === 200) {
-                if (data.role !== "ADMIN" && data.role !== "MODERATOR") {
-                    setErrorMessage("관리자만 접근할 수 있습니다.");
-                    return;
-                }
+                // if (data.role !== "ADMIN" && data.role !== "MODERATOR") {
+                //     setErrorMessage("관리자만 접근할 수 있습니다.");
+                //     return;
+                // }
 
                 localStorage.setItem("token", data.token); // JWT 토큰 저장
                 localStorage.setItem("loginId", loginId); // 관리자 아이디 저장
+                localStorage.setItem("role", data.role); 
 
                 if (saveLoginId) {
                     localStorage.setItem("prevLoginId", loginId);
@@ -273,7 +274,11 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
                                             label="아이디 저장하기"
                                             name="persistent"
                                             checked={saveLoginId}
-                                            onChange={(e) => {setSaveLoginId(e.target.checked)}}
+                                            onChange={(e) => {
+                                                setSaveLoginId(
+                                                    e.target.checked
+                                                );
+                                            }}
                                         />
                                     </Box>
                                     <Button type="submit" fullWidth>
@@ -285,7 +290,7 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
                     </Box>
                     <Box component="footer" sx={{ py: 2 }}>
                         <Typography level="body-xs" textAlign="center">
-                            © 하모나이즈 by 라벤터 팀 {new Date().getFullYear()}
+                            © 하모나이즈 by 라벤더 팀 {new Date().getFullYear()}
                         </Typography>
                     </Box>
                 </Box>
