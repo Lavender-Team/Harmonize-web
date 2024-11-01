@@ -26,6 +26,7 @@ import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Register from './pages/user/Register';
 import FindAccount from './pages/user/FindAccount';
+import ResetPassword from './pages/user/ResetPassword';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = React.useState(localStorage.getItem('token') ? true : false);
@@ -51,6 +52,7 @@ export default function App() {
                 <Route path="/login" element={<SignIn onSignIn={() => setIsAuthenticated(true)} />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/find-account" element={<FindAccount />} />
+                <Route path="/reset-password/:token" element={<ResetPassword />} />
                 {isAuthenticated ? (
                   <>
                     <Route path="/admin-home" element={<AdminHome />} />
