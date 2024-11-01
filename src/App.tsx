@@ -24,7 +24,8 @@ import ManageUsers from './pages/user/ManageUsers';
 import EditUsers from './pages/user/EditUsers';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
-import Register from './pages/register/register';
+import Register from './pages/user/Register';
+import FindAccount from './pages/user/FindAccount';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = React.useState(localStorage.getItem('token') ? true : false);
@@ -49,6 +50,7 @@ export default function App() {
               <Routes>
                 <Route path="/login" element={<SignIn onSignIn={() => setIsAuthenticated(true)} />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/find-account" element={<FindAccount />} />
                 {isAuthenticated ? (
                   <>
                     <Route path="/admin-home" element={<AdminHome />} />

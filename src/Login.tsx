@@ -245,16 +245,34 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
                                 )}
                                 {failedAttempts !== null &&
                                     remainingAttempts !== null && (
-                                        <Typography
-                                            sx={{
-                                                color: "orange",
-                                                marginTop: 2,
-                                            }}
-                                        >
-                                            로그인 실패 횟수: {failedAttempts},
-                                            잠금까지 남은 횟수:{" "}
-                                            {remainingAttempts}
-                                        </Typography>
+                                        <>
+                                            <Typography
+                                                sx={{
+                                                    fontSize: "0.875rem",
+                                                    marginTop: 2,
+                                                }}
+                                            >
+                                                아이디/비밀번호를 잊으셨나요?{" "}
+                                                <Link
+                                                    href="/find-account"
+                                                    sx={{
+                                                        fontSize: "0.875rem",
+                                                    }}
+                                                >
+                                                    아이디/비밀번호 찾기
+                                                </Link>
+                                            </Typography>
+                                            <Typography
+                                                sx={{
+                                                    fontSize: "0.800rem",
+                                                    color: "red",
+                                                }}
+                                            >
+                                                로그인 실패 횟수:{" "}
+                                                {failedAttempts}, 잠금까지 남은
+                                                횟수: {remainingAttempts}
+                                            </Typography>
+                                        </>
                                     )}
                                 <Stack gap={4} sx={{ mt: 2 }}>
                                     <Box
