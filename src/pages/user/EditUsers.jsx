@@ -21,7 +21,6 @@ import { alertMessage } from "../../libs/ErrorMessage";
 const ROLELIST = {
     User: "USER",
     Admin: "ADMIN",
-    Moderator: "MODERATOR",
 };
 
 export default function EditUsers() {
