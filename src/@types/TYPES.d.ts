@@ -11,6 +11,8 @@ declare module "TYPES" {
         view: number;
         likes: number;
         themes: string[];
+        rank: number;
+        score: number;
     };
 
     export type Singer = {

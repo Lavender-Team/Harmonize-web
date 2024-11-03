@@ -23,7 +23,9 @@ const rows_def: Music[] = [
     albumCover: '',
     view: 0,
     likes: 0,
-    themes: []
+    themes: [],
+    rank: 0,
+    score: 0
   }
 ];
 

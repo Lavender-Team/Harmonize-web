@@ -168,7 +168,7 @@ export default function UserTable({
                         }
                     }}
                     size="sm"
-                    placeholder="닉네임 검색"
+                    placeholder="아이디 검색"
                     sx={{ flexGrow: 1, maxWidth: "300px" }}
                 />
             </Box>

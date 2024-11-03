@@ -33,6 +33,7 @@ import Sidebar from "./components/Sidebar";
 import Register from "./pages/user/Register";
 import FindAccount from "./pages/user/FindAccount";
 import ResetPassword from "./pages/user/ResetPassword";
+import MusicRecommend from './pages/recommend/MusicRecommend';
 
 interface AppRoutesProps {
     isAuthenticated: boolean;
@@ -105,6 +106,7 @@ function AppRoutes({
                         path="/user-manage/edit/:id"
                         element={<EditUsers />}
                     />
+                    <Route path="/music-recommend" element={<MusicRecommend />} />
                     <Route path="*" element={<Navigate to="/admin-home" />} />
                 </>
             ) : (

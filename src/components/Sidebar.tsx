@@ -16,12 +16,11 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import QueueMusicIcon from '@mui/icons-material/QueueMusic';
 import LabelIcon from '@mui/icons-material/Label';
-import BrightnessAutoRoundedIcon from '@mui/icons-material/BrightnessAutoRounded';
 import { Link, useNavigate } from 'react-router-dom';
 
 import ColorSchemeToggle from './ColorSchemeToggle';
-import { closeSidebar } from '../utils';
 import Logo from './logo.png';
 
 function Toggler({
@@ -262,6 +261,17 @@ export default function Sidebar({ onLogout }: { onLogout: () => void }) {
                           <ListItemContent>
                               <Typography level="title-sm">
                                   회원 관리
+                              </Typography>
+                          </ListItemContent>
+                      </ListItemButton>
+                  </ListItem>
+
+                  <ListItem>
+                      <ListItemButton component={Link} to="/music-recommend">
+                          <QueueMusicIcon />
+                          <ListItemContent>
+                              <Typography level="title-sm">
+                                  음악 추천
                               </Typography>
                           </ListItemContent>
                       </ListItemButton>
