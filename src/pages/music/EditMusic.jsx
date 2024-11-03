@@ -8,11 +8,19 @@ import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
 import Breadcrumbs from '@mui/joy/Breadcrumbs';
 import Link from '@mui/joy/Link';
+import Avatar from '@mui/joy/Avatar';
 import Button from '@mui/joy/Button';
 import Input from '@mui/joy/Input';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import Autocomplete from '@mui/joy/Autocomplete';
+import Accordion from '@mui/joy/Accordion';
+import AccordionDetails from '@mui/joy/AccordionDetails';
+import AccordionSummary from '@mui/joy/AccordionSummary';
+import List from '@mui/joy/List';
+import ListItem from '@mui/joy/ListItem';
+import ListItemContent from '@mui/joy/ListItemContent';
+import ListItemDecorator from '@mui/joy/ListItemDecorator';
 
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
@@ -47,6 +55,7 @@ export default function EditMusic() {
     karaokeNum: '',
     themes: [],
     playLink: '',
+    similarMusics: [],
     albumCover: null,
     albumCoverFile: null
   });
@@ -74,6 +83,7 @@ export default function EditMusic() {
         themes: res.themes.map(theme => ({ id: -1, label: theme })),
         albumCover: res.albumCover,
         playLink: res.playLink,
+        similarMusics: res.similarMusics,
         view: res.view,
         likes: res.likes
       });
@@ -284,6 +294,25 @@ export default function EditMusic() {
                   <Typography level="body-sm">{music.likes}</Typography>
                 </div>
               </div>
+
+              <Accordion sx={{ mb: 4, maxWidth: '400px' }}>
+                <AccordionSummary className='sectionTitle'>유사한 곡 추천 목록</AccordionSummary>
+                <AccordionDetails>
+                <List sx={{ '--ListItemDecorator-size': '56px', pr: '4px' }}>
+                  {music.similarMusics.map((sm) => (
+                    <ListItem sx={{ borderRadius: '8px', mb: '8px', backgroundColor: '#fbfcfe' }}>
+                      <ListItemDecorator>
+                        <Avatar src={sm.albumCover} sx={{ borderRadius: "4px" }} />
+                      </ListItemDecorator>
+                      <ListItemContent>
+                        <Typography level="title-sm">{sm.title}</Typography>
+                        <Typography level="body-xs" noWrap>{sm.artist}</Typography>
+                      </ListItemContent>
+                  </ListItem>
+                  ))}
+                </List>
+                </AccordionDetails>
+              </Accordion>
               
               <div className='action'>
                 <Link component={RouterLink} to={"/analyze-music?id="+id}>

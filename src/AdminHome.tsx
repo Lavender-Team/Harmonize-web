@@ -21,7 +21,7 @@ export default function AdminHome() {
     const [userCount, setUserCount] = useState(0);
     const [musicCount, setMusicCount] = useState(0);
     const [artistCount, setArtistCount] = useState(0);
-    // const [loginCount, setLoginCount] = useState(0);
+    const [logCount, setLogCount] = useState(0);
 
     useEffect(() => {
         axios.get("/api/user/count").then((response) => {
@@ -36,9 +36,9 @@ export default function AdminHome() {
             setArtistCount(response.data.count);
         });
 
-        // axios.get("/api/login/today").then((response) => {
-        //     setLoginCount(response.data.count);
-        // });
+        axios.get("/api/log/count").then((response) => {
+            setLogCount(response.data.count);
+        });
     }, []);
 
     return (
@@ -293,7 +293,7 @@ export default function AdminHome() {
                                             fontWeight: 'bold',
                                         }}
                                     >
-                                        {/* {loginCount}개 */}
+                                        {logCount}개
                                     </Typography>
                                 </CardContent>
                             </Card>

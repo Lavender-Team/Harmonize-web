@@ -202,16 +202,7 @@ export default function SignIn({ onSignIn }: { onSignIn: () => void }) {
                                     </Link>
                                 </Typography>
                             </Stack>
-                            <Button
-                                variant="soft"
-                                color="neutral"
-                                fullWidth
-                                startDecorator={<GoogleIcon />}
-                            >
-                                Continue with Google
-                            </Button>
                         </Stack>
-                        <Divider>or</Divider>
                         <Stack gap={4} sx={{ mt: 2 }}>
                             <form onSubmit={handleSubmit}>
                                 <FormControl>
