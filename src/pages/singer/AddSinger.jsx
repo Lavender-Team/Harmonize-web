@@ -69,8 +69,7 @@ export default function AddSinger() {
         if (
             !singer.artistName ||
             !singer.gender ||
-            !singer.nation ||
-            !singer.profileImage
+            !singer.nation
         ) {
             return false;
         }
@@ -90,7 +89,8 @@ export default function AddSinger() {
         data.append("activityPeriod", singer.activityPeriod);
         data.append("nation", singer.nation);
         data.append("agency", singer.agency);
-        data.append("profileImage", singer.profileImageFile);
+        if (singer.profileImageFile)
+            data.append("profileImage", singer.profileImageFile);
         data.append("createSoloGroup", createSoloGroup);
 
         try {

@@ -100,8 +100,7 @@ export default function EditSinger() {
     if (
         !singer.artistName ||
         !singer.gender ||
-        !singer.nation ||
-        !singer.profileImage
+        !singer.nation
     ) {
         return false;
     }

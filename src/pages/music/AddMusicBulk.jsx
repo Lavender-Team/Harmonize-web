@@ -55,7 +55,8 @@ export default function AddMusicBulk() {
 
       fetch(`/api/music/bulk?charset=${isEucKr ? 'euc-kr' : 'utf-8'}`, {
         method: 'POST',
-        body: formData
+        body: formData,
+        credentials: 'include'
       })
         .then(response => {
           if (response.ok) {
@@ -91,7 +92,7 @@ export default function AddMusicBulk() {
   }
 
   const fetchBulkLog = (isFile) => {
-    fetch('/api/log/bulk' + (isFile ? '/files' : ''))
+    fetch('/api/log/bulk' + (isFile ? '/files' : ''), { credentials: 'include' })
       .then(async response => {
         if (response.ok) {
           const logs = await JSON.parse(await response.text());
@@ -108,7 +109,8 @@ export default function AddMusicBulk() {
   const clearBulkLog = (isFile) => {
     if (window.confirm('일괄 업로드 로그를 삭제하시겠습니까?\n삭제하면 더 이상 확인할 수 없습니다.')) {
       fetch('/api/log/bulk' + (isFile ? '/files' : ''), {
-        method: 'DELETE'
+        method: 'DELETE',
+        credentials: 'include'
       })
         .then(response => {
           if (response.ok) {

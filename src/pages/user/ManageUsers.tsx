@@ -66,6 +66,7 @@ export default function ManageUsers() {
         if (window.confirm("정말 삭제하시겠습니까?")) {
             fetch(`/api/user/${userId}`, {
                 method: "DELETE",
+                credentials: "include",
             }).then((response) => {
                 if (response.ok) {
                     fetchUserList(currentPage, 12);
